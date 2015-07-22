@@ -17,7 +17,7 @@ use Model\Map\FlightTableMap;
  */
 class FreightGeneration extends BaseFreightGeneration
 {
-    private $DAY = 60 * 60 * 24;
+    private $DAY = 86400;
 
     /**
      * Initializes internal state of Model\Base\FreightGeneration object.

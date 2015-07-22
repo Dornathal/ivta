@@ -29,6 +29,8 @@ define('WEBSITE_ROOT', '/index.php');
 
 date_default_timezone_set('UTC');
 
+echo phpversion();
+
 $app = new \Slim\Slim(array('view' => new \Slim\Views\Twig(), 'debug' => true,
     'cookies.encrypt' => true,
     'cookies.secret_key' => '6yxwi8fg4tr72',
