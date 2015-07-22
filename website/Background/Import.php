@@ -79,4 +79,9 @@ class Import
         }
         return $csv;
     }
+
+    public function database()
+    {
+
+    }
 }

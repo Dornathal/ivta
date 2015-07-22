@@ -4,9 +4,9 @@
             "connections": {
                 "default": {
                     "adapter": "mysql",
-                    "dsn": "mysql:host=$OPENSHIFT_MYSQL_DB_NAME:$OPENSHIFT_MYSQL_DB_PORT;dbname=ivta",
-                    "user": "adminCvZi4P4",
-                    "password": " iXwLl77Qk8KY",
+                    "dsn": "mysql:host=dev.ivta.de;dbname=IVTA",
+                    "user": "IVTA",
+                    "password": " p8vvNS8pCExKbmqB",
                     "settings": {
                         "charset": "utf8"
                     }
@@ -24,7 +24,7 @@
         "paths": {
             "phpDir": "./website",
             "phpConfDir": "./.generated",
-            "sqlDir": "./.generated"
+            "sqlDir": "./resources"
         }
     }
 }
