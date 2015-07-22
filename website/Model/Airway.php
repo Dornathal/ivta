@@ -5,6 +5,7 @@ namespace Model;
 use Model\Base\Airway as BaseAirway;
 use Model\Map\AirportTableMap;
 use Propel\Runtime\ActiveQuery\Criteria;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Skeleton subclass for representing a row from the 'airways' table.
@@ -18,7 +19,7 @@ use Propel\Runtime\ActiveQuery\Criteria;
  */
 class Airway extends BaseAirway
 {
-    const UPDATE_EVERY = 60 * 60 * 24 * 4;
+    const UPDATE_EVERY = FreightGeneration::DAY;
     const NEXT_STEP_NUMBER = 6;
 
     public static function getAirway(Airport $departure,Airport $destination)
