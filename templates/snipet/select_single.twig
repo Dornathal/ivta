@@ -1,0 +1,8 @@
+{% if legend is defined %}<legend>{{ legend }}</legend> {% endif %}
+<label for="{{ name }}" class="control-label">{{ label }}</label>
+<div class="input-group">
+    <input type="text" class="form-control" name="{{ name }}" placeholder=" ">
+    <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary">{{ button }}</button>
+    </span>
+</div>

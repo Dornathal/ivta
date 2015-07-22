@@ -1,0 +1,24 @@
+{% extends 'snipet/view_all.twig' %}
+{% set title = Language.airport %}
+{% set search = {'name': 'ICAO', 'label': Language.icao} %}
+
+{% block table_header %}
+    <th class="col-md-4">{{ Language.name }}</th>
+    <th class="col-lg-2">{{ Language.type }}</th>
+    {% embed 'snipet/freight_headers.twig' %}{% endembed %}
+{% endblock %}
+
+{% block table_body %}
+    {% for airport in airports %}
+        <tr><td>
+                <div class="btn-group col-xs-12">
+                {% if airport.ICAO %}<a class="btn btn-success col-xs-4" href="/index.php/airports/{{ airport.ICAO }}-{{ airport.Name }}">{{ airport.ICAO }}</a>{% endif %}
+                <a class="btn btn-primary col-xs-8" href="/index.php/airports/{{ airport.ICAO }}-{{ airport.Name }}">{{ airport.Name[:15] }}</a>
+                </div>
+            </td>
+            <td>{{ airport.Type }}</td>
+        <td class="text-right">{{ airport.Packages }}</td><td class="text-right">{{ airport.Post }}</td><td class="text-right">{{ airport.PassengerLow }}</td>
+            <td class="text-right">{{ airport.PassengerMid }}</td><td class="text-right">{{ airport.PassengerHigh }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

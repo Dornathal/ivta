@@ -1,0 +1,20 @@
+{% extends 'snipet/view_all.twig' %}
+{% set title = Language.aircrafts %}
+{% set search = {'name': 'Model', 'label': Language.aircraft_model} %}
+
+{% block table_header %}
+    <th>{{ Language.aircraft_model }}</th>
+    <th>{{ Language.brand }}</th>
+    {% embed 'snipet/freight_headers.twig' %}{% endembed %}
+    <th>{{ Language.price_new }}</th>
+{% endblock %}
+
+{% block table_body %}
+    {% for aircraft in aircrafts %}
+        <tr>
+            <td><a class="btn btn-primary" href="/index.php/aircraft/models/{{ aircraft.Model }}">{{ aircraft.Model }}</a></td><td>{{ aircraft.Brand }}</td>
+            <td>{{ aircraft.Packages }}</td><td>{{ aircraft.Post }}</td><td>{{ aircraft.PassengerLow }}</td><td>{{ aircraft.PassengerMid }}</td><td>{{ aircraft.PassengerHigh }}</td>
+            <td class="text-right">{{ aircraft.Value }} {{ Language.price_tag }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

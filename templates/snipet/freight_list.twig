@@ -1,0 +1,8 @@
+{% set glyphicons = {'Packages':'th-large','Post':'envelope','PassengerLow':'user','PassengerMid':'tag','PassengerHigh':'tags' } %}
+<ul class="list-group">
+    {% for Freight in Freights %}
+    <li class="list-group-item">
+        {{ Freight.Departure.ICAO }} - {{ Freight.Destination.ICAO }}<span class="badge">{{ Freight.Amount }}&nbsp;&nbsp;<span class="glyphicon glyphicon-{{ glyphicons[Freight.FreightType] }}"></span></span>
+    </li>
+    {% endfor %}
+</ul>

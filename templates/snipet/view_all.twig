@@ -1,0 +1,40 @@
+{% extends 'layout.twig' %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="active">{{ title }}</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-8">
+            <h1>{{ title }}</h1>
+            <hr>
+            <table class="table table-striped table-hover ">
+                <thead>
+                <tr>
+                    {% block table_header %}{% endblock %}
+                </tr>
+                </thead>
+                <tbody>
+                    {% block table_body %}{% endblock %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;{{ Language.search }}</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-group" method="get">
+                        <fieldset>
+                            {% embed "snipet/select_single.twig" with {'name' : search.name, 'label' : search.label, 'button' : Language.show } %}{% endembed %}
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

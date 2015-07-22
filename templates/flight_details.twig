@@ -1,0 +1,145 @@
+{% extends 'layout.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-4">
+        <h1>{{ Departure.ICAO }} - {{ Destination.ICAO }}</h1>
+        </div>
+        {% set button_texts = {PLANNING: Language.flight_start_loading, LOADING: Language.flight_start,
+        EN_ROUTE: Language.flight_start_unloading, UNLOADING: Language.flight_finish} %}
+        {% if user.Rank in ['PILOT','ADMIN'] %}
+        <div class="col-md-3 pull-right">
+            {% if NextStepPossibleIn < 0 %}
+                {% if Flight.Status in button_texts|keys %}
+                    <div class="btn-group pull-right">
+                        <a href="?Status=Next" class="btn btn-primary">{{ button_texts[Flight.Status] }}</a>
+                        <a href="?Status=Next" class="btn btn-success"><span class="glyphicon glyphicon-chevron-right"></span>&nbsp;</a>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="btn-group pull-right">
+                    <div class="btn btn-warning"><span class="glyphicon glyphicon-time"></span>&nbsp;</div>
+                    <div class="btn btn-primary">
+                        <span id="countdown"><script>countdown('countdown', {{ NextStepPossibleIn }});</script></span>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    <hr>
+    <div class="row">
+        {% if Flight is not empty %}
+            <div class="col-md-4">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th class="col-sm-12 text-center bg-primary" colspan="3"><h5>{{ Language.freight }}</h5></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set glyphicons = ['th-large', 'envelope', 'user', 'tag', 'tags'] %}
+                    {% set freight_types = ['Packages', 'Post', 'PassengerLow', 'PassengerMid', 'PassengerHigh'] %}
+                    {% for freight_type in freight_types %}
+                        {% set capacity = AircraftModel[freight_type] %}
+                        {% set freight = Flight[freight_type] %}
+                        {% if capacity %}
+                            <tr>
+                                <td class="text-right col-xs-1">{{ freight }}</td>
+                                <td class="col-xs-1"><span class="glyphicon glyphicon-{{ cycle(glyphicons, loop.index0) }}"></span></td>
+                                <td class="col-md-10">
+                                    <div class="progress progress-striped">
+                                        <div class="progress-bar" style="width: {{ freight / capacity * 100 }}%;"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="col-lg-4">
+                <h4> {{ Language.flight_empty }}. </h4>
+            </div>
+        {% endif %}
+
+        <div class="col-md-4 col-xs-12 pull-right">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ Language.map }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 pull-right">
+            {% embed 'snipet/freight_list.twig' with {'Freights' : Freights }%}{% endembed %}
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}{{ parent() }}
+    <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
+    <script src="/website/bootstrap/js/countdown.js"></script>
+    <script src="/website/bootstrap/js/arc.js"></script>
+{% endblock %}
+{% block css %}{{ parent() }}
+    <link rel="stylesheet" href="/website/bootstrap/css/leafleat.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+{% endblock %}
+{% block script %}
+    <script>
+        var map = L.map('map');
+        var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+        var osm = new L.TileLayer(osmUrl, {minZoom: 4, maxZoom: 12, attribution: osmAttrib});
+        var pointA = new L.LatLng({{ Destination.Latitude }}, {{ Destination.Longitude }});
+        var destination = L.marker(pointA).addTo(map);
+        destination.bindPopup("<b>{{ Destination.ICAO }}</b>");
+        var pointB = new L.LatLng({{ Departure.Latitude }}, {{ Departure.Longitude }});
+        var departure = L.marker(pointB).addTo(map);
+        departure.bindPopup("<b>{{ Departure.ICAO }}</b>");
+
+
+            var start = { y: {{ Destination.Latitude }}, x: {{ Destination.Longitude }} };
+            var end = { y: {{ Departure.Latitude }}, x: {{ Departure.Longitude }} };
+            drawRoute(map, start, end, '{{ Departure.ICAO }} - {{ Destination.ICAO }}');
+
+        {% for Freight in Freights %}
+            {% for Route in Freight.Routes %}
+                start = { y: {{ Route.Departure.Latitude }}, x: {{ Route.Departure.Longitude }} };
+                end = { y: {{ Route.Destination.Latitude }}, x: {{ Route.Destination.Longitude }} };
+                drawRoute(map, start, end, '{{ Route.Departure.ICAO }} - {{ Route.Destination.ICAO }}', 'green', 2);
+            {% endfor %}
+            start = { y: {{ Freight.Destination.Latitude }}, x: {{ Freight.Destination.Longitude }} };
+            //start = { y: {{ Destination.Latitude }}, x: {{ Destination.Longitude }} };
+            drawRoute(map, start, end, '{{ Departure.ICAO }} - {{ Freight.Destination.ICAO }}', 'red', 2);
+        {% endfor %}
+
+        map.fitBounds([pointA, pointB]);
+        map.addLayer(osm);
+
+        function drawRoute(map,start, end,name,color,weight,opacity){
+            color = (typeof color === 'undefined') ? 'blue' : color;
+            weight = (typeof weight === 'undefined') ? 3 : weight;
+            opacity = (typeof opacity === 'undefined') ? 0.5 : opacity;
+
+            if(start.x != end.x || start.y != end.y) {
+                generator = new arc.GreatCircle(start, end, {'name': name});
+                route = generator.Arc(100, {offset: 10});
+                L.geoJson(route.json(), {
+                    color: color,
+                    weight: weight,
+                    opacity: opacity,
+                    smoothFactor: 1
+                }).addTo(map);
+            }
+
+        }
+    </script>
+{% endblock %}

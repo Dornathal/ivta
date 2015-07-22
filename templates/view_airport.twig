@@ -1,0 +1,80 @@
+{% extends 'layout.twig' %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="../">Airports</a></li>
+        <li class="active">{{ airportData.ICAO }}</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h1>{{ airportData.ICAO }} <small>{{ airportData.Name }}</small></h1>
+        <hr>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ Language.freight }}</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#home" data-toggle="tab">{{ Language.by_destinations }}</a></li>
+                        <li><a href="#profile" data-toggle="tab">{{ Language.by_departures }}</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active in" id="home">
+                            {% embed "snipet/freight_monitor.twig" with {'freights' : freights.by_destination, 'airport' : Language.destination } %}{% endembed %}
+                        </div>
+                        <div class="tab-pane fade" id="profile">
+                            {% embed "snipet/freight_monitor.twig" with {'freights' : freights.by_departure, 'airport' : Language.departure } %}{% endembed %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-12 pull-right">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ Language.map }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            {% embed "snipet/flight_monitor.twig" with {'flights' : aircrafts.departing, 'label' : Language.departing, 'airport' : Language.destination } %}{% endembed %}
+        </div>
+        <div class="col-lg-4">
+            {% embed "snipet/flight_monitor_enroute.twig" with {'flights' : aircrafts.en_route, 'label' : Language.en_route} %}{% endembed %}
+        </div>
+        <div class="col-lg-4">
+            {% embed "snipet/flight_monitor.twig" with {'flights' : aircrafts.arriving, 'label' : Language.arriving, 'airport' : Language.departure } %}{% endembed %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}{{ parent() }}<script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>{% endblock %}
+{% block css %}{{ parent() }}
+    <link rel="stylesheet" href="/website/bootstrap/css/leafleat.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+{% endblock %}
+{% block script %}
+<script>
+    var map = L.map('map');
+    var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+    var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 20, attribution: osmAttrib});
+
+    var marker = L.marker([{{ airportData.Latitude }}, {{ airportData.Longitude }}]).addTo(map);
+    marker.bindPopup("<b>{{ airportData.ICAO }}</b>");
+
+    map.setView([{{ airportData.Latitude }}, {{ airportData.Longitude }}], 12);
+    map.addLayer(osm);
+</script>
+{% endblock %}

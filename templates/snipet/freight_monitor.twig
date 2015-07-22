@@ -1,0 +1,21 @@
+{% if freights is not empty %}
+    <table class="table table-striped table-hover ">
+        <thead>
+        <tr>
+            <th class="col-lg-4">{{ airport }}</th>
+            {% embed 'snipet/freight_headers.twig' %}{% endembed %}
+            <th class="col-lg-4">{{ Language.distance }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for airport , freight in freights %}
+            <tr>
+                <td>{% if user.Rank in ["PILOT", "ADMIN"] and aircraft.Status == 'IDLE' %} <a href="{{ aircraft.Callsign }}/plan/{{ location }}-{{ airport }}" class="btn btn-primary btn-xs">{{ Language.plan_to }}{{ airport }}</a> {% else %} {{ airport }} {% endif %}</td>
+                {% for key, f in freight %}<td>{{ f }}{% if key == 'Distance' %} Nm{% endif %}</td>{% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <h4 > {{ Language.no_freight_available }} </h4>
+{% endif %}

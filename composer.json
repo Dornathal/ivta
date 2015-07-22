@@ -1,0 +1,16 @@
+{
+    "require": {
+        "php": ">=5.4",
+        "ext-mcrypt": "*",
+        "pimple/pimple": "3.*",
+        "slim/slim": "~2.0",
+        "slim/views": "0.1.*",
+        "twig/twig": "1.18.*",
+        "propel/propel": "~2.0@dev",
+        "zeflasher/propel2-geocodable-behavior": "dev-master"
+    },
+
+    "autoload": {
+        "classmap": ["website/", "vendor/"]
+    }
+}

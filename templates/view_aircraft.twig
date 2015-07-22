@@ -1,0 +1,18 @@
+{% extends 'layout.twig' %}
+{# block onload %}$("[data-toggle=popover]").popover();{% endblock #}
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="active">{{ airline.Callsign }}</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <h1>{{ aircraft.Callsign }}</h1>
+        <hr>
+
+        {% embed "snipet/freight_monitor.twig" with {'freights' : freights, 'airport' : Language.destination } %}{% endembed %}
+
+    </div>
+{% endblock %}

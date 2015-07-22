@@ -1,0 +1,24 @@
+<a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ Callsign }}">{{ Language.deliver }}</a>
+<div class="modal" id="{{ Callsign }}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">{{ Language.deliver }} {{ callsign }}</h4>
+            </div>
+            <form class="form-horizontal" method="get" action="/index.php/deliver">
+                <fieldset>
+                    <div class="input-group">
+                        <select class="form-control" id="Icao" name="Icao">
+                            {% for icao in airports %}<option>{{ icao }}</option>{%  endfor %}
+                        </select>
+                        <input type="hidden" name="Callsign" value="{{ Callsign }}">
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">{{ Language.deliver }}</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="IVAO">
+
+    <meta name="author" content="{{ website.author }} ">
+
+    <link rel="icon" href="../../favicon.ico">
+    <title>{{ website.title }}</title>
+    <!-- Das neueste kompilierte und minimierte CSS -->
+    <link rel="stylesheet" href="/website/bootstrap/css/bootstrap.min.css">
+    {% block css %}{% endblock %}
+    <!-- Das neueste kompilierte und minimierte JavaScript -->
+    <script type='text/javascript' src="/website/bootstrap/js/bootstrap.min.js"></script>
+    {% block javascripts %}{% endblock %}
+<!--
+    <link href="../css/ivta.css" rel="stylesheet">-->
+</head>
+
+<body onload="{% autoescape %}{% block onload %}{% endblock %}{% endautoescape %}">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">{{ website.title }}</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {% for link in navigation %}
+                <li class="{{ link.class }}"><a href="{{ link.href }}">{{ link.caption }}</a></li>
+                {% endfor %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.Rank in ['PILOT', 'ADMIN'] %}
+                    <li><a href="/index.php/logout?site={{ current_url }}" role="button">Logout ({{ user.Name }})</a></li>
+                {% else %}
+                    <li><a href="/index.php/login?IVAOTOKEN=PILOT&site={{ current_url }}" role="button">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" style="margin-top: 40px">
+    {% block content_fluid %} {% endblock %}
+</div>
+<br>
+<div class="container">
+    {% block content %} {% endblock %}
+    <div class="row">
+    <hr style="margin-top: 0; margin-bottom: 10px;"/>
+    <span class="pull-right" style="font-size: 13px; margin-bottom: 10px;">&copy; {{ website.author }} 2015</span>
+    </div>
+</div>
+
+{% block script %}{% endblock %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/website/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

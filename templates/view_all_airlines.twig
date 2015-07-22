@@ -1,0 +1,18 @@
+{% extends 'snipet/view_all.twig' %}
+{% set title = Language.airlines %}
+{% set search = {'name': 'ICAO', 'label': Language.icao} %}
+
+{% block table_header %}
+    <th class="col-lg-2"></th>
+    <th> {{ Language.name }} </th>
+    <th> {{ Language.saldo }} </th>
+{% endblock %}
+
+{% block table_body %}
+    {% for airline in airlines %}
+        <tr><td><a class="btn btn-primary" href="airlines/{{ airline.ICAO }}">{{ airline.ICAO }}</a></td><td>{{ airline.Name }}</td>
+            <td>{{ airline.Saldo }} {{ Language.price_tag }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+

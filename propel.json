@@ -1,0 +1,30 @@
+{
+    "propel": {
+        "database": {
+            "connections": {
+                "default": {
+                    "adapter": "mysql",
+                    "dsn": "mysql:host=localhost;dbname=IVTA",
+                    "user": "IVTA",
+                    "password": "p8vvNS8pCExKbmqB",
+                    "settings": {
+                        "charset": "utf8"
+                    }
+                }
+            }
+        },
+        "runtime": {
+            "defaultConnection": "default",
+            "connections": ["default"]
+        },
+        "generator": {
+            "defaultConnection": "default",
+            "connections": ["default"]
+        },
+        "paths": {
+            "phpDir": "./website",
+            "phpConfDir": "./.generated",
+            "sqlDir": "./.generated"
+        }
+    }
+}
