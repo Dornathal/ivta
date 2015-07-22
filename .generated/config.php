@@ -4,7 +4,7 @@ $serviceContainer->checkVersion('2.0.0-dev');
 $serviceContainer->setAdapterClass('default', 'mysql');
 $manager = new \Propel\Runtime\Connection\ConnectionManagerSingle();
 $manager->setConfiguration(array (
-  'dsn' => 'mysql:host=$OPENSHIFT_MYSQL_DB_NAME:$OPENSHIFT_MYSQL_DB_PORT;dbname=ivta',
+  'dsn' => 'mysql:host='.$OPENSHIFT_MYSQL_DB_NAME.':'.$OPENSHIFT_MYSQL_DB_PORT.';dbname=ivta',
   'user' => 'adminCvZi4P4',
   'password' => ' iXwLl77Qk8KY',
   'settings' =>
