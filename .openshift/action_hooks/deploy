@@ -1,3 +1,5 @@
+#!/bin/bash
 
+composer update
 ./vendor/propel/propel/bin/propel config:convert
 ./vendor/propel/propel/bin/propel sql:build --overwrite
