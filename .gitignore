@@ -4,5 +4,3 @@ composer.phar
 vendor
 propel.json.dist
 composer.lock
-.generated
-resources
