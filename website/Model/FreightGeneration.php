@@ -17,7 +17,7 @@ use Model\Map\FlightTableMap;
  */
 class FreightGeneration extends BaseFreightGeneration
 {
-    const DAY = 60 * 60 * 24;
+    private $DAY = 60 * 60 * 24;
 
     /**
      * Initializes internal state of Model\Base\FreightGeneration object.
@@ -27,7 +27,7 @@ class FreightGeneration extends BaseFreightGeneration
     {
         parent::__construct();
         $this->setNextGeneration(time());
-        $this->setLastUpdatedAt(time() - self::DAY * 2);
+        $this->setLastUpdatedAt(time() - $this->DAY * 2);
     }
 
     /**
@@ -66,7 +66,7 @@ class FreightGeneration extends BaseFreightGeneration
 
     private function update()
     {
-        if($this->getLastUpdatedAt()->getTimestamp() - time() > self::DAY)
+        if($this->getLastUpdatedAt()->getTimestamp() - time() > $this->DAY)
             return;
         $flights = FlightQuery::create()
             ->filterByDeparture($this->getAirport())
@@ -77,7 +77,7 @@ class FreightGeneration extends BaseFreightGeneration
             ->find();
         if($flights->count() == 0){
             $this->setCapacity(1);
-            $this->setEvery(0.01 * self::DAY);
+            $this->setEvery(0.01 * $this->DAY);
         }else{
             $amount = 0;
             foreach ($flights as $flight) {
@@ -88,7 +88,7 @@ class FreightGeneration extends BaseFreightGeneration
                 }
             }
             $this->setCapacity($amount / $flights->count());
-            $this->setEvery(7 * self::DAY / $flights->count());
+            $this->setEvery(7 * $this->DAY / $flights->count());
         }
         $this->setLastUpdatedAt(time());
         $this->save();

@@ -5,3 +5,4 @@ vendor
 propel.json.dist
 composer.lock
 .generated
+*.tar.gz
