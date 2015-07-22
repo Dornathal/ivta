@@ -1,0 +1,31 @@
+language: php
+php:
+  - "5.4"
+services:
+  - mysql
+before_script:
+  # bootstrap with composer
+  - composer install --no-interaction --prefer-source
+  - git submodule update --init --recursive
+  - mkdir application/cache application/logs
+  - chmod 777 application/cache application/logs
+  # db setup
+  - mysql -e 'create database ivta;'
+
+script:
+  -./bin/behat --config behat.yml
+  - phpunit -c phpunit.xml
+
+
+
+deploy:
+  provider: openshift
+  user: dornathal
+  password:
+    secure: dU0eznU1Eh1RoBnSqWxXqaYDRy2PPH9FwnboYqSYRt4SSDMN+iRrdE80cu8CAgLy9an+9JV2MX/+Ii2NcyroRGy+JRFqBgY9wkiWt11SD/rqa8EKHlrjG4rzN6pk04i9lrnC8Ai7CHTaGpouC1uaIXCAH6sGEfmitQSptLiHvXCNdZEWwLfjtaDGk0tzAHPwgum7x4u2QOtqMyM3I8izU0lmAhNrgAiOXd62IFLcaak9pKG6opy7o4OQPA5ZjGX/MPN6jYtc6fJ3azxc8V4G+TF71kbWvbl1yry3OGa5yZrXnFbezOCh9y1BxOwjEsJXRZLL+HC8j0So3fueSnUqs4kx2yun5pg7SpVaGWqmrbnaCdZYIe1S1vxo4FiOVUz8aptxu3zY8JCD12xFLTT1tPHzyMozBx/XIJKj5HYikorH+zJaYpFVxa4dJnCxwdT7sB3+DqJUs0eJNJvxV8F8zsSNwXPG3OTvfcmOENhW0I1Y6/i7VyW7TFHWyERxEdgAOgf93+uhI+HFI/vw79PcGETFxfmPAfJTBgFQ0f+6u2OxvzFm0Qy3NAGJRWgL6WlAlUpjnkz+dG/LAVTi51PtUd88rEq4swUGxB/AHDhyQz2HhOwD6wcCzaPC4t+sVjgP0ZgeGYP8dIkpNNtbTVnRuK976Oppt5tTG+A7cwuQVas=
+  app: ivta
+  domain: dornathal
+  on:
+    repo: Dornathal/ivta
+
+

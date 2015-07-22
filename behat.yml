@@ -1,0 +1,12 @@
+# behat.yml
+default:
+    paths:
+        features: features
+        bootstrap: %behat.paths.features%/bootstrap
+    extensions:
+        Behat\MinkExtension\Extension:
+            goutte: ~
+            selenium2: ~
+    context:
+        parameters:
+            base_url: http://dev.ivta.de/index.php

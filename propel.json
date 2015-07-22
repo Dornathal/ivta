@@ -4,9 +4,9 @@
             "connections": {
                 "default": {
                     "adapter": "mysql",
-                    "dsn": "mysql:host=dev.ivta.de;dbname=IVTA",
-                    "user": "IVTA",
-                    "password": " p8vvNS8pCExKbmqB",
+                    "dsn": "mysql:host='.DB_HOST.':'.DB_PORT.';dbname='.DB_NAME.'",
+                    "user": "'.DB_USER.'",
+                    "password": "'.DB_PASS.'",
                     "settings": {
                         "charset": "utf8"
                     }

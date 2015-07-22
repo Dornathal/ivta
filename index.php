@@ -21,6 +21,12 @@ use Model\Pilot;
 use Model\PilotQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
 
+define('DB_HOST',getenv('OPENSHIFT_MYSQL_DB_HOST'));
+define('DB_PORT',getenv('OPENSHIFT_MYSQL_DB_PORT'));
+define('DB_USER',getenv('OPENSHIFT_MYSQL_DB_USERNAME'));
+define('DB_PASS',getenv('OPENSHIFT_MYSQL_DB_PASSWORD'));
+define('DB_NAME',getenv('OPENSHIFT_GEAR_NAME'));
+
 require 'vendor/autoload.php';
 require '.generated/config.php';
 
@@ -28,8 +34,6 @@ define('APPLICATION_PATH', realpath(dirname(__DIR__)));
 define('WEBSITE_ROOT', '/index.php');
 
 date_default_timezone_set('UTC');
-
-echo phpversion();
 
 $app = new \Slim\Slim(array('view' => new \Slim\Views\Twig(), 'debug' => true,
     'cookies.encrypt' => true,

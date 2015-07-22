@@ -7,7 +7,13 @@
         "slim/views": "0.1.*",
         "twig/twig": "1.18.*",
         "propel/propel": "~2.0@dev",
-        "zeflasher/propel2-geocodable-behavior": "dev-master"
+        "zeflasher/propel2-geocodable-behavior": "dev-master",
+
+        "behat/behat": "2.4.*@stable",
+        "behat/mink": "1.5.*@stable",
+        "behat/mink-extension": "*",
+        "behat/mink-goutte-driver": "*",
+        "behat/mink-selenium2-driver": "*"
     },
 
     "autoload": {
