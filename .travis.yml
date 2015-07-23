@@ -1,8 +1,15 @@
 language: php
+
 php:
   - "5.4"
+
 services:
   - mysql
+
+env:
+  - OPENSHIFT_MYSQL_DB_HOST=localhost OPENSHIFT_MYSQL_DB_PORT=3306 OPENSHIFT_MYSQL_DB_USERNAME=travis
+    OPENSHIFT_MYSQL_DB_PASSWORD= OPENSHIFT_GEAR_NAME=ivta
+
 before_script:
   # bootstrap with composer
   - composer install --no-interaction --prefer-source
@@ -12,11 +19,12 @@ before_script:
   # db setup
   - mysql -e 'create database ivta;'
 
+  # webserver setup
+  - php -S localhost:8000 index.php &
+  - sleep 3
+
 script:
-  - ./vendor/behat/behat/bin/behat --config behat.yml
-  - phpunit -c phpunit.xml
-
-
+  - ./vendor/behat/behat/bin/behat --config .travis.behat.yml
 
 deploy:
   provider: openshift
@@ -27,5 +35,3 @@ deploy:
   domain: dornathal
   on:
     repo: Dornathal/ivta
-
-

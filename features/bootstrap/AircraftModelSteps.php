@@ -28,6 +28,6 @@ class AircraftModelSteps extends BehatContext
      */
     public function iSearchForAircraftModel($model)
     {
-        $this->getMainContext()->visit('http://dev.ivta.de/index.php/aircraft/models/' . $model);
+        $this->getMainContext()->visit('/aircraft/models/' . $model);
     }
 }

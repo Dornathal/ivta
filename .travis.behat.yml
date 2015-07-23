@@ -5,6 +5,6 @@ default:
         bootstrap: %behat.paths.features%/bootstrap
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://dev.ivta.de/index.php
+            base_url: http://localhost:8000/index.php
             goutte: ~
             selenium2: ~

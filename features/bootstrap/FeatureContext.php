@@ -5,17 +5,16 @@
  * Date: 22.07.15
  * Time: 23:49
  */
-use Behat\Behat\Event\StepEvent;
 use Behat\Behat\Event\SuiteEvent;
 use Behat\MinkExtension\Context\MinkContext;
 use Model\Map\FlightTableMap;
 use Propel\Runtime\Propel;
 
-define('DB_HOST', 'localhost');
-define('DB_PORT', 3306);
-define('DB_USER', 'IVTA');
-define('DB_PASS', 'p8vvNS8pCExKbmqB');
-define('DB_NAME', 'IVTA');
+define('DB_HOST',getenv('OPENSHIFT_MYSQL_DB_HOST'));
+define('DB_PORT',getenv('OPENSHIFT_MYSQL_DB_PORT'));
+define('DB_USER',getenv('OPENSHIFT_MYSQL_DB_USERNAME'));
+define('DB_PASS',getenv('OPENSHIFT_MYSQL_DB_PASSWORD'));
+define('DB_NAME',getenv('OPENSHIFT_GEAR_NAME'));
 
 require '.generated/config.php';
 
@@ -32,6 +31,7 @@ class FeatureContext extends MinkContext
     public function __construct()
     {
         $this->useContext('aircraft_model_steps', new AircraftModelSteps());
+        echo $this->getMinkParameters();
     }
 
     /**

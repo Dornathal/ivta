@@ -19,5 +19,3 @@ $manager->setConfiguration(array (
 $manager->setName('default');
 $serviceContainer->setConnectionManager('default', $manager);
 $serviceContainer->setDefaultDatasource('default');
-
-print_r($manager->getConfiguration());
