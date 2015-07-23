@@ -1,6 +1,8 @@
 <?php
 use Behat\Behat\Context\BehatContext;
+use Behat\Gherkin\Node\TableNode;
 use Model\AircraftType;
+use Propel\Runtime\ActiveQuery\Criteria;
 
 /**
  * Created by PhpStorm.
@@ -29,5 +31,29 @@ class AircraftModelSteps extends BehatContext
     public function iSearchForAircraftModel($model)
     {
         $this->getMainContext()->visit('/aircraft/models/' . $model);
+    }
+
+    /**
+     * @When /^I search for aircraft_models$/
+     */
+    public function iSearchForAircraft_models()
+    {
+        $this->getMainContext()->visit('/aircraft/models');
+    }
+
+    /**
+     * @Given /^aircraft_model can transport$/
+     */
+    public function aircraft_modelCanTransport(TableNode $table)
+    {
+        $aircraft_model = \Model\AircraftTypeQuery::create()
+            ->orderById(Criteria::DESC)
+            ->findOne();
+
+        foreach ($table->getHash() as $row) {
+            $aircraft_model->setByName(FreightSteps::FREIGHT_TYPES($row['Freight_Type']), $row['Amount']);
+        }
+        $aircraft_model->save();
+
     }
 }

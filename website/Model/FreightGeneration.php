@@ -93,6 +93,4 @@ class FreightGeneration extends BaseFreightGeneration
         $this->setLastUpdatedAt(time());
         $this->save();
     }
-
-
 }

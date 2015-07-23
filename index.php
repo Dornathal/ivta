@@ -271,6 +271,7 @@ $app->get('/login', function () use ($app) {
     $app->setCookie('IVAOTOKEN', $app->request->get('IVAOTOKEN'));
     $app->redirect($app->request->get('site'));
 });
+
 $app->get('/logout', function () use ($app) {
     $app->deleteCookie('IVAOTOKEN');
     $app->redirect($app->request->get('site'));

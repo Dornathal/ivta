@@ -7,6 +7,12 @@
  */
 use Behat\Behat\Event\SuiteEvent;
 use Behat\MinkExtension\Context\MinkContext;
+use Model\AircraftQuery;
+use Model\AircraftTypeQuery;
+use Model\AirwayQuery;
+use Model\FlightQuery;
+use Model\FreightGenerationQuery;
+use Model\FreightQuery;
 use Model\Map\FlightTableMap;
 use Propel\Runtime\Propel;
 
@@ -30,8 +36,12 @@ class FeatureContext extends MinkContext
      */
     public function __construct()
     {
+        $this->useContext('aircraft', new AircraftSteps());
         $this->useContext('aircraft_model_steps', new AircraftModelSteps());
-        echo $this->getMinkParameters();
+        $this->useContext('airline_steps', new AirlineSteps());
+        $this->useContext('flight_steps', new FlightSteps());
+        $this->useContext('freight_steps', new FreightSteps());
+        $this->useContext('user_steps', new UserSteps());
     }
 
     /**
@@ -39,23 +49,66 @@ class FeatureContext extends MinkContext
      */
     public static function prepare(SuiteEvent $event)
     {
+        Propel::disableInstancePooling();
         $con = Propel::getConnection(FlightTableMap::DATABASE_NAME);
         $sql = file_get_contents(self::SQL_FILE);
         $con->exec($sql);
+        $import = new Import();
+        $import->airports();
+        $import->airlines();
+
+        UserSteps::addUser();
     }
 
     /** @BeforeScenario */
     public function before($event)
     {
-        $con = Propel::getConnection(FlightTableMap::DATABASE_NAME);
-        //$con->beginTransaction();
+        $this->cleanDatabase();
     }
 
-    /** @AfterScenario */
-    public function after($event)
+    public function cleanDatabase(){
+        $queries = array(
+            FreightQuery::create(),
+            FlightQuery::create(),
+            AircraftQuery::create(),
+            AircraftTypeQuery::create(),
+            AirwayQuery::create(),
+            FreightGenerationQuery::create()
+            );
+        foreach ($queries as $query) {
+            $query ->deleteAll();
+        }
+    }
+
+    public function spin ($lambda, $wait = 60)
     {
-        $con = Propel::getConnection(FlightTableMap::DATABASE_NAME);
-        $con->rollback();
+        for ($i = 0; $i < $wait; $i++)
+        {
+            try {
+                if ($lambda($this)) {
+                    return true;
+                }
+            } catch (Exception $e) {
+                // do nothing
+            }
+
+            sleep(1);
+        }
+
+        $backtrace = debug_backtrace();
+
+        throw new Exception(
+            "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
+            $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
+        );
+    }
+
+    /**
+     * @When /^I wait (\d+) second/
+     */
+    public function iWaitSecond($time)
+    {
+        sleep($time);
     }
 
 }
