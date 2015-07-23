@@ -13,7 +13,7 @@ before_script:
   - mysql -e 'create database ivta;'
 
 script:
-  -./bin/behat --config behat.yml
+  - ./vendor/behat/behat/bin/behat --config behat.yml
   - phpunit -c phpunit.xml
 
 
