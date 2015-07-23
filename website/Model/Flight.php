@@ -83,7 +83,7 @@ class Flight extends BaseFlight
      * @return string
      */
     public static function generateFlightNumber(Aircraft $aircraft, Airport $departure, Airport $destination){
-        return $aircraft->getAirline()->getCallsign() . self::FlightNumberHash($departure->getICAO()) . self::FlightNumberHash($destination->getICAO());
+        return $aircraft->getAirline()->getICAO() . self::FlightNumberHash($departure->getICAO()) . self::FlightNumberHash($destination->getICAO());
     }
     private static function FlightNumberHash($string){
         $code=0;
@@ -176,6 +176,7 @@ class Flight extends BaseFlight
 
             $valueSet = FlightTableMap::getValueSet(FlightTableMap::COL_STATUS);
             $this->setStatus($valueSet[array_search($this->getStatus(), $valueSet) + 1]);
+
 
             switch ($this->getStatus()){
                 case FlightTableMap::COL_STATUS_LOADING:

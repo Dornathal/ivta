@@ -15,8 +15,16 @@ class Import
 {
     const RESOURCE_DIR = 'resources';
 
+    /**
+     * Import constructor.
+     */
+    public function __construct($HOME='')
+    {
+        $this->RESORCE_PATH = $HOME . self::RESOURCE_DIR;
+    }
+
     public function airports(){
-        $file = Import::RESOURCE_DIR . '/airports.dat';
+        $file = $this->RESORCE_PATH . '/airports.dat';
         $csv = $this->readCSV($file);
 
         Flight::transaction(function () use ($csv){
@@ -42,7 +50,7 @@ class Import
 
     public function airlines()
     {
-        $file = Import::RESOURCE_DIR . '/airlines.dat';
+        $file = $this->RESORCE_PATH . '/airlines.dat';
         $csv = $this->readCSV($file);
 
         Flight::transaction(function () use ($csv){

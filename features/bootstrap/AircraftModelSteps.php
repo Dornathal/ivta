@@ -1,6 +1,8 @@
 <?php
 use Behat\Behat\Context\BehatContext;
+use Behat\Gherkin\Node\TableNode;
 use Model\AircraftType;
+use Propel\Runtime\ActiveQuery\Criteria;
 
 /**
  * Created by PhpStorm.
@@ -10,6 +12,16 @@ use Model\AircraftType;
  */
 class AircraftModelSteps extends BehatContext
 {
+    /**
+     * AircraftModelSteps constructor.
+     * @param ConstantContainer $constantContainer
+     */
+    public function __construct(ConstantContainer $constantContainer)
+    {
+        $this->constantContainer = $constantContainer;
+    }
+
+
     /**
      * @Given /^I have an aircraft_model "([^"]*)" from "([^"]*)"$/
      */
@@ -29,5 +41,30 @@ class AircraftModelSteps extends BehatContext
     public function iSearchForAircraftModel($model)
     {
         $this->getMainContext()->visit('/aircraft/models/' . $model);
+    }
+
+    /**
+     * @When /^I search for aircraft_models$/
+     */
+    public function iSearchForAircraft_models()
+    {
+        $this->getMainContext()->visit('/aircraft/models');
+    }
+
+    /**
+     * @Given /^aircraft_model can transport$/
+     */
+    public function aircraft_modelCanTransport(TableNode $table)
+    {
+        $FREIGHT_TYPES = $this->constantContainer->FREIGHT_TYPES;
+        $aircraft_model = \Model\AircraftTypeQuery::create()
+            ->orderById(Criteria::DESC)
+            ->findOne();
+
+        foreach ($table->getHash() as $row) {
+            $aircraft_model->setByName($FREIGHT_TYPES[$row['Freight_Type']], $row['Amount']);
+        }
+        $aircraft_model->save();
+
     }
 }

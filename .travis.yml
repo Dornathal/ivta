@@ -6,11 +6,22 @@ php:
 services:
   - mysql
 
+cache:
+  directories:
+        - $HOME/.composer/cache
 env:
   - OPENSHIFT_MYSQL_DB_HOST=localhost OPENSHIFT_MYSQL_DB_PORT=3306 OPENSHIFT_MYSQL_DB_USERNAME=travis
     OPENSHIFT_MYSQL_DB_PASSWORD= OPENSHIFT_GEAR_NAME=ivta
 
 before_script:
+  # webserver setup
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+        # Selenium
+  - wget http://selenium-release.storage.googleapis.com/2.46/selenium-server-standalone-2.46.0.jar
+  - java -jar selenium-server-standalone-2.46.0.jar > /dev/null &
+
+  - php -S localhost:8000 index.php &
   # bootstrap with composer
   - composer install --no-interaction --prefer-source
   - git submodule update --init --recursive
@@ -19,12 +30,8 @@ before_script:
   # db setup
   - mysql -e 'create database ivta;'
 
-  # webserver setup
-  - php -S localhost:8000 index.php &
-  - sleep 3
-
 script:
-  - ./vendor/behat/behat/bin/behat --config .travis.behat.yml
+  - ./vendor/behat/behat/bin/behat --config behat.yml -p travis
 
 deploy:
   provider: openshift
@@ -34,4 +41,4 @@ deploy:
   app: ivta
   domain: dornathal
   on:
-    repo: Dornathal/ivta
+    repo: dornathal/ivta
