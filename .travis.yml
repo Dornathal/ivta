@@ -7,7 +7,7 @@ before_script:
   # bootstrap with composer
   - composer install --no-interaction --prefer-source
   - git submodule update --init --recursive
-  - mkdir application/cache application/logs
+  - mkdir application application/cache application/logs
   - chmod 777 application/cache application/logs
   # db setup
   - mysql -e 'create database ivta;'
