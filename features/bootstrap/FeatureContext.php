@@ -36,11 +36,13 @@ class FeatureContext extends MinkContext
      */
     public function __construct()
     {
+        $constantContainer = new ConstantContainer();
+        $this->useContext('freight_steps', new FreightSteps($constantContainer));
         $this->useContext('aircraft', new AircraftSteps());
-        $this->useContext('aircraft_model_steps', new AircraftModelSteps());
+        $this->useContext('aircraft_model_steps', new AircraftModelSteps($constantContainer));
         $this->useContext('airline_steps', new AirlineSteps());
-        $this->useContext('flight_steps', new FlightSteps());
-        $this->useContext('freight_steps', new FreightSteps());
+        $this->useContext('airport_steps', new AirportSteps());
+        $this->useContext('flight_steps', new FlightSteps($constantContainer));
         $this->useContext('user_steps', new UserSteps());
     }
 
@@ -60,7 +62,7 @@ class FeatureContext extends MinkContext
         UserSteps::addUser();
     }
 
-    /** @BeforeScenario */
+    /** @BeforeScenario*/
     public function before($event)
     {
         $this->cleanDatabase();
@@ -78,29 +80,6 @@ class FeatureContext extends MinkContext
         foreach ($queries as $query) {
             $query ->deleteAll();
         }
-    }
-
-    public function spin ($lambda, $wait = 60)
-    {
-        for ($i = 0; $i < $wait; $i++)
-        {
-            try {
-                if ($lambda($this)) {
-                    return true;
-                }
-            } catch (Exception $e) {
-                // do nothing
-            }
-
-            sleep(1);
-        }
-
-        $backtrace = debug_backtrace();
-
-        throw new Exception(
-            "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
-            $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
-        );
     }
 
     /**

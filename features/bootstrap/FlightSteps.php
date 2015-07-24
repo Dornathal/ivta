@@ -15,6 +15,17 @@ use Propel\Runtime\ActiveQuery\Criteria;
 
 class FlightSteps extends BehatContext
 {
+
+    private $constantContainer;
+
+    /**
+     * @param ConstantContainer $constantContainer
+     */
+    public function __construct(ConstantContainer $constantContainer)
+    {
+        $this->constantContainer = $constantContainer;
+    }
+
     /**
      * @Then /^last flight should have status "([^"]*)"$/
      */
@@ -53,12 +64,12 @@ class FlightSteps extends BehatContext
         $freight->setDeparture(AirportQuery::create()->findOneByICAO($from));
         $freight->setDestination(AirportQuery::create()->findOneByICAO($to));
         $freight->setAmount($amount);
-        $freight->setFreightType(FreightSteps::FREIGHT_TYPES($freight_type));
+        $freight->setFreightType($this->constantContainer->FREIGHT_TYPES[$freight_type]);
 
         $flight = FlightQuery::create()
             ->findOneByFlightNumber($flight_number)
             ->addFreight($freight)
-            ->setByName(FreightSteps::FREIGHT_TYPES($freight_type), $amount);
+            ->setByName($this->constantContainer->FREIGHT_TYPES[$freight_type], $amount);
         $flight->save();
         return $freight;
     }

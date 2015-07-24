@@ -1,5 +1,5 @@
 # behat.yml
-phantomjs:
+default:
     paths:
         features: features
         bootstrap: %behat.paths.features%/bootstrap
@@ -8,7 +8,7 @@ phantomjs:
             base_url: http://dev.ivta.de/index.php
             goutte: ~
             selenium2: ~
-phantomjs-travis:
+travis:
     paths:
         features: features
         bootstrap: %behat.paths.features%/bootstrap

@@ -6,6 +6,9 @@ php:
 services:
   - mysql
 
+cache:
+  directories:
+        - $HOME/.composer/cache
 env:
   - OPENSHIFT_MYSQL_DB_HOST=localhost OPENSHIFT_MYSQL_DB_PORT=3306 OPENSHIFT_MYSQL_DB_USERNAME=travis
     OPENSHIFT_MYSQL_DB_PASSWORD= OPENSHIFT_GEAR_NAME=ivta
@@ -20,7 +23,6 @@ before_script:
 
   - php -S localhost:8000 index.php &
   # bootstrap with composer
-  - composer self-update
   - composer install --no-interaction --prefer-source
   - git submodule update --init --recursive
   - mkdir application application/cache application/logs
@@ -29,7 +31,7 @@ before_script:
   - mysql -e 'create database ivta;'
 
 script:
-  - ./vendor/behat/behat/bin/behat --config behat.yml -p phantomjs-travis
+  - ./vendor/behat/behat/bin/behat --config behat.yml -p travis
 
 deploy:
   provider: openshift
@@ -39,4 +41,4 @@ deploy:
   app: ivta
   domain: dornathal
   on:
-    repo: Dornathal/ivta
+    repo: dornathal/ivta

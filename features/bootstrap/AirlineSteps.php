@@ -21,6 +21,14 @@ class AirlineSteps extends BehatContext
     }
 
     /**
+     * @Given /^I am on the "([^"]*)" airlines site$/
+     */
+    public function iAmOnTheAirlinesSite2($arg1)
+    {
+        $this->getMainContext()->visit('/airlines/'.$arg1);
+    }
+
+    /**
      * @Given /^airline "([^"]*)" owns an "([^"]*)" with callsign "([^"]*)"$/
      */
     public function airlineOwnsAnWithCallsign($icao, $model, $callsign)

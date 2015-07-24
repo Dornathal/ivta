@@ -11,32 +11,31 @@ use Model\FreightQuery;
 
 class FreightSteps extends BehatContext
 {
-    public static function FREIGHT_TYPES($type)
+    private $constantContainer;
+
+    /**
+     * FreightSteps constructor.
+     * @param $constantContainer
+     */
+    public function __construct(ConstantContainer $constantContainer)
     {
-        $arr = array('Packages' => "Packages", 'Post' => "Post", 'Economy' => "PassengerLow",
-            'Business' => "PassengerMid", 'First Class' => "PassengerHigh");
-        return $arr[$type];
+        $this->constantContainer = $constantContainer;
     }
+
 
     /**
      * @Given /^there (?:is|are) (\d+) ([^"]*) at "([^"]*)" from "([^"]*)" to "([^"]*)"$/
      */
     public function thereArePackagesAtFromTo($amount, $type, $at, $from, $to)
     {
-        //$airports = AirportQuery::create()
-        //    ->filterByICAO(array($from, $at, $to))
-        //    ->find();
-
-        $from = AirportQuery::create()->findOneByICAO($from);
-        $to = AirportQuery::create()->findOneByICAO($to);
-        $at = AirportQuery::create()->findOneByICAO($at);
+        $to = explode("|", $to);
 
         $freight = new \Model\Freight();
         $freight->setAmount($amount)
-            ->setFreightType(self::FREIGHT_TYPES($type));
-        $freight->setDeparture($from)
-            ->setDestination($to)
-            ->setLocation($at);
+            ->setFreightType($this->constantContainer->FREIGHT_TYPES[$type]);
+        $freight->setDeparture(AirportQuery::create()->findOneByICAO($from))
+            ->setDestination(AirportQuery::create()->findOneByICAO($to[0]))
+            ->setLocation(AirportQuery::create()->findOneByICAO($at));
         $freight->save();
         return $freight;
     }
@@ -48,10 +47,24 @@ class FreightSteps extends BehatContext
     {
         $count = FreightQuery::create()
             ->filterByAmount($amount)
-            ->filterByFreightType(self::FREIGHT_TYPES($freight_type))
+            ->filterByFreightType($this->constantContainer->FREIGHT_TYPES[$freight_type])
             ->filterByLocation(AirportQuery::create()->findOneByICAO($location))
             ->filterByDestination(AirportQuery::create()->findOneByICAO($destination))
             ->count();
         expect($count)->to->be->not->equal(0);
+    }
+
+    /**
+     * @Then /^I should see (\d+) ([^"]*) (from|to) "([^"]*)"$/
+     */
+    public function iShouldSeeFrom($amount, $freight_type, $direction, $airport)
+    {
+        $page = $this->getMainContext()->getMink()->getSession()->getPage();
+        $str = '';
+        foreach($this->constantContainer->FREIGHT_TYPES as $key=>$value){
+            $str .= "<td>".(($key == $freight_type)?$amount:0)."</td>";
+        }
+        $strpos = strpos($page->getContent(), "<td>{$airport}</td>{$str}");
+        expect($strpos)->not->equal(false);
     }
 }

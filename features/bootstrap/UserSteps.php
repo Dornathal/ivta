@@ -33,4 +33,12 @@ class UserSteps extends BehatContext
         $session = $this->getMainContext()->getMink()->getSession();
         expect($session->getCookie('IVAOTOKEN'))->to->equal($arg1);
     }
+
+    /**
+     * @When /^IVAO sends callback "([^"]*)"$/
+     */
+    public function ivaoSendsCallback($token)
+    {
+        $this->userIsLoggedInAs($token);
+    }
 }

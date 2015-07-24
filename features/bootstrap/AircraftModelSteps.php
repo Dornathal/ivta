@@ -13,6 +13,16 @@ use Propel\Runtime\ActiveQuery\Criteria;
 class AircraftModelSteps extends BehatContext
 {
     /**
+     * AircraftModelSteps constructor.
+     * @param ConstantContainer $constantContainer
+     */
+    public function __construct(ConstantContainer $constantContainer)
+    {
+        $this->constantContainer = $constantContainer;
+    }
+
+
+    /**
      * @Given /^I have an aircraft_model "([^"]*)" from "([^"]*)"$/
      */
     public function iHaveAnAircraft_modelFrom($model, $brand)
@@ -46,12 +56,13 @@ class AircraftModelSteps extends BehatContext
      */
     public function aircraft_modelCanTransport(TableNode $table)
     {
+        $FREIGHT_TYPES = $this->constantContainer->FREIGHT_TYPES;
         $aircraft_model = \Model\AircraftTypeQuery::create()
             ->orderById(Criteria::DESC)
             ->findOne();
 
         foreach ($table->getHash() as $row) {
-            $aircraft_model->setByName(FreightSteps::FREIGHT_TYPES($row['Freight_Type']), $row['Amount']);
+            $aircraft_model->setByName($FREIGHT_TYPES[$row['Freight_Type']], $row['Amount']);
         }
         $aircraft_model->save();
 

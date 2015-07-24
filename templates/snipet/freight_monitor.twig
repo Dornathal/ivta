@@ -10,8 +10,7 @@
         <tbody>
         {% for airport , freight in freights %}
             <tr>
-                <td>{% if user.Rank in ["PILOT", "ADMIN"] and aircraft.Status == 'IDLE' %} <a href="{{ aircraft.Callsign }}/plan/{{ location }}-{{ airport }}" class="btn btn-primary btn-xs">{{ Language.plan_to }}{{ airport }}</a> {% else %} {{ airport }} {% endif %}</td>
-                {% for key, f in freight %}<td>{{ f }}{% if key == 'Distance' %} Nm{% endif %}</td>{% endfor %}
+                <td>{% if user.Rank in ["PILOT", "ADMIN"] and aircraft.Status == 'IDLE' %} <a href="{{ aircraft.Callsign }}/plan/{{ location }}-{{ airport }}" class="btn btn-primary btn-xs">{{ Language.plan_to }}{{ airport }}</a> {% else %}{{ airport }}{% endif %}</td>{% for key, f in freight %}<td>{{ f }}{% if key == 'Distance' %} Nm{% endif %}</td>{% endfor %}
             </tr>
         {% endfor %}
         </tbody>
