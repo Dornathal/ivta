@@ -1,19 +1,14 @@
 # behat.yml
 default:
-    paths:
-        features: features
-        bootstrap: %behat.paths.features%/bootstrap
+    suites:
+        default:
+            paths:    [ %paths.base%/features ]
+            contexts: [ MainContext, UserSteps, AircraftModelSteps, AircraftSteps, AirlineSteps, AirportSteps, FlightSteps, FreightSteps, \Behat\MinkExtension\Context\MinkContext ]
     extensions:
-        Behat\MinkExtension\Extension:
-            base_url: http://dev.ivta.de/index.php
-            goutte: ~
-            selenium2: ~
-travis:
-    paths:
-        features: features
-        bootstrap: %behat.paths.features%/bootstrap
-    extensions:
-        Behat\MinkExtension\Extension:
-            base_url: http://localhost:8000/index.php
-            goutte: ~
-            selenium2: ~
+        Behat\MinkExtension:
+            base_url: 'http://dev.ivta.de/index.php'
+            sessions:
+                default:
+                    goutte: ~
+                webdriver:
+                    selenium2: ~

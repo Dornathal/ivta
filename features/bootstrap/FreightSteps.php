@@ -6,22 +6,21 @@
  * Time: 13:54
  */
 use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Context\Context;
 use Model\AirportQuery;
 use Model\FreightQuery;
 
-class FreightSteps extends BehatContext
+class FreightSteps extends \Behat\MinkExtension\Context\RawMinkContext implements  Context
 {
     private $constantContainer;
 
     /**
-     * FreightSteps constructor.
-     * @param $constantContainer
+     * @internal param ConstantContainer $constantContainer
      */
-    public function __construct(ConstantContainer $constantContainer)
+    public function __construct()
     {
-        $this->constantContainer = $constantContainer;
+        $this->constantContainer = new ConstantContainer();
     }
-
 
     /**
      * @Given /^there (?:is|are) (\d+) ([^"]*) at "([^"]*)" from "([^"]*)" to "([^"]*)"$/
@@ -59,7 +58,7 @@ class FreightSteps extends BehatContext
      */
     public function iShouldSeeFrom($amount, $freight_type, $direction, $airport)
     {
-        $page = $this->getMainContext()->getMink()->getSession()->getPage();
+        $page = $this->getSession()->getPage();
         $str = '';
         foreach($this->constantContainer->FREIGHT_TYPES as $key=>$value){
             $str .= "<td>".(($key == $freight_type)?$amount:0)."</td>";

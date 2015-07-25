@@ -1,31 +1,37 @@
 <?php
-use Behat\Behat\Context\BehatContext;
+
+use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Behat\MinkExtension\Context\RawMinkContext;
 use Model\AircraftType;
+use Model\AircraftTypeQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
 
-/**
- * Created by PhpStorm.
- * User: dornathal
- * Date: 23.07.15
- * Time: 00:12
- */
-class AircraftModelSteps extends BehatContext
+class AircraftModelSteps extends RawMinkContext implements Context
 {
+    private $constantContainer;
+
     /**
-     * AircraftModelSteps constructor.
-     * @param ConstantContainer $constantContainer
+     * @internal param ConstantContainer $constantContainer
      */
-    public function __construct(ConstantContainer $constantContainer)
+    public function __construct()
     {
-        $this->constantContainer = $constantContainer;
+        $this->constantContainer = new ConstantContainer();
     }
 
+    /**
+     * @Transform :model
+     */
+    public function castModelToAircraftType($model)
+    {
+        return AircraftTypeQuery::create()
+            ->findOneByModel($model);
+    }
 
     /**
-     * @Given /^I have an aircraft_model "([^"]*)" from "([^"]*)"$/
+     * @Given I have an aircraft_model :model from :brand
      */
-    public function iHaveAnAircraft_modelFrom($model, $brand)
+    public function newAircraftModel($model, $brand)
     {
         $aircraft_model = new AircraftType();
         $aircraft_model->setBrand($brand);
@@ -36,39 +42,41 @@ class AircraftModelSteps extends BehatContext
     }
 
     /**
-     * @When /^I search for aircraft_model "([^"]*)"$/
+     * @When I search for aircraft_model :aircraft_model
      */
-    public function iSearchForAircraftModel($model)
+    public function visitAircraftModel($model)
     {
-        $this->getMainContext()->visit('/aircraft/models/' . $model);
+        $this->visitPath('/aircraft/models/' . $model);
     }
 
     /**
-     * @When /^I search for aircraft_models$/
+     * @When I search for aircraft_models
      */
-    public function iSearchForAircraft_models()
+    public function visitAircraftModels()
     {
-        $this->getMainContext()->visit('/aircraft/models');
+        $this->visitPath('/aircraft/models');
     }
 
     /**
-     * @Given /^aircraft_model can transport$/
+     * @Given aircraft_model can transport
+     * @param TableNode $table
+     * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function aircraft_modelCanTransport(TableNode $table)
+    public function pushAircraftModelCapacities(TableNode $table)
     {
         $aircraft_model = $this->lastCreatedAircraftModel();
-
         foreach ($table->getHash() as $row) {
-            $aircraft_model->setByName($this->constantContainer->FREIGHT_TYPES[$row['Freight_Type']], $row['Amount']);
+            $freight_type = $this->constantContainer->FREIGHT_TYPES[$row['Freight_Type']];
+            $aircraft_model->setByName($freight_type, $row['Amount']);
         }
         $aircraft_model->save();
 
     }
 
     /**
-     * @Given /^aircraft_model has a value of (\d+)$/
+     * @Given aircraft_model has a value of :value
      */
-    public function aircraft_modelHasAValueOf($value)
+    public function setAircraftModelValue($value)
     {
         $aircraft_model = $this->lastCreatedAircraftModel();
         $aircraft_model->setValue($value);
@@ -80,7 +88,7 @@ class AircraftModelSteps extends BehatContext
      */
     private function lastCreatedAircraftModel()
     {
-        return \Model\AircraftTypeQuery::create()
+        return AircraftTypeQuery::create()
             ->orderById(Criteria::DESC)
             ->findOne();
     }

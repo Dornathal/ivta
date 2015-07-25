@@ -8,8 +8,9 @@ Feature: Arriving and departing flights tracked by IVTA should be visible in air
   Background: When the aircraft is loading it should appear in departing List of Airport page
     Given I have an aircraft_model "B737-800" from "Boing"
     And airline "BER" owns aircraft_model "B737-800" with callsign "BER451" at airport "EDDF"
-    And user is logged in as PILOT
-    And I have "EDDF|EGLL" not generating freight
+    And I am logged in as "PILOT"
+    And I have "EDDF" not generating freight
+    And I have "EDDL" not generating freight
 
   Scenario Outline: an Active Flight should be seen on the Airports' sites
     Given I have a flight "AB4578" from "EDDF" to "EGLL" with aircraft "BER451" and status "<FlightStatus>"

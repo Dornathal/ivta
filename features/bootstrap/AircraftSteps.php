@@ -1,61 +1,65 @@
 <?php
+use Behat\MinkExtension\Context\RawMinkContext;
+use Model\Aircraft;
+use Model\AircraftQuery;
+
 /**
  * Created by PhpStorm.
  * User: dornathal
  * Date: 23.07.15
  * Time: 14:07
  */
-use Behat\Behat\Context\BehatContext;
 
-class AircraftSteps extends BehatContext
+class AircraftSteps extends RawMinkContext implements \Behat\Behat\Context\Context
 {
+
     /**
-     * @Given /^I am on the "([^"]*)" aircraft site$/
+     * @Transform :aircraft
      */
-    public function iAmOnTheAircraftSite($callsign)
+    public function castCallsignToAircraft($aircraft)
     {
-        $this->getMainContext()->visit('/aircraft/' . $callsign);
+        return AircraftQuery::create()
+            ->findOneByCallsign($aircraft);
     }
 
     /**
-     * @Given /^aircraft "([^"]*)" should be located at "([^"]*)"$/
+     * @Given I am on the :callsign aircraft site
      */
-    public function aircraftShouldBeLocatedAt($callsign, $icao)
+    public function iAmOnTheAircraftSite($callsign)
     {
-        $aircraft = \Model\AircraftQuery::create()
-            ->findOneByCallsign($callsign);
+        $this->visitPath('/aircraft/' . $callsign);
+    }
+
+    /**
+     * @Given aircraft :aircraft should be located at :icao
+     */
+    public function aircraftShouldBeLocatedAt(Aircraft $aircraft, $icao)
+    {
         expect($aircraft->getAirport()->getICAO())->to->equal($icao);
     }
 
     /**
-     * @Given /^aircraft "([^"]*)" has status "([^"]*)"$/
+     * @Given aircraft :aircraft has status :status
      */
-    public function aircraftHasStatus($callsign, $status)
+    public function aircraftHasStatus(Aircraft $aircraft, $status)
     {
-        $aircraft = \Model\AircraftQuery::create()
-            ->findOneByCallsign($callsign);
         $aircraft->setStatus($status);
         $aircraft->save();
     }
 
     /**
-     * @Then /^aircraft "([^"]*)" should have status "([^"]*)"$/
+     * @Then aircraft :aircraft should have status :status
      */
-    public function aircraftShouldHaveStatus($callsign, $status)
+    public function aircraftShouldHaveStatus(Aircraft $aircraft, $status)
     {
-        $aircraft = \Model\AircraftQuery::create()
-            ->findOneByCallsign($callsign);
         expect($aircraft->getStatus())->to->equal($status);
     }
 
     /**
-     * @Then /^there should be aircraft "([^"]*)"$/
+     * @Then there should be aircraft :aircraft
      */
-    public function thereShouldBeAircraft($callsign)
+    public function thereShouldBeAircraft(Aircraft $aircraft)
     {
-        $aircraft = \Model\AircraftQuery::create()
-            ->findOneByCallsign($callsign);
-
         expect($aircraft)->to->not->be->null;
     }
 

@@ -53,7 +53,7 @@ Feature:
       And I am on the latest flights page
 
       When I follow "Finish"
-      And I wait 1 second for page load
+      And I wait 1 second
 
       Then last flight should have status "FINISHED"
       And there should be 175 Economy at "EDDL" to "EGLL"

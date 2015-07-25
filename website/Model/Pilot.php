@@ -21,12 +21,12 @@ class Pilot extends BasePilot
     public static function login(Slim $app)
     {
         $ivao_token = $app->getCookie('IVAOTOKEN');
-        $user=null;
-        if($ivao_token != null) {
+        $user = null;
+        if ($ivao_token != null) {
             $user = PilotQuery::create()->findOneByToken($ivao_token);
-            if($user == null)
+            if ($user == null)
                 self::createPilot($ivao_token);
-        }else {
+        } else {
             $user = new Pilot();
             $user->setRank("GUEST");
             $user->setName("GUEST");
@@ -48,4 +48,25 @@ class Pilot extends BasePilot
     {
         return self::register('TODO', $token);
     }
+
+    public function buyAircraft(AircraftType $aircraft_model, $aircraft_number)
+    {
+        $aircraft = null;
+        Flight::transaction(function () use ($aircraft_model, $aircraft_number, $aircraft) {
+            $new_saldo = $this->getSaldo() - $aircraft_model->getValue();
+            if ($new_saldo < 0) return null;
+
+            $this->setSaldo($new_saldo);
+            $this->save();
+
+            $aircraft = new Aircraft();
+            $aircraft->setAirline($this->getAirline());
+            $aircraft->setAircraftType($aircraft_model);
+            $aircraft->setCallsign($this->getAirline()->getICAO() . $aircraft_number);
+            $aircraft->save();
+            return $aircraft;
+        });
+        return $aircraft;
+    }
+
 }

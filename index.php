@@ -21,14 +21,8 @@ use Model\Pilot;
 use Model\PilotQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
 
-define('DB_HOST',getenv('OPENSHIFT_MYSQL_DB_HOST'));
-define('DB_PORT',getenv('OPENSHIFT_MYSQL_DB_PORT'));
-define('DB_USER',getenv('OPENSHIFT_MYSQL_DB_USERNAME'));
-define('DB_PASS',getenv('OPENSHIFT_MYSQL_DB_PASSWORD'));
-define('DB_NAME',getenv('OPENSHIFT_GEAR_NAME'));
-
 require 'vendor/autoload.php';
-require '.generated/config.php';
+require 'website/config.php';
 
 define('APPLICATION_PATH', realpath(dirname(__DIR__)));
 define('WEBSITE_ROOT', '/index.php');
@@ -82,15 +76,12 @@ $app->group('/aircraft', function () use ($app, $user) {
 
         $app->group('/:Model', function () use ($app, $user) {
 
-            $app->post('', function ($Model) use ($app) {
-                $airline_callsign = $app->request->post('airline_callsign');
+            $app->post('', function ($Model) use ($app, $user) {
                 $aircraft_number = $app->request->post('aircraft_number');
-
-                $airline = AirlineQuery::create()->findOneByCallsign($airline_callsign);
                 $aircraft_model = AircraftTypeQuery::create()->findOneByModel($Model);
 
-                $airline->buyAircraft($aircraft_model, $aircraft_number);
-                $app->redirectTo('airlineview', array("Callsign" => $aircraft_number));
+                $aircraft = $user->buyAircraft($aircraft_model, $aircraft_number);
+                $app->redirectTo('airlineview', array("Callsign" => $aircraft->getCallsign()));
             });
 
             $app->get('', function ($Model) use ($app, $user) {

@@ -5,65 +5,61 @@
  * Date: 23.07.15
  * Time: 13:06
  */
-use Behat\Behat\Context\BehatContext;
+use Behat\MinkExtension\Context\RawMinkContext;
+use Model\AircraftType;
+use Model\Airline;
 use \Model\AirlineQuery;
-use \Model\AircraftTypeQuery;
 use \Model\Aircraft;
+use Model\Airport;
 
-class AirlineSteps extends BehatContext
+class AirlineSteps extends RawMinkContext implements  \Behat\Behat\Context\Context
 {
     /**
      * @Transform :airline
      */
-    public function findExistingAirline($icao)
+    public function castICAOToAirline($airline)
     {
-        return AirlineQuery::create()->findOneByICAO($icao);
+        return AirlineQuery::create()->findOneByICAO($airline);
     }
 
     /**
-     * @Given /^I am on the airlines site$/
+     * @Given airline :airline owns an :model with callsign :callsign
      */
-    public function iAmOnTheAirlinesSite()
+    public function newAircraftOfAirline(Airline $airline, AircraftType $model, $callsign)
     {
-        $this->getMainContext()->visit('/airlines');
-    }
-
-    /**
-     * @Given /^I am on the "([^"]*)" airlines site$/
-     */
-    public function iAmOnTheAirlinesSite2($arg1)
-    {
-        $this->getMainContext()->visit('/airlines/'.$arg1);
-    }
-
-    /**
-     * @Given /^airline "([^"]*)" owns an "([^"]*)" with callsign "([^"]*)"$/
-     */
-    public function airlineOwnsAnWithCallsign($icao, $model, $callsign)
-    {
-        $airline = AirlineQuery::create()
-            ->findOneByICAO($icao);
-        $aircraft_type = AircraftTypeQuery::create()
-            ->findOneByModel($model);
-
         $aircraft = new Aircraft();
         $aircraft->setCallsign($callsign)
             ->setAirline($airline)
-            ->setAircraftType($aircraft_type)
+            ->setAircraftType($model)
             ->save();
         return $aircraft;
     }
 
     /**
-     * @Given /^airline "([^"]*)" owns aircraft_model "([^"]*)" with callsign "([^"]*)" at airport "([^"]*)"$/
+     * @Given I am on the airlines site
      */
-    public function airlineOwnsAircraftModelWithCallsignAtAirport($icao, $model, $callsign, $location)
+    public function iAmOnTheAirlinesSite()
     {
-        $airport = \Model\AirportQuery::create()
-            ->findOneByICAO($location);
+        $this->visitPath('/airlines');
+    }
 
-        $aircraft = $this->airlineOwnsAnWithCallsign($icao, $model, $callsign)
-            ->setAirport($airport);
+    /**
+     * @Given I am on the :icao airlines site
+     */
+    public function iAmOnTheAirlinesSite2($icao)
+    {
+        $this->visitPath('/airlines/' . $icao);
+        echo 'Screenshot';
+        echo $this->getSession()->getCurrentUrl();
+    }
+
+    /**
+     * @Given airline :airline owns aircraft_model :model with callsign :callsign at airport :airport
+     */
+    public function newAircraftOfAirlineAt(Airline $airline, AircraftType $model, $callsign, Airport $airport)
+    {
+        $aircraft = $this->newAircraftOfAirline($airline, $model, $callsign);
+        $aircraft->setAirport($airport);
         $aircraft->setCoordinates($airport->getLatitude(), $airport->getLongitude());
         $aircraft->save();
         return $aircraft;

@@ -1,27 +1,23 @@
 <?php
+use Model\Airline;
+
 /**
  * Created by PhpStorm.
  * User: dornathal
- * Date: 23.07.15
- * Time: 13:43
+ * Date: 25.07.15
+ * Time: 18:36
  */
-use Behat\Behat\Context\BehatContext;
-use Model\Airline;
-use Model\AirlineQuery;
 
-class UserSteps extends BehatContext
-{
+class UserSteps extends \Behat\MinkExtension\Context\RawMinkContext implements \Behat\Behat\Context\Context{
+    private $token;
+
     /**
-     * @var \Model\Pilot
+     * @Given I am logged in as :token
      */
-    private $loggedIn;
-    /**
-     * @Given /^I am logged in as ([^"]*)/
-     */
-    public function userIsLoggedInAs($token)
+    public function loginAs($token)
     {
-        $this->getMainContext()->visit('/login?IVAOTOKEN='.$token.'&site=/');
-        $this->loggedIn = \Model\PilotQuery::create()->findOneByToken($token);
+        $this->visitPath('/login?IVAOTOKEN='.$token.'&site=/');
+        $this->token = $token;
     }
 
     public static function addUser(){
@@ -33,45 +29,53 @@ class UserSteps extends BehatContext
     }
 
     /**
-     * @Then /^there should be a cookie "([^"]*)"$/
+     * @Then there should be a cookie :cookie
      */
     public function thereShouldBeACookie($arg1)
     {
-        $session = $this->getMainContext()->getMink()->getSession();
-        expect($session->getCookie('IVAOTOKEN'))->to->equal($arg1);
+        expect($this->getSession()->getCookie('IVAOTOKEN'))->to->equal($arg1);
     }
 
     /**
-     * @When /^IVAO sends callback "([^"]*)"$/
+     * @When IVAO sends callback :callback
      */
     public function ivaoSendsCallback($token)
     {
-        $this->userIsLoggedInAs($token);
+        $this->loginAs($token);
     }
 
     /**
-     * @Given /^I have a saldo of (\d+)$/
+     * @Given I have a saldo of :saldo
      */
     public function iHaveASaldoOf($saldo)
     {
-        $this->loggedIn->setSaldo($saldo);
-        $this->loggedIn->save();
+        $user = $this->getLoggedInPilot();
+        $user->setSaldo($saldo);
+        $user->save();
     }
 
     /**
-     * @Given /^I should have a saldo of (\d+)$/
+     * @Given I should have a saldo of :saldo
      */
-    public function assertSaldo($arg1)
+    public function assertSaldo($saldo)
     {
-        expect($this->loggedIn->getSaldo())->to->equal($arg1);
+        expect($this->getLoggedInPilot()->getSaldo())->to->equal(intval($saldo));
     }
 
     /**
-     * @Given /^I am subscribed to airline :airline$/
+     * @Given I am subscribed to airline :airline
      * @param Airline $airline
      */
     public function setAirlineTo(Airline $airline)
     {
-        $this->loggedIn->setAirline($airline);
+        $this->getLoggedInPilot()->setAirline($airline);
+    }
+
+    /**
+     * @return \Model\Pilot
+     */
+    private function getLoggedInPilot()
+    {
+        return \Model\PilotQuery::create()->findOneByToken($this->token);
     }
 }

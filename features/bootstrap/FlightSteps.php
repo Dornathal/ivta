@@ -13,17 +13,17 @@ use Model\FlightQuery;
 use Model\Freight;
 use Propel\Runtime\ActiveQuery\Criteria;
 
-class FlightSteps extends BehatContext
+class FlightSteps extends \Behat\MinkExtension\Context\RawMinkContext implements \Behat\Behat\Context\Context
 {
 
     private $constantContainer;
 
     /**
-     * @param ConstantContainer $constantContainer
+     * @internal param ConstantContainer $constantContainer
      */
-    public function __construct(ConstantContainer $constantContainer)
+    public function __construct()
     {
-        $this->constantContainer = $constantContainer;
+        $this->constantContainer = new ConstantContainer();
     }
 
     /**
@@ -83,6 +83,6 @@ class FlightSteps extends BehatContext
         $flight = FlightQuery::create()
             ->orderById(Criteria::DESC)
             ->findOne();
-        $this->getMainContext()->visit('/aircraft/' . $flight->getAircraft()->getCallsign() . '/' . $flight->getFlightNumber() . '/' . $flight->getId());
+        $this->visitPath('/aircraft/' . $flight->getAircraft()->getCallsign() . '/' . $flight->getFlightNumber() . '/' . $flight->getId());
     }
 }

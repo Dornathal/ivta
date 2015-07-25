@@ -33,9 +33,8 @@
                                     <div class="form-group">
                                         <label  for="aircraft_number" class="col-lg-2 control-label">{{ Language.callsign }}</label>
                                         <div class="input-group bg-primary">
-                                            <span class="input-group-addon bg-success">{{ airline.Callsign }}</span>
+                                            <span class="input-group-addon bg-success">{{ airline.ICAO }}</span>
                                             <input class="form-control" type="text" size="4" name="aircraft_number">
-                                            <input class="form-control" type="hidden" name="airline_callsign" value="{{ airline.Callsign }}">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -68,7 +67,7 @@
 
                     </div>
                     <div class="modal-footer">
-                    {% if airline.Saldo < aircraft.Value %}
+                    {% if user.Saldo < aircraft.Value %}
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ Language.buy_not_possible }}</button>
                     {% else %}
                         <button type="reset" class="btn btn-default">{{ Language.cancel }}</button>

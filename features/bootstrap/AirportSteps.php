@@ -5,60 +5,72 @@
  * Date: 24.07.15
  * Time: 11:52
  */
-use Behat\Behat\Context\BehatContext;
-use Behat\Behat\Context\Step\Then;
+use Behat\MinkExtension\Context\RawMinkContext;
+use Model\Airport;
 use Model\AirportQuery;
 
-class AirportSteps extends BehatContext
+class AirportSteps extends RawMinkContext implements \Behat\Behat\Context\Context
 {
+
     /**
-     * @Given /^I am on the airports site$/
+     * @Transform :airport
+     */
+    public function findAirportInDatabase($icao)
+    {
+        return AirportQuery::create()->findOneByICAO($icao);
+    }
+
+    /**
+     * @Given I am on the airports site
      */
     public function iAmOnTheAirportsSite()
     {
-        $this->getMainContext()->visit('/airports');
+        $this->visitPath('/airports');
     }
 
     /**
-     * @Given /^I am on the "([^"]*)" airports site$/
+     * @Given I am on the :icao airports site
      */
-    public function iAmOnTheAirportsSite1($arg1)
+    public function iAmOnTheAirportsSite1($icao)
     {
-        $this->getMainContext()->visit('/airports/' . $arg1);
+        $this->visitPath('/airports/' . $icao);
     }
 
     /**
-     * @Given /^I have "([^"]*)" not generating freight$/
+     * @Given I have :airport not generating freight
      */
-    public function iHaveNotGeneratingFreight($arg1)
+    public function iHaveNotGeneratingFreight(Airport $airport)
     {
-        foreach (explode("|", $arg1) as $icao) {
-            $this->iAmOnTheAirportsSite1($icao);
-            $freightGen = \Model\FreightGenerationQuery::create()
-                ->findOneByAirportId(AirportQuery::create()->findOneByICAO($icao)->getId());
-            $freightGen->setNextGeneration(time() + 100000000);
-            $freightGen->save();
-        }
+        $this->iAmOnTheAirportsSite1($airport->getICAO());
+        $freightGen = \Model\FreightGenerationQuery::create()
+            ->findOneByAirportId($airport->getId());
+        $freightGen->setNextGeneration(time() + 100000000);
+        $freightGen->save();
+
     }
 
     /**
-     * @Then /^I should( not)? see "([^"]*)" in "([^"]*)"$/
+     * @Then I should not see :text in :element
      */
-    public function iShouldNotSeeIn($arg1, $arg2, $arg3)
+    public function iShouldNotSeeIn($arg2, $arg3)
     {
-        $value = ($arg1 == " not") ? 'noone ' . (($arg3 == 'Departure') ? 'departing' : 'arriving') : $arg2;
-        return new Then("I should see \"$value\"");
+        $value = 'noone ' . (($arg3 == 'Departure') ? 'departing' : 'arriving');
+        $this->iShouldSeeIn($value, $arg3);
     }
 
     /**
-     * @Given /^airport "([^"]*)" has size "([^"]*)"$/
+     * @Then I should see :text in :element
      */
-    public function airportHasSize($icao, $size)
+    public function iShouldSeeIn($arg2, $arg3)
     {
-        AirportQuery::create()
-            ->findOneByICAO($icao)
-            ->setSize($size)
-            ->save();
+        $this->getSession()->getPage()->hasContent($arg2);
+    }
+    /**
+     * @Given airport :airport has size :size
+     */
+    public function airportHasSize(Airport $airport, $size)
+    {
+        $airport->setSize($size)->save();
     }
 
 }
