@@ -2,7 +2,7 @@ Feature:
 
 
   Background:
-    Given user is logged in as PILOT
+    Given I am logged in as PILOT
 
   Scenario Outline: Transportable Fright is shown in the Destinations Airport Dashboard
     Given there are <amount> <freight_type> at "EDDF" from "EDDF" to "EGLL"

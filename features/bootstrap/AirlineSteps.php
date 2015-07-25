@@ -13,6 +13,14 @@ use \Model\Aircraft;
 class AirlineSteps extends BehatContext
 {
     /**
+     * @Transform :airline
+     */
+    public function findExistingAirline($icao)
+    {
+        return AirlineQuery::create()->findOneByICAO($icao);
+    }
+
+    /**
      * @Given /^I am on the airlines site$/
      */
     public function iAmOnTheAirlinesSite()

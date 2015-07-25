@@ -48,4 +48,15 @@ class AircraftSteps extends BehatContext
         expect($aircraft->getStatus())->to->equal($status);
     }
 
+    /**
+     * @Then /^there should be aircraft "([^"]*)"$/
+     */
+    public function thereShouldBeAircraft($callsign)
+    {
+        $aircraft = \Model\AircraftQuery::create()
+            ->findOneByCallsign($callsign);
+
+        expect($aircraft)->to->not->be->null;
+    }
+
 }

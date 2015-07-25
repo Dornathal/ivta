@@ -6,15 +6,22 @@
  * Time: 13:43
  */
 use Behat\Behat\Context\BehatContext;
+use Model\Airline;
+use Model\AirlineQuery;
 
 class UserSteps extends BehatContext
 {
     /**
-     * @Given /^user is logged in as ([^"]*)/
+     * @var \Model\Pilot
+     */
+    private $loggedIn;
+    /**
+     * @Given /^I am logged in as ([^"]*)/
      */
     public function userIsLoggedInAs($token)
     {
         $this->getMainContext()->visit('/login?IVAOTOKEN='.$token.'&site=/');
+        $this->loggedIn = \Model\PilotQuery::create()->findOneByToken($token);
     }
 
     public static function addUser(){
@@ -40,5 +47,31 @@ class UserSteps extends BehatContext
     public function ivaoSendsCallback($token)
     {
         $this->userIsLoggedInAs($token);
+    }
+
+    /**
+     * @Given /^I have a saldo of (\d+)$/
+     */
+    public function iHaveASaldoOf($saldo)
+    {
+        $this->loggedIn->setSaldo($saldo);
+        $this->loggedIn->save();
+    }
+
+    /**
+     * @Given /^I should have a saldo of (\d+)$/
+     */
+    public function assertSaldo($arg1)
+    {
+        expect($this->loggedIn->getSaldo())->to->equal($arg1);
+    }
+
+    /**
+     * @Given /^I am subscribed to airline :airline$/
+     * @param Airline $airline
+     */
+    public function setAirlineTo(Airline $airline)
+    {
+        $this->loggedIn->setAirline($airline);
     }
 }

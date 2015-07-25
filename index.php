@@ -100,7 +100,7 @@ $app->group('/aircraft', function () use ($app, $user) {
                 $aircraft = AircraftTypeQuery::create()->filterByModel($Model . '%', Criteria::LIKE)->find();
                 if ($aircraft->count() == 1) {
                     if ($user != null && $user->getAirline() != null)
-                        $app->view()->appendData(array('airline' => $user->getAirline()->toArray()));
+                        $app->view()->appendData(array('airline' => $user->getAirline()->toArray(), 'user' => $user->toArray()));
                     $app->view()->appendData(array('aircraft' => $aircraft->getFirst()->toArray()));
                     $app->render('view_aircraft_model.twig');
                 } else if ($aircraft->count() > 0) {

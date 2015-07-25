@@ -5,7 +5,7 @@ Feature:
   I want to be able to control my flights
 
   Background:
-      Given user is logged in as PILOT
+      Given I am logged in as PILOT
       And I have an aircraft_model "B737-800" from "Boing"
       And airline "BER" owns aircraft_model "B737-800" with callsign "BER451" at airport "EDDF"
       And aircraft_model can transport

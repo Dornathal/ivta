@@ -56,15 +56,33 @@ class AircraftModelSteps extends BehatContext
      */
     public function aircraft_modelCanTransport(TableNode $table)
     {
-        $FREIGHT_TYPES = $this->constantContainer->FREIGHT_TYPES;
-        $aircraft_model = \Model\AircraftTypeQuery::create()
-            ->orderById(Criteria::DESC)
-            ->findOne();
+        $aircraft_model = $this->lastCreatedAircraftModel();
 
         foreach ($table->getHash() as $row) {
-            $aircraft_model->setByName($FREIGHT_TYPES[$row['Freight_Type']], $row['Amount']);
+            $aircraft_model->setByName($this->constantContainer->FREIGHT_TYPES[$row['Freight_Type']], $row['Amount']);
         }
         $aircraft_model->save();
 
     }
+
+    /**
+     * @Given /^aircraft_model has a value of (\d+)$/
+     */
+    public function aircraft_modelHasAValueOf($value)
+    {
+        $aircraft_model = $this->lastCreatedAircraftModel();
+        $aircraft_model->setValue($value);
+        $aircraft_model->save();
+    }
+
+    /**
+     * @return AircraftType
+     */
+    private function lastCreatedAircraftModel()
+    {
+        return \Model\AircraftTypeQuery::create()
+            ->orderById(Criteria::DESC)
+            ->findOne();
+    }
+
 }
