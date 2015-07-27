@@ -59,7 +59,7 @@ class FlightTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 17;
+    const NUM_COLUMNS = 18;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class FlightTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 17;
+    const NUM_HYDRATE_COLUMNS = 18;
 
     /**
      * the column name for the id field
@@ -80,6 +80,11 @@ class FlightTableMap extends TableMap
      * the column name for the aircraft_id field
      */
     const COL_AIRCRAFT_ID = 'flights.aircraft_id';
+
+    /**
+     * the column name for the airline_id field
+     */
+    const COL_AIRLINE_ID = 'flights.airline_id';
 
     /**
      * the column name for the destination_id field
@@ -176,11 +181,11 @@ class FlightTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'AircraftId', 'DestinationId', 'DepartureId', 'PilotId', 'FlightNumber', 'Status', 'Packages', 'Post', 'PassengerLow', 'PassengerMid', 'PassengerHigh', 'FlightStartedAt', 'FlightFinishedAt', 'NextStepPossibleAt', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_CAMELNAME     => array('id', 'aircraftId', 'destinationId', 'departureId', 'pilotId', 'flightNumber', 'status', 'packages', 'post', 'passengerLow', 'passengerMid', 'passengerHigh', 'flightStartedAt', 'flightFinishedAt', 'nextStepPossibleAt', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(FlightTableMap::COL_ID, FlightTableMap::COL_AIRCRAFT_ID, FlightTableMap::COL_DESTINATION_ID, FlightTableMap::COL_DEPARTURE_ID, FlightTableMap::COL_PILOT_ID, FlightTableMap::COL_FLIGHT_NUMBER, FlightTableMap::COL_STATUS, FlightTableMap::COL_PACKAGES, FlightTableMap::COL_POST, FlightTableMap::COL_PASSENGER_LOW, FlightTableMap::COL_PASSENGER_MID, FlightTableMap::COL_PASSENGER_HIGH, FlightTableMap::COL_FLIGHT_STARTED_AT, FlightTableMap::COL_FLIGHT_FINISHED_AT, FlightTableMap::COL_NEXT_STEP_POSSIBLE_AT, FlightTableMap::COL_CREATED_AT, FlightTableMap::COL_UPDATED_AT, ),
-        self::TYPE_FIELDNAME     => array('id', 'aircraft_id', 'destination_id', 'departure_id', 'pilot_id', 'flight_number', 'status', 'packages', 'post', 'passenger_low', 'passenger_mid', 'passenger_high', 'flight_started_at', 'flight_finished_at', 'next_step_possible_at', 'created_at', 'updated_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+        self::TYPE_PHPNAME       => array('Id', 'AircraftId', 'AirlineId', 'DestinationId', 'DepartureId', 'PilotId', 'FlightNumber', 'Status', 'Packages', 'Post', 'PassengerLow', 'PassengerMid', 'PassengerHigh', 'FlightStartedAt', 'FlightFinishedAt', 'NextStepPossibleAt', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_CAMELNAME     => array('id', 'aircraftId', 'airlineId', 'destinationId', 'departureId', 'pilotId', 'flightNumber', 'status', 'packages', 'post', 'passengerLow', 'passengerMid', 'passengerHigh', 'flightStartedAt', 'flightFinishedAt', 'nextStepPossibleAt', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(FlightTableMap::COL_ID, FlightTableMap::COL_AIRCRAFT_ID, FlightTableMap::COL_AIRLINE_ID, FlightTableMap::COL_DESTINATION_ID, FlightTableMap::COL_DEPARTURE_ID, FlightTableMap::COL_PILOT_ID, FlightTableMap::COL_FLIGHT_NUMBER, FlightTableMap::COL_STATUS, FlightTableMap::COL_PACKAGES, FlightTableMap::COL_POST, FlightTableMap::COL_PASSENGER_LOW, FlightTableMap::COL_PASSENGER_MID, FlightTableMap::COL_PASSENGER_HIGH, FlightTableMap::COL_FLIGHT_STARTED_AT, FlightTableMap::COL_FLIGHT_FINISHED_AT, FlightTableMap::COL_NEXT_STEP_POSSIBLE_AT, FlightTableMap::COL_CREATED_AT, FlightTableMap::COL_UPDATED_AT, ),
+        self::TYPE_FIELDNAME     => array('id', 'aircraft_id', 'airline_id', 'destination_id', 'departure_id', 'pilot_id', 'flight_number', 'status', 'packages', 'post', 'passenger_low', 'passenger_mid', 'passenger_high', 'flight_started_at', 'flight_finished_at', 'next_step_possible_at', 'created_at', 'updated_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
     );
 
     /**
@@ -190,11 +195,11 @@ class FlightTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'AircraftId' => 1, 'DestinationId' => 2, 'DepartureId' => 3, 'PilotId' => 4, 'FlightNumber' => 5, 'Status' => 6, 'Packages' => 7, 'Post' => 8, 'PassengerLow' => 9, 'PassengerMid' => 10, 'PassengerHigh' => 11, 'FlightStartedAt' => 12, 'FlightFinishedAt' => 13, 'NextStepPossibleAt' => 14, 'CreatedAt' => 15, 'UpdatedAt' => 16, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'aircraftId' => 1, 'destinationId' => 2, 'departureId' => 3, 'pilotId' => 4, 'flightNumber' => 5, 'status' => 6, 'packages' => 7, 'post' => 8, 'passengerLow' => 9, 'passengerMid' => 10, 'passengerHigh' => 11, 'flightStartedAt' => 12, 'flightFinishedAt' => 13, 'nextStepPossibleAt' => 14, 'createdAt' => 15, 'updatedAt' => 16, ),
-        self::TYPE_COLNAME       => array(FlightTableMap::COL_ID => 0, FlightTableMap::COL_AIRCRAFT_ID => 1, FlightTableMap::COL_DESTINATION_ID => 2, FlightTableMap::COL_DEPARTURE_ID => 3, FlightTableMap::COL_PILOT_ID => 4, FlightTableMap::COL_FLIGHT_NUMBER => 5, FlightTableMap::COL_STATUS => 6, FlightTableMap::COL_PACKAGES => 7, FlightTableMap::COL_POST => 8, FlightTableMap::COL_PASSENGER_LOW => 9, FlightTableMap::COL_PASSENGER_MID => 10, FlightTableMap::COL_PASSENGER_HIGH => 11, FlightTableMap::COL_FLIGHT_STARTED_AT => 12, FlightTableMap::COL_FLIGHT_FINISHED_AT => 13, FlightTableMap::COL_NEXT_STEP_POSSIBLE_AT => 14, FlightTableMap::COL_CREATED_AT => 15, FlightTableMap::COL_UPDATED_AT => 16, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'aircraft_id' => 1, 'destination_id' => 2, 'departure_id' => 3, 'pilot_id' => 4, 'flight_number' => 5, 'status' => 6, 'packages' => 7, 'post' => 8, 'passenger_low' => 9, 'passenger_mid' => 10, 'passenger_high' => 11, 'flight_started_at' => 12, 'flight_finished_at' => 13, 'next_step_possible_at' => 14, 'created_at' => 15, 'updated_at' => 16, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'AircraftId' => 1, 'AirlineId' => 2, 'DestinationId' => 3, 'DepartureId' => 4, 'PilotId' => 5, 'FlightNumber' => 6, 'Status' => 7, 'Packages' => 8, 'Post' => 9, 'PassengerLow' => 10, 'PassengerMid' => 11, 'PassengerHigh' => 12, 'FlightStartedAt' => 13, 'FlightFinishedAt' => 14, 'NextStepPossibleAt' => 15, 'CreatedAt' => 16, 'UpdatedAt' => 17, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'aircraftId' => 1, 'airlineId' => 2, 'destinationId' => 3, 'departureId' => 4, 'pilotId' => 5, 'flightNumber' => 6, 'status' => 7, 'packages' => 8, 'post' => 9, 'passengerLow' => 10, 'passengerMid' => 11, 'passengerHigh' => 12, 'flightStartedAt' => 13, 'flightFinishedAt' => 14, 'nextStepPossibleAt' => 15, 'createdAt' => 16, 'updatedAt' => 17, ),
+        self::TYPE_COLNAME       => array(FlightTableMap::COL_ID => 0, FlightTableMap::COL_AIRCRAFT_ID => 1, FlightTableMap::COL_AIRLINE_ID => 2, FlightTableMap::COL_DESTINATION_ID => 3, FlightTableMap::COL_DEPARTURE_ID => 4, FlightTableMap::COL_PILOT_ID => 5, FlightTableMap::COL_FLIGHT_NUMBER => 6, FlightTableMap::COL_STATUS => 7, FlightTableMap::COL_PACKAGES => 8, FlightTableMap::COL_POST => 9, FlightTableMap::COL_PASSENGER_LOW => 10, FlightTableMap::COL_PASSENGER_MID => 11, FlightTableMap::COL_PASSENGER_HIGH => 12, FlightTableMap::COL_FLIGHT_STARTED_AT => 13, FlightTableMap::COL_FLIGHT_FINISHED_AT => 14, FlightTableMap::COL_NEXT_STEP_POSSIBLE_AT => 15, FlightTableMap::COL_CREATED_AT => 16, FlightTableMap::COL_UPDATED_AT => 17, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'aircraft_id' => 1, 'airline_id' => 2, 'destination_id' => 3, 'departure_id' => 4, 'pilot_id' => 5, 'flight_number' => 6, 'status' => 7, 'packages' => 8, 'post' => 9, 'passenger_low' => 10, 'passenger_mid' => 11, 'passenger_high' => 12, 'flight_started_at' => 13, 'flight_finished_at' => 14, 'next_step_possible_at' => 15, 'created_at' => 16, 'updated_at' => 17, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
     );
 
     /** The enumerated values for this table */
@@ -249,6 +254,7 @@ class FlightTableMap extends TableMap
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addForeignPrimaryKey('aircraft_id', 'AircraftId', 'INTEGER' , 'aircrafts', 'id', true, null, null);
+        $this->addForeignPrimaryKey('airline_id', 'AirlineId', 'INTEGER' , 'airlines', 'id', true, null, null);
         $this->addForeignPrimaryKey('destination_id', 'DestinationId', 'INTEGER' , 'airports', 'id', true, null, null);
         $this->addForeignPrimaryKey('departure_id', 'DepartureId', 'INTEGER' , 'airports', 'id', true, null, null);
         $this->addForeignPrimaryKey('pilot_id', 'PilotId', 'INTEGER' , 'pilots', 'id', true, null, null);
@@ -283,6 +289,13 @@ class FlightTableMap extends TableMap
   0 =>
   array (
     0 => ':aircraft_id',
+    1 => ':id',
+  ),
+), null, null, null, false);
+        $this->addRelation('Airline', '\\Model\\Airline', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':airline_id',
     1 => ':id',
   ),
 ), null, null, null, false);
@@ -344,7 +357,7 @@ class FlightTableMap extends TableMap
     {
         if (Propel::isInstancePoolingEnabled()) {
             if (null === $key) {
-                $key = serialize(array((string) $obj->getId(), (string) $obj->getAircraftId(), (string) $obj->getDestinationId(), (string) $obj->getDepartureId(), (string) $obj->getPilotId()));
+                $key = serialize(array((string) $obj->getId(), (string) $obj->getAircraftId(), (string) $obj->getAirlineId(), (string) $obj->getDestinationId(), (string) $obj->getDepartureId(), (string) $obj->getPilotId()));
             } // if key === null
             self::$instances[$key] = $obj;
         }
@@ -364,11 +377,11 @@ class FlightTableMap extends TableMap
     {
         if (Propel::isInstancePoolingEnabled() && null !== $value) {
             if (is_object($value) && $value instanceof \Model\Flight) {
-                $key = serialize(array((string) $value->getId(), (string) $value->getAircraftId(), (string) $value->getDestinationId(), (string) $value->getDepartureId(), (string) $value->getPilotId()));
+                $key = serialize(array((string) $value->getId(), (string) $value->getAircraftId(), (string) $value->getAirlineId(), (string) $value->getDestinationId(), (string) $value->getDepartureId(), (string) $value->getPilotId()));
 
-            } elseif (is_array($value) && count($value) === 5) {
+            } elseif (is_array($value) && count($value) === 6) {
                 // assume we've been passed a primary key";
-                $key = serialize(array((string) $value[0], (string) $value[1], (string) $value[2], (string) $value[3], (string) $value[4]));
+                $key = serialize(array((string) $value[0], (string) $value[1], (string) $value[2], (string) $value[3], (string) $value[4], (string) $value[5]));
             } elseif ($value instanceof Criteria) {
                 self::$instances = [];
 
@@ -398,11 +411,11 @@ class FlightTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('AircraftId', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 2 + $offset : static::translateFieldName('DestinationId', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('DepartureId', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 4 + $offset : static::translateFieldName('PilotId', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('AircraftId', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 2 + $offset : static::translateFieldName('AirlineId', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('DestinationId', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 4 + $offset : static::translateFieldName('DepartureId', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 5 + $offset : static::translateFieldName('PilotId', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return serialize(array((string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('AircraftId', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 2 + $offset : static::translateFieldName('DestinationId', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('DepartureId', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 4 + $offset : static::translateFieldName('PilotId', TableMap::TYPE_PHPNAME, $indexType)]));
+        return serialize(array((string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('AircraftId', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 2 + $offset : static::translateFieldName('AirlineId', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 3 + $offset : static::translateFieldName('DestinationId', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 4 + $offset : static::translateFieldName('DepartureId', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 5 + $offset : static::translateFieldName('PilotId', TableMap::TYPE_PHPNAME, $indexType)]));
     }
 
     /**
@@ -434,16 +447,21 @@ class FlightTableMap extends TableMap
         $pks[] = (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 2 + $offset
-                : self::translateFieldName('DestinationId', TableMap::TYPE_PHPNAME, $indexType)
+                : self::translateFieldName('AirlineId', TableMap::TYPE_PHPNAME, $indexType)
         ];
         $pks[] = (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 3 + $offset
-                : self::translateFieldName('DepartureId', TableMap::TYPE_PHPNAME, $indexType)
+                : self::translateFieldName('DestinationId', TableMap::TYPE_PHPNAME, $indexType)
         ];
         $pks[] = (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 4 + $offset
+                : self::translateFieldName('DepartureId', TableMap::TYPE_PHPNAME, $indexType)
+        ];
+        $pks[] = (int) $row[
+            $indexType == TableMap::TYPE_NUM
+                ? 5 + $offset
                 : self::translateFieldName('PilotId', TableMap::TYPE_PHPNAME, $indexType)
         ];
 
@@ -549,6 +567,7 @@ class FlightTableMap extends TableMap
         if (null === $alias) {
             $criteria->addSelectColumn(FlightTableMap::COL_ID);
             $criteria->addSelectColumn(FlightTableMap::COL_AIRCRAFT_ID);
+            $criteria->addSelectColumn(FlightTableMap::COL_AIRLINE_ID);
             $criteria->addSelectColumn(FlightTableMap::COL_DESTINATION_ID);
             $criteria->addSelectColumn(FlightTableMap::COL_DEPARTURE_ID);
             $criteria->addSelectColumn(FlightTableMap::COL_PILOT_ID);
@@ -567,6 +586,7 @@ class FlightTableMap extends TableMap
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.aircraft_id');
+            $criteria->addSelectColumn($alias . '.airline_id');
             $criteria->addSelectColumn($alias . '.destination_id');
             $criteria->addSelectColumn($alias . '.departure_id');
             $criteria->addSelectColumn($alias . '.pilot_id');
@@ -642,9 +662,10 @@ class FlightTableMap extends TableMap
             foreach ($values as $value) {
                 $criterion = $criteria->getNewCriterion(FlightTableMap::COL_ID, $value[0]);
                 $criterion->addAnd($criteria->getNewCriterion(FlightTableMap::COL_AIRCRAFT_ID, $value[1]));
-                $criterion->addAnd($criteria->getNewCriterion(FlightTableMap::COL_DESTINATION_ID, $value[2]));
-                $criterion->addAnd($criteria->getNewCriterion(FlightTableMap::COL_DEPARTURE_ID, $value[3]));
-                $criterion->addAnd($criteria->getNewCriterion(FlightTableMap::COL_PILOT_ID, $value[4]));
+                $criterion->addAnd($criteria->getNewCriterion(FlightTableMap::COL_AIRLINE_ID, $value[2]));
+                $criterion->addAnd($criteria->getNewCriterion(FlightTableMap::COL_DESTINATION_ID, $value[3]));
+                $criterion->addAnd($criteria->getNewCriterion(FlightTableMap::COL_DEPARTURE_ID, $value[4]));
+                $criterion->addAnd($criteria->getNewCriterion(FlightTableMap::COL_PILOT_ID, $value[5]));
                 $criteria->addOr($criterion);
             }
         }

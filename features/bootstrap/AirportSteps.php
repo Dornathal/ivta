@@ -14,6 +14,9 @@ class AirportSteps extends RawMinkContext implements \Behat\Behat\Context\Contex
 
     /**
      * @Transform :airport
+     * @Transform :from
+     * @Transform :to
+     * @Transform :at
      */
     public function findAirportInDatabase($icao)
     {

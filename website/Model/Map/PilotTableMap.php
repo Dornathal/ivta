@@ -211,6 +211,13 @@ class PilotTableMap extends TableMap
     1 => ':id',
   ),
 ), null, null, null, false);
+        $this->addRelation('Aircraft', '\\Model\\Aircraft', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':pilot_id',
+    1 => ':id',
+  ),
+), null, null, 'Aircrafts', false);
         $this->addRelation('Flight', '\\Model\\Flight', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (

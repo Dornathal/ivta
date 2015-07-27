@@ -22,6 +22,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildFlightQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildFlightQuery orderByAircraftId($order = Criteria::ASC) Order by the aircraft_id column
+ * @method     ChildFlightQuery orderByAirlineId($order = Criteria::ASC) Order by the airline_id column
  * @method     ChildFlightQuery orderByDestinationId($order = Criteria::ASC) Order by the destination_id column
  * @method     ChildFlightQuery orderByDepartureId($order = Criteria::ASC) Order by the departure_id column
  * @method     ChildFlightQuery orderByPilotId($order = Criteria::ASC) Order by the pilot_id column
@@ -40,6 +41,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildFlightQuery groupById() Group by the id column
  * @method     ChildFlightQuery groupByAircraftId() Group by the aircraft_id column
+ * @method     ChildFlightQuery groupByAirlineId() Group by the airline_id column
  * @method     ChildFlightQuery groupByDestinationId() Group by the destination_id column
  * @method     ChildFlightQuery groupByDepartureId() Group by the departure_id column
  * @method     ChildFlightQuery groupByPilotId() Group by the pilot_id column
@@ -64,6 +66,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildFlightQuery rightJoinAircraft($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Aircraft relation
  * @method     ChildFlightQuery innerJoinAircraft($relationAlias = null) Adds a INNER JOIN clause to the query using the Aircraft relation
  *
+ * @method     ChildFlightQuery leftJoinAirline($relationAlias = null) Adds a LEFT JOIN clause to the query using the Airline relation
+ * @method     ChildFlightQuery rightJoinAirline($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Airline relation
+ * @method     ChildFlightQuery innerJoinAirline($relationAlias = null) Adds a INNER JOIN clause to the query using the Airline relation
+ *
  * @method     ChildFlightQuery leftJoinDestination($relationAlias = null) Adds a LEFT JOIN clause to the query using the Destination relation
  * @method     ChildFlightQuery rightJoinDestination($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Destination relation
  * @method     ChildFlightQuery innerJoinDestination($relationAlias = null) Adds a INNER JOIN clause to the query using the Destination relation
@@ -80,13 +86,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildFlightQuery rightJoinFreight($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Freight relation
  * @method     ChildFlightQuery innerJoinFreight($relationAlias = null) Adds a INNER JOIN clause to the query using the Freight relation
  *
- * @method     \Model\AircraftQuery|\Model\AirportQuery|\Model\PilotQuery|\Model\FreightQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \Model\AircraftQuery|\Model\AirlineQuery|\Model\AirportQuery|\Model\PilotQuery|\Model\FreightQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildFlight findOne(ConnectionInterface $con = null) Return the first ChildFlight matching the query
  * @method     ChildFlight findOneOrCreate(ConnectionInterface $con = null) Return the first ChildFlight matching the query, or a new ChildFlight object populated from the query conditions when no match is found
  *
  * @method     ChildFlight findOneById(int $id) Return the first ChildFlight filtered by the id column
  * @method     ChildFlight findOneByAircraftId(int $aircraft_id) Return the first ChildFlight filtered by the aircraft_id column
+ * @method     ChildFlight findOneByAirlineId(int $airline_id) Return the first ChildFlight filtered by the airline_id column
  * @method     ChildFlight findOneByDestinationId(int $destination_id) Return the first ChildFlight filtered by the destination_id column
  * @method     ChildFlight findOneByDepartureId(int $departure_id) Return the first ChildFlight filtered by the departure_id column
  * @method     ChildFlight findOneByPilotId(int $pilot_id) Return the first ChildFlight filtered by the pilot_id column
@@ -108,6 +115,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildFlight requireOneById(int $id) Return the first ChildFlight filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildFlight requireOneByAircraftId(int $aircraft_id) Return the first ChildFlight filtered by the aircraft_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildFlight requireOneByAirlineId(int $airline_id) Return the first ChildFlight filtered by the airline_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildFlight requireOneByDestinationId(int $destination_id) Return the first ChildFlight filtered by the destination_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildFlight requireOneByDepartureId(int $departure_id) Return the first ChildFlight filtered by the departure_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildFlight requireOneByPilotId(int $pilot_id) Return the first ChildFlight filtered by the pilot_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -127,6 +135,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildFlight[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildFlight objects based on current ModelCriteria
  * @method     ChildFlight[]|ObjectCollection findById(int $id) Return ChildFlight objects filtered by the id column
  * @method     ChildFlight[]|ObjectCollection findByAircraftId(int $aircraft_id) Return ChildFlight objects filtered by the aircraft_id column
+ * @method     ChildFlight[]|ObjectCollection findByAirlineId(int $airline_id) Return ChildFlight objects filtered by the airline_id column
  * @method     ChildFlight[]|ObjectCollection findByDestinationId(int $destination_id) Return ChildFlight objects filtered by the destination_id column
  * @method     ChildFlight[]|ObjectCollection findByDepartureId(int $departure_id) Return ChildFlight objects filtered by the departure_id column
  * @method     ChildFlight[]|ObjectCollection findByPilotId(int $pilot_id) Return ChildFlight objects filtered by the pilot_id column
@@ -194,7 +203,7 @@ abstract class FlightQuery extends ModelCriteria
      * $obj = $c->findPk(array(12, 34, 56, 78, 91), $con);
      * </code>
      *
-     * @param array[$id, $aircraft_id, $destination_id, $departure_id, $pilot_id] $key Primary key to use for the query
+     * @param array[$id, $aircraft_id, $airline_id, $destination_id, $departure_id, $pilot_id] $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
      * @return ChildFlight|array|mixed the result, formatted by the current formatter
@@ -204,7 +213,7 @@ abstract class FlightQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = FlightTableMap::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1], (string) $key[2], (string) $key[3], (string) $key[4]))))) && !$this->formatter) {
+        if ((null !== ($obj = FlightTableMap::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1], (string) $key[2], (string) $key[3], (string) $key[4], (string) $key[5]))))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -234,7 +243,7 @@ abstract class FlightQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, aircraft_id, destination_id, departure_id, pilot_id, flight_number, status, packages, post, passenger_low, passenger_mid, passenger_high, flight_started_at, flight_finished_at, next_step_possible_at, created_at, updated_at FROM flights WHERE id = :p0 AND aircraft_id = :p1 AND destination_id = :p2 AND departure_id = :p3 AND pilot_id = :p4';
+        $sql = 'SELECT id, aircraft_id, airline_id, destination_id, departure_id, pilot_id, flight_number, status, packages, post, passenger_low, passenger_mid, passenger_high, flight_started_at, flight_finished_at, next_step_possible_at, created_at, updated_at FROM flights WHERE id = :p0 AND aircraft_id = :p1 AND airline_id = :p2 AND destination_id = :p3 AND departure_id = :p4 AND pilot_id = :p5';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -242,6 +251,7 @@ abstract class FlightQuery extends ModelCriteria
             $stmt->bindValue(':p2', $key[2], PDO::PARAM_INT);
             $stmt->bindValue(':p3', $key[3], PDO::PARAM_INT);
             $stmt->bindValue(':p4', $key[4], PDO::PARAM_INT);
+            $stmt->bindValue(':p5', $key[5], PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
             Propel::log($e->getMessage(), Propel::LOG_ERR);
@@ -252,7 +262,7 @@ abstract class FlightQuery extends ModelCriteria
             /** @var ChildFlight $obj */
             $obj = new ChildFlight();
             $obj->hydrate($row);
-            FlightTableMap::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1], (string) $key[2], (string) $key[3], (string) $key[4])));
+            FlightTableMap::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1], (string) $key[2], (string) $key[3], (string) $key[4], (string) $key[5])));
         }
         $stmt->closeCursor();
 
@@ -313,9 +323,10 @@ abstract class FlightQuery extends ModelCriteria
     {
         $this->addUsingAlias(FlightTableMap::COL_ID, $key[0], Criteria::EQUAL);
         $this->addUsingAlias(FlightTableMap::COL_AIRCRAFT_ID, $key[1], Criteria::EQUAL);
-        $this->addUsingAlias(FlightTableMap::COL_DESTINATION_ID, $key[2], Criteria::EQUAL);
-        $this->addUsingAlias(FlightTableMap::COL_DEPARTURE_ID, $key[3], Criteria::EQUAL);
-        $this->addUsingAlias(FlightTableMap::COL_PILOT_ID, $key[4], Criteria::EQUAL);
+        $this->addUsingAlias(FlightTableMap::COL_AIRLINE_ID, $key[2], Criteria::EQUAL);
+        $this->addUsingAlias(FlightTableMap::COL_DESTINATION_ID, $key[3], Criteria::EQUAL);
+        $this->addUsingAlias(FlightTableMap::COL_DEPARTURE_ID, $key[4], Criteria::EQUAL);
+        $this->addUsingAlias(FlightTableMap::COL_PILOT_ID, $key[5], Criteria::EQUAL);
 
         return $this;
     }
@@ -336,12 +347,14 @@ abstract class FlightQuery extends ModelCriteria
             $cton0 = $this->getNewCriterion(FlightTableMap::COL_ID, $key[0], Criteria::EQUAL);
             $cton1 = $this->getNewCriterion(FlightTableMap::COL_AIRCRAFT_ID, $key[1], Criteria::EQUAL);
             $cton0->addAnd($cton1);
-            $cton2 = $this->getNewCriterion(FlightTableMap::COL_DESTINATION_ID, $key[2], Criteria::EQUAL);
+            $cton2 = $this->getNewCriterion(FlightTableMap::COL_AIRLINE_ID, $key[2], Criteria::EQUAL);
             $cton0->addAnd($cton2);
-            $cton3 = $this->getNewCriterion(FlightTableMap::COL_DEPARTURE_ID, $key[3], Criteria::EQUAL);
+            $cton3 = $this->getNewCriterion(FlightTableMap::COL_DESTINATION_ID, $key[3], Criteria::EQUAL);
             $cton0->addAnd($cton3);
-            $cton4 = $this->getNewCriterion(FlightTableMap::COL_PILOT_ID, $key[4], Criteria::EQUAL);
+            $cton4 = $this->getNewCriterion(FlightTableMap::COL_DEPARTURE_ID, $key[4], Criteria::EQUAL);
             $cton0->addAnd($cton4);
+            $cton5 = $this->getNewCriterion(FlightTableMap::COL_PILOT_ID, $key[5], Criteria::EQUAL);
+            $cton0->addAnd($cton5);
             $this->addOr($cton0);
         }
 
@@ -430,6 +443,49 @@ abstract class FlightQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(FlightTableMap::COL_AIRCRAFT_ID, $aircraftId, $comparison);
+    }
+
+    /**
+     * Filter the query on the airline_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAirlineId(1234); // WHERE airline_id = 1234
+     * $query->filterByAirlineId(array(12, 34)); // WHERE airline_id IN (12, 34)
+     * $query->filterByAirlineId(array('min' => 12)); // WHERE airline_id > 12
+     * </code>
+     *
+     * @see       filterByAirline()
+     *
+     * @param     mixed $airlineId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildFlightQuery The current query, for fluid interface
+     */
+    public function filterByAirlineId($airlineId = null, $comparison = null)
+    {
+        if (is_array($airlineId)) {
+            $useMinMax = false;
+            if (isset($airlineId['min'])) {
+                $this->addUsingAlias(FlightTableMap::COL_AIRLINE_ID, $airlineId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($airlineId['max'])) {
+                $this->addUsingAlias(FlightTableMap::COL_AIRLINE_ID, $airlineId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(FlightTableMap::COL_AIRLINE_ID, $airlineId, $comparison);
     }
 
     /**
@@ -1121,6 +1177,83 @@ abstract class FlightQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query by a related \Model\Airline object
+     *
+     * @param \Model\Airline|ObjectCollection $airline The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildFlightQuery The current query, for fluid interface
+     */
+    public function filterByAirline($airline, $comparison = null)
+    {
+        if ($airline instanceof \Model\Airline) {
+            return $this
+                ->addUsingAlias(FlightTableMap::COL_AIRLINE_ID, $airline->getId(), $comparison);
+        } elseif ($airline instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(FlightTableMap::COL_AIRLINE_ID, $airline->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByAirline() only accepts arguments of type \Model\Airline or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Airline relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildFlightQuery The current query, for fluid interface
+     */
+    public function joinAirline($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Airline');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Airline');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Airline relation Airline object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \Model\AirlineQuery A secondary query class using the current class as primary query
+     */
+    public function useAirlineQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinAirline($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Airline', '\Model\AirlineQuery');
+    }
+
+    /**
      * Filter the query by a related \Model\Airport object
      *
      * @param \Model\Airport|ObjectCollection $airport The related object(s) to use as filter
@@ -1436,10 +1569,11 @@ abstract class FlightQuery extends ModelCriteria
         if ($flight) {
             $this->addCond('pruneCond0', $this->getAliasedColName(FlightTableMap::COL_ID), $flight->getId(), Criteria::NOT_EQUAL);
             $this->addCond('pruneCond1', $this->getAliasedColName(FlightTableMap::COL_AIRCRAFT_ID), $flight->getAircraftId(), Criteria::NOT_EQUAL);
-            $this->addCond('pruneCond2', $this->getAliasedColName(FlightTableMap::COL_DESTINATION_ID), $flight->getDestinationId(), Criteria::NOT_EQUAL);
-            $this->addCond('pruneCond3', $this->getAliasedColName(FlightTableMap::COL_DEPARTURE_ID), $flight->getDepartureId(), Criteria::NOT_EQUAL);
-            $this->addCond('pruneCond4', $this->getAliasedColName(FlightTableMap::COL_PILOT_ID), $flight->getPilotId(), Criteria::NOT_EQUAL);
-            $this->combine(array('pruneCond0', 'pruneCond1', 'pruneCond2', 'pruneCond3', 'pruneCond4'), Criteria::LOGICAL_OR);
+            $this->addCond('pruneCond2', $this->getAliasedColName(FlightTableMap::COL_AIRLINE_ID), $flight->getAirlineId(), Criteria::NOT_EQUAL);
+            $this->addCond('pruneCond3', $this->getAliasedColName(FlightTableMap::COL_DESTINATION_ID), $flight->getDestinationId(), Criteria::NOT_EQUAL);
+            $this->addCond('pruneCond4', $this->getAliasedColName(FlightTableMap::COL_DEPARTURE_ID), $flight->getDepartureId(), Criteria::NOT_EQUAL);
+            $this->addCond('pruneCond5', $this->getAliasedColName(FlightTableMap::COL_PILOT_ID), $flight->getPilotId(), Criteria::NOT_EQUAL);
+            $this->combine(array('pruneCond0', 'pruneCond1', 'pruneCond2', 'pruneCond3', 'pruneCond4', 'pruneCond5'), Criteria::LOGICAL_OR);
         }
 
         return $this;

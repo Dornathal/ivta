@@ -27,12 +27,12 @@ CREATE TABLE `airports`
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
--- aircraft_types
+-- aircraft_models
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `aircraft_types`;
+DROP TABLE IF EXISTS `aircraft_models`;
 
-CREATE TABLE `aircraft_types`
+CREATE TABLE `aircraft_models`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `model` VARCHAR(12) NOT NULL,
@@ -77,9 +77,10 @@ DROP TABLE IF EXISTS `aircrafts`;
 CREATE TABLE `aircrafts`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `aircraft_type_id` INTEGER NOT NULL,
+    `aircraft_model_id` INTEGER NOT NULL,
     `airline_id` INTEGER NOT NULL,
     `airport_id` INTEGER,
+    `pilot_id` INTEGER NOT NULL,
     `callsign` VARCHAR(7) NOT NULL,
     `flown_distance` INTEGER DEFAULT 0 NOT NULL,
     `number_flights` SMALLINT DEFAULT 0 NOT NULL,
@@ -87,20 +88,24 @@ CREATE TABLE `aircrafts`
     `status` TINYINT DEFAULT 0 NOT NULL,
     `latitude` DOUBLE(10,8),
     `longitude` DOUBLE(10,8),
-    PRIMARY KEY (`id`,`aircraft_type_id`,`airline_id`),
+    PRIMARY KEY (`id`,`aircraft_model_id`,`airline_id`,`pilot_id`),
     UNIQUE INDEX `callsign` (`callsign`),
-    INDEX `aircrafts_fi_f2b1e0` (`aircraft_type_id`),
+    INDEX `aircrafts_fi_533ab3` (`aircraft_model_id`),
     INDEX `aircrafts_fi_d3c970` (`airport_id`),
     INDEX `aircrafts_fi_3c541c` (`airline_id`),
-    CONSTRAINT `aircrafts_fk_f2b1e0`
-        FOREIGN KEY (`aircraft_type_id`)
-        REFERENCES `aircraft_types` (`id`),
+    INDEX `aircrafts_fi_17d49f` (`pilot_id`),
+    CONSTRAINT `aircrafts_fk_533ab3`
+        FOREIGN KEY (`aircraft_model_id`)
+        REFERENCES `aircraft_models` (`id`),
     CONSTRAINT `aircrafts_fk_d3c970`
         FOREIGN KEY (`airport_id`)
         REFERENCES `airports` (`id`),
     CONSTRAINT `aircrafts_fk_3c541c`
         FOREIGN KEY (`airline_id`)
-        REFERENCES `airlines` (`id`)
+        REFERENCES `airlines` (`id`),
+    CONSTRAINT `aircrafts_fk_17d49f`
+        FOREIGN KEY (`pilot_id`)
+        REFERENCES `pilots` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -113,6 +118,7 @@ CREATE TABLE `flights`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `aircraft_id` INTEGER NOT NULL,
+    `airline_id` INTEGER NOT NULL,
     `destination_id` INTEGER NOT NULL,
     `departure_id` INTEGER NOT NULL,
     `pilot_id` INTEGER NOT NULL,
@@ -128,14 +134,18 @@ CREATE TABLE `flights`
     `next_step_possible_at` DATETIME,
     `created_at` DATETIME,
     `updated_at` DATETIME,
-    PRIMARY KEY (`id`,`aircraft_id`,`destination_id`,`departure_id`,`pilot_id`),
+    PRIMARY KEY (`id`,`aircraft_id`,`airline_id`,`destination_id`,`departure_id`,`pilot_id`),
     INDEX `flights_fi_c3deee` (`aircraft_id`),
+    INDEX `flights_fi_3c541c` (`airline_id`),
     INDEX `flights_fi_a39f89` (`destination_id`),
     INDEX `flights_fi_cbe538` (`departure_id`),
     INDEX `flights_fi_17d49f` (`pilot_id`),
     CONSTRAINT `flights_fk_c3deee`
         FOREIGN KEY (`aircraft_id`)
         REFERENCES `aircrafts` (`id`),
+    CONSTRAINT `flights_fk_3c541c`
+        FOREIGN KEY (`airline_id`)
+        REFERENCES `airlines` (`id`),
     CONSTRAINT `flights_fk_a39f89`
         FOREIGN KEY (`destination_id`)
         REFERENCES `airports` (`id`),

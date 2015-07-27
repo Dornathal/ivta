@@ -12,3 +12,16 @@ default:
                     goutte: ~
                 webdriver:
                     selenium2: ~
+travis:
+    suites:
+        default:
+            paths:    [ %paths.base%/features ]
+            contexts: [ MainContext, UserSteps, AircraftModelSteps, AircraftSteps, AirlineSteps, AirportSteps, FlightSteps, FreightSteps, \Behat\MinkExtension\Context\MinkContext ]
+    extensions:
+        Behat\MinkExtension:
+            base_url: 'http://localhost:8000/index.php'
+            sessions:
+                default:
+                    goutte: ~
+                webdriver:
+                    selenium2: ~

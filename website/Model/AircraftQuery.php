@@ -17,4 +17,15 @@ use Model\Base\AircraftQuery as BaseAircraftQuery;
 class AircraftQuery extends BaseAircraftQuery
 {
 
+    public static function populateAircraftTable(AircraftQuery $aircraftQuery)
+    {
+        return $aircraftQuery
+            ->joinAirport()
+            ->joinAircraftModel()
+            ->select(array('Callsign','FlownDistance','NumberFlights','FlownTime','Status'))
+            ->withColumn('Airport.icao', 'Location')
+            ->withColumn('AircraftModel.model', 'Model')
+            ->find()->toArray();
+
+    }
 }

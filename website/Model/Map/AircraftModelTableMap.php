@@ -2,8 +2,8 @@
 
 namespace Model\Map;
 
-use Model\AircraftType;
-use Model\AircraftTypeQuery;
+use Model\AircraftModel;
+use Model\AircraftModelQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'aircraft_types' table.
+ * This class defines the structure of the 'aircraft_models' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class AircraftTypeTableMap extends TableMap
+class AircraftModelTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class AircraftTypeTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'Model.Map.AircraftTypeTableMap';
+    const CLASS_NAME = 'Model.Map.AircraftModelTableMap';
 
     /**
      * The default database name for this class
@@ -44,17 +44,17 @@ class AircraftTypeTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'aircraft_types';
+    const TABLE_NAME = 'aircraft_models';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Model\\AircraftType';
+    const OM_CLASS = '\\Model\\AircraftModel';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Model.AircraftType';
+    const CLASS_DEFAULT = 'Model.AircraftModel';
 
     /**
      * The total number of columns
@@ -74,52 +74,52 @@ class AircraftTypeTableMap extends TableMap
     /**
      * the column name for the id field
      */
-    const COL_ID = 'aircraft_types.id';
+    const COL_ID = 'aircraft_models.id';
 
     /**
      * the column name for the model field
      */
-    const COL_MODEL = 'aircraft_types.model';
+    const COL_MODEL = 'aircraft_models.model';
 
     /**
      * the column name for the brand field
      */
-    const COL_BRAND = 'aircraft_types.brand';
+    const COL_BRAND = 'aircraft_models.brand';
 
     /**
      * the column name for the packages field
      */
-    const COL_PACKAGES = 'aircraft_types.packages';
+    const COL_PACKAGES = 'aircraft_models.packages';
 
     /**
      * the column name for the post field
      */
-    const COL_POST = 'aircraft_types.post';
+    const COL_POST = 'aircraft_models.post';
 
     /**
      * the column name for the passenger_low field
      */
-    const COL_PASSENGER_LOW = 'aircraft_types.passenger_low';
+    const COL_PASSENGER_LOW = 'aircraft_models.passenger_low';
 
     /**
      * the column name for the passenger_mid field
      */
-    const COL_PASSENGER_MID = 'aircraft_types.passenger_mid';
+    const COL_PASSENGER_MID = 'aircraft_models.passenger_mid';
 
     /**
      * the column name for the passenger_high field
      */
-    const COL_PASSENGER_HIGH = 'aircraft_types.passenger_high';
+    const COL_PASSENGER_HIGH = 'aircraft_models.passenger_high';
 
     /**
      * the column name for the weight field
      */
-    const COL_WEIGHT = 'aircraft_types.weight';
+    const COL_WEIGHT = 'aircraft_models.weight';
 
     /**
      * the column name for the value field
      */
-    const COL_VALUE = 'aircraft_types.value';
+    const COL_VALUE = 'aircraft_models.value';
 
     /**
      * The default string format for model objects of the related table
@@ -135,7 +135,7 @@ class AircraftTypeTableMap extends TableMap
     protected static $fieldNames = array (
         self::TYPE_PHPNAME       => array('Id', 'Model', 'Brand', 'Packages', 'Post', 'PassengerLow', 'PassengerMid', 'PassengerHigh', 'Weight', 'Value', ),
         self::TYPE_CAMELNAME     => array('id', 'model', 'brand', 'packages', 'post', 'passengerLow', 'passengerMid', 'passengerHigh', 'weight', 'value', ),
-        self::TYPE_COLNAME       => array(AircraftTypeTableMap::COL_ID, AircraftTypeTableMap::COL_MODEL, AircraftTypeTableMap::COL_BRAND, AircraftTypeTableMap::COL_PACKAGES, AircraftTypeTableMap::COL_POST, AircraftTypeTableMap::COL_PASSENGER_LOW, AircraftTypeTableMap::COL_PASSENGER_MID, AircraftTypeTableMap::COL_PASSENGER_HIGH, AircraftTypeTableMap::COL_WEIGHT, AircraftTypeTableMap::COL_VALUE, ),
+        self::TYPE_COLNAME       => array(AircraftModelTableMap::COL_ID, AircraftModelTableMap::COL_MODEL, AircraftModelTableMap::COL_BRAND, AircraftModelTableMap::COL_PACKAGES, AircraftModelTableMap::COL_POST, AircraftModelTableMap::COL_PASSENGER_LOW, AircraftModelTableMap::COL_PASSENGER_MID, AircraftModelTableMap::COL_PASSENGER_HIGH, AircraftModelTableMap::COL_WEIGHT, AircraftModelTableMap::COL_VALUE, ),
         self::TYPE_FIELDNAME     => array('id', 'model', 'brand', 'packages', 'post', 'passenger_low', 'passenger_mid', 'passenger_high', 'weight', 'value', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
@@ -149,7 +149,7 @@ class AircraftTypeTableMap extends TableMap
     protected static $fieldKeys = array (
         self::TYPE_PHPNAME       => array('Id' => 0, 'Model' => 1, 'Brand' => 2, 'Packages' => 3, 'Post' => 4, 'PassengerLow' => 5, 'PassengerMid' => 6, 'PassengerHigh' => 7, 'Weight' => 8, 'Value' => 9, ),
         self::TYPE_CAMELNAME     => array('id' => 0, 'model' => 1, 'brand' => 2, 'packages' => 3, 'post' => 4, 'passengerLow' => 5, 'passengerMid' => 6, 'passengerHigh' => 7, 'weight' => 8, 'value' => 9, ),
-        self::TYPE_COLNAME       => array(AircraftTypeTableMap::COL_ID => 0, AircraftTypeTableMap::COL_MODEL => 1, AircraftTypeTableMap::COL_BRAND => 2, AircraftTypeTableMap::COL_PACKAGES => 3, AircraftTypeTableMap::COL_POST => 4, AircraftTypeTableMap::COL_PASSENGER_LOW => 5, AircraftTypeTableMap::COL_PASSENGER_MID => 6, AircraftTypeTableMap::COL_PASSENGER_HIGH => 7, AircraftTypeTableMap::COL_WEIGHT => 8, AircraftTypeTableMap::COL_VALUE => 9, ),
+        self::TYPE_COLNAME       => array(AircraftModelTableMap::COL_ID => 0, AircraftModelTableMap::COL_MODEL => 1, AircraftModelTableMap::COL_BRAND => 2, AircraftModelTableMap::COL_PACKAGES => 3, AircraftModelTableMap::COL_POST => 4, AircraftModelTableMap::COL_PASSENGER_LOW => 5, AircraftModelTableMap::COL_PASSENGER_MID => 6, AircraftModelTableMap::COL_PASSENGER_HIGH => 7, AircraftModelTableMap::COL_WEIGHT => 8, AircraftModelTableMap::COL_VALUE => 9, ),
         self::TYPE_FIELDNAME     => array('id' => 0, 'model' => 1, 'brand' => 2, 'packages' => 3, 'post' => 4, 'passenger_low' => 5, 'passenger_mid' => 6, 'passenger_high' => 7, 'weight' => 8, 'value' => 9, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
@@ -164,10 +164,10 @@ class AircraftTypeTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('aircraft_types');
-        $this->setPhpName('AircraftType');
+        $this->setName('aircraft_models');
+        $this->setPhpName('AircraftModel');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Model\\AircraftType');
+        $this->setClassName('\\Model\\AircraftModel');
         $this->setPackage('Model');
         $this->setUseIdGenerator(true);
         // columns
@@ -191,7 +191,7 @@ class AircraftTypeTableMap extends TableMap
         $this->addRelation('Aircraft', '\\Model\\Aircraft', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
-    0 => ':aircraft_type_id',
+    0 => ':aircraft_model_id',
     1 => ':id',
   ),
 ), null, null, 'Aircrafts', false);
@@ -254,7 +254,7 @@ class AircraftTypeTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? AircraftTypeTableMap::CLASS_DEFAULT : AircraftTypeTableMap::OM_CLASS;
+        return $withPrefix ? AircraftModelTableMap::CLASS_DEFAULT : AircraftModelTableMap::OM_CLASS;
     }
 
     /**
@@ -268,22 +268,22 @@ class AircraftTypeTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (AircraftType object, last column rank)
+     * @return array           (AircraftModel object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = AircraftTypeTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = AircraftTypeTableMap::getInstanceFromPool($key))) {
+        $key = AircraftModelTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = AircraftModelTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + AircraftTypeTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + AircraftModelTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = AircraftTypeTableMap::OM_CLASS;
-            /** @var AircraftType $obj */
+            $cls = AircraftModelTableMap::OM_CLASS;
+            /** @var AircraftModel $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            AircraftTypeTableMap::addInstanceToPool($obj, $key);
+            AircraftModelTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -306,18 +306,18 @@ class AircraftTypeTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = AircraftTypeTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = AircraftTypeTableMap::getInstanceFromPool($key))) {
+            $key = AircraftModelTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = AircraftModelTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var AircraftType $obj */
+                /** @var AircraftModel $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                AircraftTypeTableMap::addInstanceToPool($obj, $key);
+                AircraftModelTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -338,16 +338,16 @@ class AircraftTypeTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(AircraftTypeTableMap::COL_ID);
-            $criteria->addSelectColumn(AircraftTypeTableMap::COL_MODEL);
-            $criteria->addSelectColumn(AircraftTypeTableMap::COL_BRAND);
-            $criteria->addSelectColumn(AircraftTypeTableMap::COL_PACKAGES);
-            $criteria->addSelectColumn(AircraftTypeTableMap::COL_POST);
-            $criteria->addSelectColumn(AircraftTypeTableMap::COL_PASSENGER_LOW);
-            $criteria->addSelectColumn(AircraftTypeTableMap::COL_PASSENGER_MID);
-            $criteria->addSelectColumn(AircraftTypeTableMap::COL_PASSENGER_HIGH);
-            $criteria->addSelectColumn(AircraftTypeTableMap::COL_WEIGHT);
-            $criteria->addSelectColumn(AircraftTypeTableMap::COL_VALUE);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_ID);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_MODEL);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_BRAND);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_PACKAGES);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_POST);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_PASSENGER_LOW);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_PASSENGER_MID);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_PASSENGER_HIGH);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_WEIGHT);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_VALUE);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.model');
@@ -371,7 +371,7 @@ class AircraftTypeTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(AircraftTypeTableMap::DATABASE_NAME)->getTable(AircraftTypeTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(AircraftModelTableMap::DATABASE_NAME)->getTable(AircraftModelTableMap::TABLE_NAME);
     }
 
     /**
@@ -379,16 +379,16 @@ class AircraftTypeTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(AircraftTypeTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(AircraftTypeTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new AircraftTypeTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(AircraftModelTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(AircraftModelTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new AircraftModelTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a AircraftType or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a AircraftModel or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or AircraftType object or primary key or array of primary keys
+     * @param mixed               $values Criteria or AircraftModel object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -399,27 +399,27 @@ class AircraftTypeTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(AircraftTypeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AircraftModelTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Model\AircraftType) { // it's a model object
+        } elseif ($values instanceof \Model\AircraftModel) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(AircraftTypeTableMap::DATABASE_NAME);
-            $criteria->add(AircraftTypeTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(AircraftModelTableMap::DATABASE_NAME);
+            $criteria->add(AircraftModelTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = AircraftTypeQuery::create()->mergeWith($criteria);
+        $query = AircraftModelQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            AircraftTypeTableMap::clearInstancePool();
+            AircraftModelTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                AircraftTypeTableMap::removeInstanceFromPool($singleval);
+                AircraftModelTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -427,20 +427,20 @@ class AircraftTypeTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the aircraft_types table.
+     * Deletes all rows from the aircraft_models table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return AircraftTypeQuery::create()->doDeleteAll($con);
+        return AircraftModelQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a AircraftType or Criteria object.
+     * Performs an INSERT on the database, given a AircraftModel or Criteria object.
      *
-     * @param mixed               $criteria Criteria or AircraftType object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or AircraftModel object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -449,22 +449,22 @@ class AircraftTypeTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(AircraftTypeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AircraftModelTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from AircraftType object
+            $criteria = $criteria->buildCriteria(); // build Criteria from AircraftModel object
         }
 
-        if ($criteria->containsKey(AircraftTypeTableMap::COL_ID) && $criteria->keyContainsValue(AircraftTypeTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.AircraftTypeTableMap::COL_ID.')');
+        if ($criteria->containsKey(AircraftModelTableMap::COL_ID) && $criteria->keyContainsValue(AircraftModelTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.AircraftModelTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = AircraftTypeQuery::create()->mergeWith($criteria);
+        $query = AircraftModelQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -473,7 +473,7 @@ class AircraftTypeTableMap extends TableMap
         });
     }
 
-} // AircraftTypeTableMap
+} // AircraftModelTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-AircraftTypeTableMap::buildTableMap();
+AircraftModelTableMap::buildTableMap();

@@ -1,4 +1,4 @@
-Feature:
+Feature: Flight status is updated accordingly
 
   In order to start a flight
   As a pilot
@@ -6,8 +6,9 @@ Feature:
 
   Background:
       Given I am logged in as PILOT
+      And I am subscribed to airline BER
       And I have an aircraft_model "B737-800" from "Boing"
-      And airline "BER" owns aircraft_model "B737-800" with callsign "BER451" at airport "EDDF"
+      And pilot PILOT owns aircraft_model "B737-800" with callsign "BER451" at airport "EDDF"
       And aircraft_model can transport
         | Freight_Type | Amount    |
         | Packages     | 1000      |
@@ -32,7 +33,7 @@ Feature:
 
     @javascript
   Scenario Outline: Flight changes status to represent current flight state
-      Given I have a flight "BER045" from "EDDF" to "EDDL" with aircraft "BER451" and status "<CurrentStatus>"
+      Given PILOT has a flight "BER045" from "EDDF" to "EDDL" with aircraft "BER451" and status "<CurrentStatus>"
       And I am on the latest flights page
 
       When I follow "<Button>"
@@ -47,7 +48,7 @@ Feature:
        | EDDL     | UNLOADING   | Finish          | FINISHED   |
 
   Scenario: Freight should be unloaded if the flights is beeing finished
-      Given I have a flight "BER45" from "EDDF" to "EDDL" with aircraft "BER451" and status "UNLOADING"
+      Given PILOT has a flight "BER45" from "EDDF" to "EDDL" with aircraft "BER451" and status "UNLOADING"
       And flight "BER45" has 175 Economy from "EDDF" to "EGLL"
       And flight "BER45" has 45 Business from "EDDF" to "EDDL"
       And I am on the latest flights page
@@ -67,7 +68,7 @@ Feature:
     Then I should not see "Plan to"
 
   Scenario Outline: Status of aircraft should be updated according to current Flight status
-    Given I have a flight "BER0045" from "EDDF" to "EDDL" with aircraft "BER451" and status "<CurrentFlightStatus>"
+    Given PILOT has a flight "BER0045" from "EDDF" to "EDDL" with aircraft "BER451" and status "<CurrentFlightStatus>"
     And I am on the latest flights page
 
     When I follow "<link>"

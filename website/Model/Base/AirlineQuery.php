@@ -48,11 +48,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAirlineQuery rightJoinAircraft($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Aircraft relation
  * @method     ChildAirlineQuery innerJoinAircraft($relationAlias = null) Adds a INNER JOIN clause to the query using the Aircraft relation
  *
+ * @method     ChildAirlineQuery leftJoinFlight($relationAlias = null) Adds a LEFT JOIN clause to the query using the Flight relation
+ * @method     ChildAirlineQuery rightJoinFlight($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Flight relation
+ * @method     ChildAirlineQuery innerJoinFlight($relationAlias = null) Adds a INNER JOIN clause to the query using the Flight relation
+ *
  * @method     ChildAirlineQuery leftJoinPilot($relationAlias = null) Adds a LEFT JOIN clause to the query using the Pilot relation
  * @method     ChildAirlineQuery rightJoinPilot($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Pilot relation
  * @method     ChildAirlineQuery innerJoinPilot($relationAlias = null) Adds a INNER JOIN clause to the query using the Pilot relation
  *
- * @method     \Model\AircraftQuery|\Model\PilotQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \Model\AircraftQuery|\Model\FlightQuery|\Model\PilotQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildAirline findOne(ConnectionInterface $con = null) Return the first ChildAirline matching the query
  * @method     ChildAirline findOneOrCreate(ConnectionInterface $con = null) Return the first ChildAirline matching the query, or a new ChildAirline object populated from the query conditions when no match is found
@@ -626,6 +630,79 @@ abstract class AirlineQuery extends ModelCriteria
         return $this
             ->joinAircraft($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Aircraft', '\Model\AircraftQuery');
+    }
+
+    /**
+     * Filter the query by a related \Model\Flight object
+     *
+     * @param \Model\Flight|ObjectCollection $flight the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildAirlineQuery The current query, for fluid interface
+     */
+    public function filterByFlight($flight, $comparison = null)
+    {
+        if ($flight instanceof \Model\Flight) {
+            return $this
+                ->addUsingAlias(AirlineTableMap::COL_ID, $flight->getAirlineId(), $comparison);
+        } elseif ($flight instanceof ObjectCollection) {
+            return $this
+                ->useFlightQuery()
+                ->filterByPrimaryKeys($flight->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByFlight() only accepts arguments of type \Model\Flight or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Flight relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildAirlineQuery The current query, for fluid interface
+     */
+    public function joinFlight($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Flight');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Flight');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Flight relation Flight object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \Model\FlightQuery A secondary query class using the current class as primary query
+     */
+    public function useFlightQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinFlight($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Flight', '\Model\FlightQuery');
     }
 
     /**

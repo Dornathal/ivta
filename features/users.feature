@@ -7,8 +7,6 @@ Feature:
     @javascript
   Scenario: I want to be able to buy an aircraft slot
     Given I am logged in as PILOT
-    And I am subscribed to airline "BER"
-
     And I have a saldo of 12500
     And I search for aircraft_model "B737-800"
 
@@ -22,3 +20,4 @@ Feature:
 
     Then there should be aircraft "BER452R"
     And I should have a saldo of 2500
+    And I should be on "/profile"

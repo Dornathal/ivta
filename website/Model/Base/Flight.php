@@ -7,6 +7,8 @@ use \Exception;
 use \PDO;
 use Model\Aircraft as ChildAircraft;
 use Model\AircraftQuery as ChildAircraftQuery;
+use Model\Airline as ChildAirline;
+use Model\AirlineQuery as ChildAirlineQuery;
 use Model\Airport as ChildAirport;
 use Model\AirportQuery as ChildAirportQuery;
 use Model\Flight as ChildFlight;
@@ -82,6 +84,12 @@ abstract class Flight implements ActiveRecordInterface
      * @var        int
      */
     protected $aircraft_id;
+
+    /**
+     * The value for the airline_id field.
+     * @var        int
+     */
+    protected $airline_id;
 
     /**
      * The value for the destination_id field.
@@ -183,6 +191,11 @@ abstract class Flight implements ActiveRecordInterface
      * @var        ChildAircraft
      */
     protected $aAircraft;
+
+    /**
+     * @var        ChildAirline
+     */
+    protected $aAirline;
 
     /**
      * @var        ChildAirport
@@ -475,6 +488,16 @@ abstract class Flight implements ActiveRecordInterface
     }
 
     /**
+     * Get the [airline_id] column value.
+     *
+     * @return int
+     */
+    public function getAirlineId()
+    {
+        return $this->airline_id;
+    }
+
+    /**
      * Get the [destination_id] column value.
      *
      * @return int
@@ -726,6 +749,30 @@ abstract class Flight implements ActiveRecordInterface
 
         return $this;
     } // setAircraftId()
+
+    /**
+     * Set the value of [airline_id] column.
+     *
+     * @param int $v new value
+     * @return $this|\Model\Flight The current object (for fluent API support)
+     */
+    public function setAirlineId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->airline_id !== $v) {
+            $this->airline_id = $v;
+            $this->modifiedColumns[FlightTableMap::COL_AIRLINE_ID] = true;
+        }
+
+        if ($this->aAirline !== null && $this->aAirline->getId() !== $v) {
+            $this->aAirline = null;
+        }
+
+        return $this;
+    } // setAirlineId()
 
     /**
      * Set the value of [destination_id] column.
@@ -1110,61 +1157,64 @@ abstract class Flight implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : FlightTableMap::translateFieldName('AircraftId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->aircraft_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : FlightTableMap::translateFieldName('DestinationId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : FlightTableMap::translateFieldName('AirlineId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->airline_id = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : FlightTableMap::translateFieldName('DestinationId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->destination_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : FlightTableMap::translateFieldName('DepartureId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : FlightTableMap::translateFieldName('DepartureId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->departure_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : FlightTableMap::translateFieldName('PilotId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : FlightTableMap::translateFieldName('PilotId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->pilot_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : FlightTableMap::translateFieldName('FlightNumber', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : FlightTableMap::translateFieldName('FlightNumber', TableMap::TYPE_PHPNAME, $indexType)];
             $this->flight_number = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : FlightTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : FlightTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : FlightTableMap::translateFieldName('Packages', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : FlightTableMap::translateFieldName('Packages', TableMap::TYPE_PHPNAME, $indexType)];
             $this->packages = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : FlightTableMap::translateFieldName('Post', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : FlightTableMap::translateFieldName('Post', TableMap::TYPE_PHPNAME, $indexType)];
             $this->post = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : FlightTableMap::translateFieldName('PassengerLow', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : FlightTableMap::translateFieldName('PassengerLow', TableMap::TYPE_PHPNAME, $indexType)];
             $this->passenger_low = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : FlightTableMap::translateFieldName('PassengerMid', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : FlightTableMap::translateFieldName('PassengerMid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->passenger_mid = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : FlightTableMap::translateFieldName('PassengerHigh', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : FlightTableMap::translateFieldName('PassengerHigh', TableMap::TYPE_PHPNAME, $indexType)];
             $this->passenger_high = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : FlightTableMap::translateFieldName('FlightStartedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : FlightTableMap::translateFieldName('FlightStartedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->flight_started_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : FlightTableMap::translateFieldName('FlightFinishedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : FlightTableMap::translateFieldName('FlightFinishedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->flight_finished_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : FlightTableMap::translateFieldName('NextStepPossibleAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : FlightTableMap::translateFieldName('NextStepPossibleAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->next_step_possible_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : FlightTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : FlightTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : FlightTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : FlightTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -1177,7 +1227,7 @@ abstract class Flight implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 17; // 17 = FlightTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 18; // 18 = FlightTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Model\\Flight'), 0, $e);
@@ -1201,6 +1251,9 @@ abstract class Flight implements ActiveRecordInterface
     {
         if ($this->aAircraft !== null && $this->aircraft_id !== $this->aAircraft->getId()) {
             $this->aAircraft = null;
+        }
+        if ($this->aAirline !== null && $this->airline_id !== $this->aAirline->getId()) {
+            $this->aAirline = null;
         }
         if ($this->aDestination !== null && $this->destination_id !== $this->aDestination->getId()) {
             $this->aDestination = null;
@@ -1251,6 +1304,7 @@ abstract class Flight implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->aAircraft = null;
+            $this->aAirline = null;
             $this->aDestination = null;
             $this->aDeparture = null;
             $this->aPilot = null;
@@ -1379,6 +1433,13 @@ abstract class Flight implements ActiveRecordInterface
                 $this->setAircraft($this->aAircraft);
             }
 
+            if ($this->aAirline !== null) {
+                if ($this->aAirline->isModified() || $this->aAirline->isNew()) {
+                    $affectedRows += $this->aAirline->save($con);
+                }
+                $this->setAirline($this->aAirline);
+            }
+
             if ($this->aDestination !== null) {
                 if ($this->aDestination->isModified() || $this->aDestination->isNew()) {
                     $affectedRows += $this->aDestination->save($con);
@@ -1461,6 +1522,9 @@ abstract class Flight implements ActiveRecordInterface
         if ($this->isColumnModified(FlightTableMap::COL_AIRCRAFT_ID)) {
             $modifiedColumns[':p' . $index++]  = 'aircraft_id';
         }
+        if ($this->isColumnModified(FlightTableMap::COL_AIRLINE_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'airline_id';
+        }
         if ($this->isColumnModified(FlightTableMap::COL_DESTINATION_ID)) {
             $modifiedColumns[':p' . $index++]  = 'destination_id';
         }
@@ -1522,6 +1586,9 @@ abstract class Flight implements ActiveRecordInterface
                         break;
                     case 'aircraft_id':
                         $stmt->bindValue($identifier, $this->aircraft_id, PDO::PARAM_INT);
+                        break;
+                    case 'airline_id':
+                        $stmt->bindValue($identifier, $this->airline_id, PDO::PARAM_INT);
                         break;
                     case 'destination_id':
                         $stmt->bindValue($identifier, $this->destination_id, PDO::PARAM_INT);
@@ -1637,48 +1704,51 @@ abstract class Flight implements ActiveRecordInterface
                 return $this->getAircraftId();
                 break;
             case 2:
-                return $this->getDestinationId();
+                return $this->getAirlineId();
                 break;
             case 3:
-                return $this->getDepartureId();
+                return $this->getDestinationId();
                 break;
             case 4:
-                return $this->getPilotId();
+                return $this->getDepartureId();
                 break;
             case 5:
-                return $this->getFlightNumber();
+                return $this->getPilotId();
                 break;
             case 6:
-                return $this->getStatus();
+                return $this->getFlightNumber();
                 break;
             case 7:
-                return $this->getPackages();
+                return $this->getStatus();
                 break;
             case 8:
-                return $this->getPost();
+                return $this->getPackages();
                 break;
             case 9:
-                return $this->getPassengerLow();
+                return $this->getPost();
                 break;
             case 10:
-                return $this->getPassengerMid();
+                return $this->getPassengerLow();
                 break;
             case 11:
-                return $this->getPassengerHigh();
+                return $this->getPassengerMid();
                 break;
             case 12:
-                return $this->getFlightStartedAt();
+                return $this->getPassengerHigh();
                 break;
             case 13:
-                return $this->getFlightFinishedAt();
+                return $this->getFlightStartedAt();
                 break;
             case 14:
-                return $this->getNextStepPossibleAt();
+                return $this->getFlightFinishedAt();
                 break;
             case 15:
-                return $this->getCreatedAt();
+                return $this->getNextStepPossibleAt();
                 break;
             case 16:
+                return $this->getCreatedAt();
+                break;
+            case 17:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -1713,30 +1783,25 @@ abstract class Flight implements ActiveRecordInterface
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getAircraftId(),
-            $keys[2] => $this->getDestinationId(),
-            $keys[3] => $this->getDepartureId(),
-            $keys[4] => $this->getPilotId(),
-            $keys[5] => $this->getFlightNumber(),
-            $keys[6] => $this->getStatus(),
-            $keys[7] => $this->getPackages(),
-            $keys[8] => $this->getPost(),
-            $keys[9] => $this->getPassengerLow(),
-            $keys[10] => $this->getPassengerMid(),
-            $keys[11] => $this->getPassengerHigh(),
-            $keys[12] => $this->getFlightStartedAt(),
-            $keys[13] => $this->getFlightFinishedAt(),
-            $keys[14] => $this->getNextStepPossibleAt(),
-            $keys[15] => $this->getCreatedAt(),
-            $keys[16] => $this->getUpdatedAt(),
+            $keys[2] => $this->getAirlineId(),
+            $keys[3] => $this->getDestinationId(),
+            $keys[4] => $this->getDepartureId(),
+            $keys[5] => $this->getPilotId(),
+            $keys[6] => $this->getFlightNumber(),
+            $keys[7] => $this->getStatus(),
+            $keys[8] => $this->getPackages(),
+            $keys[9] => $this->getPost(),
+            $keys[10] => $this->getPassengerLow(),
+            $keys[11] => $this->getPassengerMid(),
+            $keys[12] => $this->getPassengerHigh(),
+            $keys[13] => $this->getFlightStartedAt(),
+            $keys[14] => $this->getFlightFinishedAt(),
+            $keys[15] => $this->getNextStepPossibleAt(),
+            $keys[16] => $this->getCreatedAt(),
+            $keys[17] => $this->getUpdatedAt(),
         );
 
         $utc = new \DateTimeZone('utc');
-        if ($result[$keys[12]] instanceof \DateTime) {
-            // When changing timezone we don't want to change existing instances
-            $dateTime = clone $result[$keys[12]];
-            $result[$keys[12]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
-        }
-
         if ($result[$keys[13]] instanceof \DateTime) {
             // When changing timezone we don't want to change existing instances
             $dateTime = clone $result[$keys[13]];
@@ -1761,6 +1826,12 @@ abstract class Flight implements ActiveRecordInterface
             $result[$keys[16]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
         }
 
+        if ($result[$keys[17]] instanceof \DateTime) {
+            // When changing timezone we don't want to change existing instances
+            $dateTime = clone $result[$keys[17]];
+            $result[$keys[17]] = $dateTime->setTimezone($utc)->format('Y-m-d\TH:i:s\Z');
+        }
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
@@ -1781,6 +1852,21 @@ abstract class Flight implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->aAircraft->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aAirline) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'airline';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'airlines';
+                        break;
+                    default:
+                        $key = 'Airline';
+                }
+
+                $result[$key] = $this->aAirline->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aDestination) {
 
@@ -1883,52 +1969,55 @@ abstract class Flight implements ActiveRecordInterface
                 $this->setAircraftId($value);
                 break;
             case 2:
-                $this->setDestinationId($value);
+                $this->setAirlineId($value);
                 break;
             case 3:
-                $this->setDepartureId($value);
+                $this->setDestinationId($value);
                 break;
             case 4:
-                $this->setPilotId($value);
+                $this->setDepartureId($value);
                 break;
             case 5:
-                $this->setFlightNumber($value);
+                $this->setPilotId($value);
                 break;
             case 6:
+                $this->setFlightNumber($value);
+                break;
+            case 7:
                 $valueSet = FlightTableMap::getValueSet(FlightTableMap::COL_STATUS);
                 if (isset($valueSet[$value])) {
                     $value = $valueSet[$value];
                 }
                 $this->setStatus($value);
                 break;
-            case 7:
+            case 8:
                 $this->setPackages($value);
                 break;
-            case 8:
+            case 9:
                 $this->setPost($value);
                 break;
-            case 9:
+            case 10:
                 $this->setPassengerLow($value);
                 break;
-            case 10:
+            case 11:
                 $this->setPassengerMid($value);
                 break;
-            case 11:
+            case 12:
                 $this->setPassengerHigh($value);
                 break;
-            case 12:
+            case 13:
                 $this->setFlightStartedAt($value);
                 break;
-            case 13:
+            case 14:
                 $this->setFlightFinishedAt($value);
                 break;
-            case 14:
+            case 15:
                 $this->setNextStepPossibleAt($value);
                 break;
-            case 15:
+            case 16:
                 $this->setCreatedAt($value);
                 break;
-            case 16:
+            case 17:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1964,49 +2053,52 @@ abstract class Flight implements ActiveRecordInterface
             $this->setAircraftId($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setDestinationId($arr[$keys[2]]);
+            $this->setAirlineId($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setDepartureId($arr[$keys[3]]);
+            $this->setDestinationId($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setPilotId($arr[$keys[4]]);
+            $this->setDepartureId($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setFlightNumber($arr[$keys[5]]);
+            $this->setPilotId($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setStatus($arr[$keys[6]]);
+            $this->setFlightNumber($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setPackages($arr[$keys[7]]);
+            $this->setStatus($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setPost($arr[$keys[8]]);
+            $this->setPackages($arr[$keys[8]]);
         }
         if (array_key_exists($keys[9], $arr)) {
-            $this->setPassengerLow($arr[$keys[9]]);
+            $this->setPost($arr[$keys[9]]);
         }
         if (array_key_exists($keys[10], $arr)) {
-            $this->setPassengerMid($arr[$keys[10]]);
+            $this->setPassengerLow($arr[$keys[10]]);
         }
         if (array_key_exists($keys[11], $arr)) {
-            $this->setPassengerHigh($arr[$keys[11]]);
+            $this->setPassengerMid($arr[$keys[11]]);
         }
         if (array_key_exists($keys[12], $arr)) {
-            $this->setFlightStartedAt($arr[$keys[12]]);
+            $this->setPassengerHigh($arr[$keys[12]]);
         }
         if (array_key_exists($keys[13], $arr)) {
-            $this->setFlightFinishedAt($arr[$keys[13]]);
+            $this->setFlightStartedAt($arr[$keys[13]]);
         }
         if (array_key_exists($keys[14], $arr)) {
-            $this->setNextStepPossibleAt($arr[$keys[14]]);
+            $this->setFlightFinishedAt($arr[$keys[14]]);
         }
         if (array_key_exists($keys[15], $arr)) {
-            $this->setCreatedAt($arr[$keys[15]]);
+            $this->setNextStepPossibleAt($arr[$keys[15]]);
         }
         if (array_key_exists($keys[16], $arr)) {
-            $this->setUpdatedAt($arr[$keys[16]]);
+            $this->setCreatedAt($arr[$keys[16]]);
+        }
+        if (array_key_exists($keys[17], $arr)) {
+            $this->setUpdatedAt($arr[$keys[17]]);
         }
     }
 
@@ -2054,6 +2146,9 @@ abstract class Flight implements ActiveRecordInterface
         }
         if ($this->isColumnModified(FlightTableMap::COL_AIRCRAFT_ID)) {
             $criteria->add(FlightTableMap::COL_AIRCRAFT_ID, $this->aircraft_id);
+        }
+        if ($this->isColumnModified(FlightTableMap::COL_AIRLINE_ID)) {
+            $criteria->add(FlightTableMap::COL_AIRLINE_ID, $this->airline_id);
         }
         if ($this->isColumnModified(FlightTableMap::COL_DESTINATION_ID)) {
             $criteria->add(FlightTableMap::COL_DESTINATION_ID, $this->destination_id);
@@ -2119,6 +2214,7 @@ abstract class Flight implements ActiveRecordInterface
         $criteria = ChildFlightQuery::create();
         $criteria->add(FlightTableMap::COL_ID, $this->id);
         $criteria->add(FlightTableMap::COL_AIRCRAFT_ID, $this->aircraft_id);
+        $criteria->add(FlightTableMap::COL_AIRLINE_ID, $this->airline_id);
         $criteria->add(FlightTableMap::COL_DESTINATION_ID, $this->destination_id);
         $criteria->add(FlightTableMap::COL_DEPARTURE_ID, $this->departure_id);
         $criteria->add(FlightTableMap::COL_PILOT_ID, $this->pilot_id);
@@ -2136,15 +2232,23 @@ abstract class Flight implements ActiveRecordInterface
     {
         $validPk = null !== $this->getId() &&
             null !== $this->getAircraftId() &&
+            null !== $this->getAirlineId() &&
             null !== $this->getDestinationId() &&
             null !== $this->getDepartureId() &&
             null !== $this->getPilotId();
 
-        $validPrimaryKeyFKs = 4;
+        $validPrimaryKeyFKs = 5;
         $primaryKeyFKs = [];
 
         //relation flights_fk_c3deee to table aircrafts
         if ($this->aAircraft && $hash = spl_object_hash($this->aAircraft)) {
+            $primaryKeyFKs[] = $hash;
+        } else {
+            $validPrimaryKeyFKs = false;
+        }
+
+        //relation flights_fk_3c541c to table airlines
+        if ($this->aAirline && $hash = spl_object_hash($this->aAirline)) {
             $primaryKeyFKs[] = $hash;
         } else {
             $validPrimaryKeyFKs = false;
@@ -2190,9 +2294,10 @@ abstract class Flight implements ActiveRecordInterface
         $pks = array();
         $pks[0] = $this->getId();
         $pks[1] = $this->getAircraftId();
-        $pks[2] = $this->getDestinationId();
-        $pks[3] = $this->getDepartureId();
-        $pks[4] = $this->getPilotId();
+        $pks[2] = $this->getAirlineId();
+        $pks[3] = $this->getDestinationId();
+        $pks[4] = $this->getDepartureId();
+        $pks[5] = $this->getPilotId();
 
         return $pks;
     }
@@ -2207,9 +2312,10 @@ abstract class Flight implements ActiveRecordInterface
     {
         $this->setId($keys[0]);
         $this->setAircraftId($keys[1]);
-        $this->setDestinationId($keys[2]);
-        $this->setDepartureId($keys[3]);
-        $this->setPilotId($keys[4]);
+        $this->setAirlineId($keys[2]);
+        $this->setDestinationId($keys[3]);
+        $this->setDepartureId($keys[4]);
+        $this->setPilotId($keys[5]);
     }
 
     /**
@@ -2218,7 +2324,7 @@ abstract class Flight implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return (null === $this->getId()) && (null === $this->getAircraftId()) && (null === $this->getDestinationId()) && (null === $this->getDepartureId()) && (null === $this->getPilotId());
+        return (null === $this->getId()) && (null === $this->getAircraftId()) && (null === $this->getAirlineId()) && (null === $this->getDestinationId()) && (null === $this->getDepartureId()) && (null === $this->getPilotId());
     }
 
     /**
@@ -2235,6 +2341,7 @@ abstract class Flight implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setAircraftId($this->getAircraftId());
+        $copyObj->setAirlineId($this->getAirlineId());
         $copyObj->setDestinationId($this->getDestinationId());
         $copyObj->setDepartureId($this->getDepartureId());
         $copyObj->setPilotId($this->getPilotId());
@@ -2343,6 +2450,57 @@ abstract class Flight implements ActiveRecordInterface
         }
 
         return $this->aAircraft;
+    }
+
+    /**
+     * Declares an association between this object and a ChildAirline object.
+     *
+     * @param  ChildAirline $v
+     * @return $this|\Model\Flight The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setAirline(ChildAirline $v = null)
+    {
+        if ($v === null) {
+            $this->setAirlineId(NULL);
+        } else {
+            $this->setAirlineId($v->getId());
+        }
+
+        $this->aAirline = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildAirline object, it will not be re-added.
+        if ($v !== null) {
+            $v->addFlight($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildAirline object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildAirline The associated ChildAirline object.
+     * @throws PropelException
+     */
+    public function getAirline(ConnectionInterface $con = null)
+    {
+        if ($this->aAirline === null && ($this->airline_id !== null)) {
+            $this->aAirline = ChildAirlineQuery::create()->findPk($this->airline_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aAirline->addFlights($this);
+             */
+        }
+
+        return $this->aAirline;
     }
 
     /**
@@ -2817,6 +2975,9 @@ abstract class Flight implements ActiveRecordInterface
         if (null !== $this->aAircraft) {
             $this->aAircraft->removeFlight($this);
         }
+        if (null !== $this->aAirline) {
+            $this->aAirline->removeFlight($this);
+        }
         if (null !== $this->aDestination) {
             $this->aDestination->removeFlightRelatedByDestinationId($this);
         }
@@ -2828,6 +2989,7 @@ abstract class Flight implements ActiveRecordInterface
         }
         $this->id = null;
         $this->aircraft_id = null;
+        $this->airline_id = null;
         $this->destination_id = null;
         $this->departure_id = null;
         $this->pilot_id = null;
@@ -2871,6 +3033,7 @@ abstract class Flight implements ActiveRecordInterface
 
         $this->collFreights = null;
         $this->aAircraft = null;
+        $this->aAirline = null;
         $this->aDestination = null;
         $this->aDeparture = null;
         $this->aPilot = null;

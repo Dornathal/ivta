@@ -16,5 +16,18 @@ use Model\Base\FlightQuery as BaseFlightQuery;
  */
 class FlightQuery extends BaseFlightQuery
 {
+    public static function queryFlights(FlightQuery $flightQuery = null){
+        if($flightQuery==null)
+            $flightQuery = FlightQuery::create();
+        $flightQuery
+            ->joinDeparture('Departure')
+            ->joinDestination('Destination')
+            ->joinAircraft('Aircraft')
+            ->select(array('id','flight_number','flight_started_at','flight_finished_at'))
+            ->withColumn('Departure.icao', 'Departure')
+            ->withColumn('Destination.icao', 'Destination')
+            ->withColumn('Aircraft.callsign', 'Callsign');
 
+        return $flightQuery->find()->toArray();
+    }
 }

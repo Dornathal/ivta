@@ -53,7 +53,7 @@ class Language extends Middleware
             "icao" => "ICAO" ,
             "map" => "Map",
             "name" => "Name",
-            "no_aircrafts_available" => "No Aircrafts available.",
+            "no_aircrafts_available" => "No Aircrafts active.",
             "no_freight_available" => "No freight available.",
             "passenger" => "Passenger",
             "plan_to" => "Plan to ",
@@ -64,7 +64,8 @@ class Language extends Middleware
             "saldo_new" => "New saldo",
             "search" => "Search",
             "show" => "Show",
-
+            "status" => "Status",
+            "status_idle" => "Idle",
         );
 
         $app->view->appendData(array("Language" => $insert));

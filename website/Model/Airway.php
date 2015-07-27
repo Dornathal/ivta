@@ -5,7 +5,6 @@ namespace Model;
 use Model\Base\Airway as BaseAirway;
 use Model\Map\AirportTableMap;
 use Propel\Runtime\ActiveQuery\Criteria;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Skeleton subclass for representing a row from the 'airways' table.

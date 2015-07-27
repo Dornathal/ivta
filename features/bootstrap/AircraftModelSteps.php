@@ -3,8 +3,8 @@
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
-use Model\AircraftType;
-use Model\AircraftTypeQuery;
+use Model\AircraftModel;
+use Model\AircraftModelQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
 
 class AircraftModelSteps extends RawMinkContext implements Context
@@ -24,7 +24,7 @@ class AircraftModelSteps extends RawMinkContext implements Context
      */
     public function castModelToAircraftType($model)
     {
-        return AircraftTypeQuery::create()
+        return AircraftModelQuery::create()
             ->findOneByModel($model);
     }
 
@@ -33,7 +33,7 @@ class AircraftModelSteps extends RawMinkContext implements Context
      */
     public function newAircraftModel($model, $brand)
     {
-        $aircraft_model = new AircraftType();
+        $aircraft_model = new AircraftModel();
         $aircraft_model->setBrand($brand);
         $aircraft_model->setModel($model);
         $aircraft_model->setWeight(0);
@@ -84,11 +84,11 @@ class AircraftModelSteps extends RawMinkContext implements Context
     }
 
     /**
-     * @return AircraftType
+     * @return AircraftModel
      */
     private function lastCreatedAircraftModel()
     {
-        return AircraftTypeQuery::create()
+        return AircraftModelQuery::create()
             ->orderById(Criteria::DESC)
             ->findOne();
     }

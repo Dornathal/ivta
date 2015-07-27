@@ -70,7 +70,7 @@ class Flight extends BaseFlight
         }
 
         return array('Departure' => $this->getDeparture()->toArray(), 'Destination' => $this->getDestination()->toArray(),
-            'Flight' => $this->toArray(), 'AircraftModel' => $this->getAircraft()->getAircraftType()->toArray(),
+            'Flight' => $this->toArray(), 'AircraftModel' => $this->getAircraft()->getAircraftModel()->toArray(),
             'NextStepPossibleIn' => $this->getNextStepPossibleAt()->getTimestamp() - $now->getTimestamp(),
             'Freights' => $freight_array
         );
@@ -120,12 +120,13 @@ class Flight extends BaseFlight
         $departure = $aircraft->getAirport();
         $available_freight = $departure->queryFreightDiagram()[0][$destination->getICAO()];
 
-        $aircraftModel = $aircraft->getAircraftType();
+        $aircraftModel = $aircraft->getAircraftModel();
 
         $flight->setAircraft($aircraft);
         $flight->setDeparture($departure);
         $flight->setDestination($destination);
         $flight->setPilot($pilot);
+        $flight->setAirline($pilot->getAirline());
         $flight->setFlightNumber(self::generateFlightNumber($aircraft,$departure,$destination));
         $flight->setStatus(FlightTableMap::COL_STATUS_PLANNING);
         $loaded_freight = $flight->loadFreight($available_freight, $aircraftModel);
@@ -137,12 +138,12 @@ class Flight extends BaseFlight
 
     /**
      * @param $available_freight
-     * @param AircraftType $aircraftModel
+     * @param AircraftModel $aircraftModel
      * @return mixed
      * @throws \Propel\Runtime\Exception\PropelException
      * @internal param Flight $flight
      */
-    private function loadFreight($available_freight, AircraftType $aircraftModel)
+    private function loadFreight($available_freight, AircraftModel $aircraftModel)
     {
         $loaded_freight = array();
         foreach($this->freight_columns as $name) {

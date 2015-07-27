@@ -5,15 +5,17 @@ namespace Model\Base;
 use \Exception;
 use \PDO;
 use Model\Aircraft as ChildAircraft;
+use Model\AircraftModel as ChildAircraftModel;
+use Model\AircraftModelQuery as ChildAircraftModelQuery;
 use Model\AircraftQuery as ChildAircraftQuery;
-use Model\AircraftType as ChildAircraftType;
-use Model\AircraftTypeQuery as ChildAircraftTypeQuery;
 use Model\Airline as ChildAirline;
 use Model\AirlineQuery as ChildAirlineQuery;
 use Model\Airport as ChildAirport;
 use Model\AirportQuery as ChildAirportQuery;
 use Model\Flight as ChildFlight;
 use Model\FlightQuery as ChildFlightQuery;
+use Model\Pilot as ChildPilot;
+use Model\PilotQuery as ChildPilotQuery;
 use Model\Map\AircraftTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -76,10 +78,10 @@ abstract class Aircraft implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the aircraft_type_id field.
+     * The value for the aircraft_model_id field.
      * @var        int
      */
-    protected $aircraft_type_id;
+    protected $aircraft_model_id;
 
     /**
      * The value for the airline_id field.
@@ -92,6 +94,12 @@ abstract class Aircraft implements ActiveRecordInterface
      * @var        int
      */
     protected $airport_id;
+
+    /**
+     * The value for the pilot_id field.
+     * @var        int
+     */
+    protected $pilot_id;
 
     /**
      * The value for the callsign field.
@@ -140,9 +148,9 @@ abstract class Aircraft implements ActiveRecordInterface
     protected $longitude;
 
     /**
-     * @var        ChildAircraftType
+     * @var        ChildAircraftModel
      */
-    protected $aAircraftType;
+    protected $aAircraftModel;
 
     /**
      * @var        ChildAirport
@@ -153,6 +161,11 @@ abstract class Aircraft implements ActiveRecordInterface
      * @var        ChildAirline
      */
     protected $aAirline;
+
+    /**
+     * @var        ChildPilot
+     */
+    protected $aPilot;
 
     /**
      * @var        ObjectCollection|ChildFlight[] Collection to store aggregation of ChildFlight objects.
@@ -418,13 +431,13 @@ abstract class Aircraft implements ActiveRecordInterface
     }
 
     /**
-     * Get the [aircraft_type_id] column value.
+     * Get the [aircraft_model_id] column value.
      *
      * @return int
      */
-    public function getAircraftTypeId()
+    public function getAircraftModelId()
     {
-        return $this->aircraft_type_id;
+        return $this->aircraft_model_id;
     }
 
     /**
@@ -445,6 +458,16 @@ abstract class Aircraft implements ActiveRecordInterface
     public function getAirportId()
     {
         return $this->airport_id;
+    }
+
+    /**
+     * Get the [pilot_id] column value.
+     *
+     * @return int
+     */
+    public function getPilotId()
+    {
+        return $this->pilot_id;
     }
 
     /**
@@ -547,28 +570,28 @@ abstract class Aircraft implements ActiveRecordInterface
     } // setId()
 
     /**
-     * Set the value of [aircraft_type_id] column.
+     * Set the value of [aircraft_model_id] column.
      *
      * @param int $v new value
      * @return $this|\Model\Aircraft The current object (for fluent API support)
      */
-    public function setAircraftTypeId($v)
+    public function setAircraftModelId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->aircraft_type_id !== $v) {
-            $this->aircraft_type_id = $v;
-            $this->modifiedColumns[AircraftTableMap::COL_AIRCRAFT_TYPE_ID] = true;
+        if ($this->aircraft_model_id !== $v) {
+            $this->aircraft_model_id = $v;
+            $this->modifiedColumns[AircraftTableMap::COL_AIRCRAFT_MODEL_ID] = true;
         }
 
-        if ($this->aAircraftType !== null && $this->aAircraftType->getId() !== $v) {
-            $this->aAircraftType = null;
+        if ($this->aAircraftModel !== null && $this->aAircraftModel->getId() !== $v) {
+            $this->aAircraftModel = null;
         }
 
         return $this;
-    } // setAircraftTypeId()
+    } // setAircraftModelId()
 
     /**
      * Set the value of [airline_id] column.
@@ -617,6 +640,30 @@ abstract class Aircraft implements ActiveRecordInterface
 
         return $this;
     } // setAirportId()
+
+    /**
+     * Set the value of [pilot_id] column.
+     *
+     * @param int $v new value
+     * @return $this|\Model\Aircraft The current object (for fluent API support)
+     */
+    public function setPilotId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->pilot_id !== $v) {
+            $this->pilot_id = $v;
+            $this->modifiedColumns[AircraftTableMap::COL_PILOT_ID] = true;
+        }
+
+        if ($this->aPilot !== null && $this->aPilot->getId() !== $v) {
+            $this->aPilot = null;
+        }
+
+        return $this;
+    } // setPilotId()
 
     /**
      * Set the value of [callsign] column.
@@ -818,8 +865,8 @@ abstract class Aircraft implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : AircraftTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : AircraftTableMap::translateFieldName('AircraftTypeId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->aircraft_type_id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : AircraftTableMap::translateFieldName('AircraftModelId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->aircraft_model_id = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : AircraftTableMap::translateFieldName('AirlineId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->airline_id = (null !== $col) ? (int) $col : null;
@@ -827,25 +874,28 @@ abstract class Aircraft implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : AircraftTableMap::translateFieldName('AirportId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->airport_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : AircraftTableMap::translateFieldName('Callsign', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : AircraftTableMap::translateFieldName('PilotId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->pilot_id = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : AircraftTableMap::translateFieldName('Callsign', TableMap::TYPE_PHPNAME, $indexType)];
             $this->callsign = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : AircraftTableMap::translateFieldName('FlownDistance', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : AircraftTableMap::translateFieldName('FlownDistance', TableMap::TYPE_PHPNAME, $indexType)];
             $this->flown_distance = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : AircraftTableMap::translateFieldName('NumberFlights', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : AircraftTableMap::translateFieldName('NumberFlights', TableMap::TYPE_PHPNAME, $indexType)];
             $this->number_flights = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : AircraftTableMap::translateFieldName('FlownTime', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : AircraftTableMap::translateFieldName('FlownTime', TableMap::TYPE_PHPNAME, $indexType)];
             $this->flown_time = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : AircraftTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : AircraftTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : AircraftTableMap::translateFieldName('Latitude', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : AircraftTableMap::translateFieldName('Latitude', TableMap::TYPE_PHPNAME, $indexType)];
             $this->latitude = (null !== $col) ? (double) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : AircraftTableMap::translateFieldName('Longitude', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : AircraftTableMap::translateFieldName('Longitude', TableMap::TYPE_PHPNAME, $indexType)];
             $this->longitude = (null !== $col) ? (double) $col : null;
             $this->resetModified();
 
@@ -855,7 +905,7 @@ abstract class Aircraft implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 11; // 11 = AircraftTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 12; // 12 = AircraftTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Model\\Aircraft'), 0, $e);
@@ -877,14 +927,17 @@ abstract class Aircraft implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aAircraftType !== null && $this->aircraft_type_id !== $this->aAircraftType->getId()) {
-            $this->aAircraftType = null;
+        if ($this->aAircraftModel !== null && $this->aircraft_model_id !== $this->aAircraftModel->getId()) {
+            $this->aAircraftModel = null;
         }
         if ($this->aAirline !== null && $this->airline_id !== $this->aAirline->getId()) {
             $this->aAirline = null;
         }
         if ($this->aAirport !== null && $this->airport_id !== $this->aAirport->getId()) {
             $this->aAirport = null;
+        }
+        if ($this->aPilot !== null && $this->pilot_id !== $this->aPilot->getId()) {
+            $this->aPilot = null;
         }
     } // ensureConsistency
 
@@ -925,9 +978,10 @@ abstract class Aircraft implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aAircraftType = null;
+            $this->aAircraftModel = null;
             $this->aAirport = null;
             $this->aAirline = null;
+            $this->aPilot = null;
             $this->collFlights = null;
 
         } // if (deep)
@@ -1034,11 +1088,11 @@ abstract class Aircraft implements ActiveRecordInterface
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aAircraftType !== null) {
-                if ($this->aAircraftType->isModified() || $this->aAircraftType->isNew()) {
-                    $affectedRows += $this->aAircraftType->save($con);
+            if ($this->aAircraftModel !== null) {
+                if ($this->aAircraftModel->isModified() || $this->aAircraftModel->isNew()) {
+                    $affectedRows += $this->aAircraftModel->save($con);
                 }
-                $this->setAircraftType($this->aAircraftType);
+                $this->setAircraftModel($this->aAircraftModel);
             }
 
             if ($this->aAirport !== null) {
@@ -1053,6 +1107,13 @@ abstract class Aircraft implements ActiveRecordInterface
                     $affectedRows += $this->aAirline->save($con);
                 }
                 $this->setAirline($this->aAirline);
+            }
+
+            if ($this->aPilot !== null) {
+                if ($this->aPilot->isModified() || $this->aPilot->isNew()) {
+                    $affectedRows += $this->aPilot->save($con);
+                }
+                $this->setPilot($this->aPilot);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -1112,14 +1173,17 @@ abstract class Aircraft implements ActiveRecordInterface
         if ($this->isColumnModified(AircraftTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(AircraftTableMap::COL_AIRCRAFT_TYPE_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'aircraft_type_id';
+        if ($this->isColumnModified(AircraftTableMap::COL_AIRCRAFT_MODEL_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'aircraft_model_id';
         }
         if ($this->isColumnModified(AircraftTableMap::COL_AIRLINE_ID)) {
             $modifiedColumns[':p' . $index++]  = 'airline_id';
         }
         if ($this->isColumnModified(AircraftTableMap::COL_AIRPORT_ID)) {
             $modifiedColumns[':p' . $index++]  = 'airport_id';
+        }
+        if ($this->isColumnModified(AircraftTableMap::COL_PILOT_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'pilot_id';
         }
         if ($this->isColumnModified(AircraftTableMap::COL_CALLSIGN)) {
             $modifiedColumns[':p' . $index++]  = 'callsign';
@@ -1156,14 +1220,17 @@ abstract class Aircraft implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'aircraft_type_id':
-                        $stmt->bindValue($identifier, $this->aircraft_type_id, PDO::PARAM_INT);
+                    case 'aircraft_model_id':
+                        $stmt->bindValue($identifier, $this->aircraft_model_id, PDO::PARAM_INT);
                         break;
                     case 'airline_id':
                         $stmt->bindValue($identifier, $this->airline_id, PDO::PARAM_INT);
                         break;
                     case 'airport_id':
                         $stmt->bindValue($identifier, $this->airport_id, PDO::PARAM_INT);
+                        break;
+                    case 'pilot_id':
+                        $stmt->bindValue($identifier, $this->pilot_id, PDO::PARAM_INT);
                         break;
                     case 'callsign':
                         $stmt->bindValue($identifier, $this->callsign, PDO::PARAM_STR);
@@ -1252,7 +1319,7 @@ abstract class Aircraft implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getAircraftTypeId();
+                return $this->getAircraftModelId();
                 break;
             case 2:
                 return $this->getAirlineId();
@@ -1261,24 +1328,27 @@ abstract class Aircraft implements ActiveRecordInterface
                 return $this->getAirportId();
                 break;
             case 4:
-                return $this->getCallsign();
+                return $this->getPilotId();
                 break;
             case 5:
-                return $this->getFlownDistance();
+                return $this->getCallsign();
                 break;
             case 6:
-                return $this->getNumberFlights();
+                return $this->getFlownDistance();
                 break;
             case 7:
-                return $this->getFlownTime();
+                return $this->getNumberFlights();
                 break;
             case 8:
-                return $this->getStatus();
+                return $this->getFlownTime();
                 break;
             case 9:
-                return $this->getLatitude();
+                return $this->getStatus();
                 break;
             case 10:
+                return $this->getLatitude();
+                break;
+            case 11:
                 return $this->getLongitude();
                 break;
             default:
@@ -1312,16 +1382,17 @@ abstract class Aircraft implements ActiveRecordInterface
         $keys = AircraftTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getAircraftTypeId(),
+            $keys[1] => $this->getAircraftModelId(),
             $keys[2] => $this->getAirlineId(),
             $keys[3] => $this->getAirportId(),
-            $keys[4] => $this->getCallsign(),
-            $keys[5] => $this->getFlownDistance(),
-            $keys[6] => $this->getNumberFlights(),
-            $keys[7] => $this->getFlownTime(),
-            $keys[8] => $this->getStatus(),
-            $keys[9] => $this->getLatitude(),
-            $keys[10] => $this->getLongitude(),
+            $keys[4] => $this->getPilotId(),
+            $keys[5] => $this->getCallsign(),
+            $keys[6] => $this->getFlownDistance(),
+            $keys[7] => $this->getNumberFlights(),
+            $keys[8] => $this->getFlownTime(),
+            $keys[9] => $this->getStatus(),
+            $keys[10] => $this->getLatitude(),
+            $keys[11] => $this->getLongitude(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1329,20 +1400,20 @@ abstract class Aircraft implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aAircraftType) {
+            if (null !== $this->aAircraftModel) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'aircraftType';
+                        $key = 'aircraftModel';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'aircraft_types';
+                        $key = 'aircraft_models';
                         break;
                     default:
-                        $key = 'AircraftType';
+                        $key = 'AircraftModel';
                 }
 
-                $result[$key] = $this->aAircraftType->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+                $result[$key] = $this->aAircraftModel->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aAirport) {
 
@@ -1373,6 +1444,21 @@ abstract class Aircraft implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->aAirline->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aPilot) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'pilot';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'pilots';
+                        break;
+                    default:
+                        $key = 'Pilot';
+                }
+
+                $result[$key] = $this->aPilot->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->collFlights) {
 
@@ -1427,7 +1513,7 @@ abstract class Aircraft implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setAircraftTypeId($value);
+                $this->setAircraftModelId($value);
                 break;
             case 2:
                 $this->setAirlineId($value);
@@ -1436,28 +1522,31 @@ abstract class Aircraft implements ActiveRecordInterface
                 $this->setAirportId($value);
                 break;
             case 4:
-                $this->setCallsign($value);
+                $this->setPilotId($value);
                 break;
             case 5:
-                $this->setFlownDistance($value);
+                $this->setCallsign($value);
                 break;
             case 6:
-                $this->setNumberFlights($value);
+                $this->setFlownDistance($value);
                 break;
             case 7:
-                $this->setFlownTime($value);
+                $this->setNumberFlights($value);
                 break;
             case 8:
+                $this->setFlownTime($value);
+                break;
+            case 9:
                 $valueSet = AircraftTableMap::getValueSet(AircraftTableMap::COL_STATUS);
                 if (isset($valueSet[$value])) {
                     $value = $valueSet[$value];
                 }
                 $this->setStatus($value);
                 break;
-            case 9:
+            case 10:
                 $this->setLatitude($value);
                 break;
-            case 10:
+            case 11:
                 $this->setLongitude($value);
                 break;
         } // switch()
@@ -1490,7 +1579,7 @@ abstract class Aircraft implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setAircraftTypeId($arr[$keys[1]]);
+            $this->setAircraftModelId($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
             $this->setAirlineId($arr[$keys[2]]);
@@ -1499,25 +1588,28 @@ abstract class Aircraft implements ActiveRecordInterface
             $this->setAirportId($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setCallsign($arr[$keys[4]]);
+            $this->setPilotId($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setFlownDistance($arr[$keys[5]]);
+            $this->setCallsign($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setNumberFlights($arr[$keys[6]]);
+            $this->setFlownDistance($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setFlownTime($arr[$keys[7]]);
+            $this->setNumberFlights($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setStatus($arr[$keys[8]]);
+            $this->setFlownTime($arr[$keys[8]]);
         }
         if (array_key_exists($keys[9], $arr)) {
-            $this->setLatitude($arr[$keys[9]]);
+            $this->setStatus($arr[$keys[9]]);
         }
         if (array_key_exists($keys[10], $arr)) {
-            $this->setLongitude($arr[$keys[10]]);
+            $this->setLatitude($arr[$keys[10]]);
+        }
+        if (array_key_exists($keys[11], $arr)) {
+            $this->setLongitude($arr[$keys[11]]);
         }
     }
 
@@ -1563,14 +1655,17 @@ abstract class Aircraft implements ActiveRecordInterface
         if ($this->isColumnModified(AircraftTableMap::COL_ID)) {
             $criteria->add(AircraftTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(AircraftTableMap::COL_AIRCRAFT_TYPE_ID)) {
-            $criteria->add(AircraftTableMap::COL_AIRCRAFT_TYPE_ID, $this->aircraft_type_id);
+        if ($this->isColumnModified(AircraftTableMap::COL_AIRCRAFT_MODEL_ID)) {
+            $criteria->add(AircraftTableMap::COL_AIRCRAFT_MODEL_ID, $this->aircraft_model_id);
         }
         if ($this->isColumnModified(AircraftTableMap::COL_AIRLINE_ID)) {
             $criteria->add(AircraftTableMap::COL_AIRLINE_ID, $this->airline_id);
         }
         if ($this->isColumnModified(AircraftTableMap::COL_AIRPORT_ID)) {
             $criteria->add(AircraftTableMap::COL_AIRPORT_ID, $this->airport_id);
+        }
+        if ($this->isColumnModified(AircraftTableMap::COL_PILOT_ID)) {
+            $criteria->add(AircraftTableMap::COL_PILOT_ID, $this->pilot_id);
         }
         if ($this->isColumnModified(AircraftTableMap::COL_CALLSIGN)) {
             $criteria->add(AircraftTableMap::COL_CALLSIGN, $this->callsign);
@@ -1611,8 +1706,9 @@ abstract class Aircraft implements ActiveRecordInterface
     {
         $criteria = ChildAircraftQuery::create();
         $criteria->add(AircraftTableMap::COL_ID, $this->id);
-        $criteria->add(AircraftTableMap::COL_AIRCRAFT_TYPE_ID, $this->aircraft_type_id);
+        $criteria->add(AircraftTableMap::COL_AIRCRAFT_MODEL_ID, $this->aircraft_model_id);
         $criteria->add(AircraftTableMap::COL_AIRLINE_ID, $this->airline_id);
+        $criteria->add(AircraftTableMap::COL_PILOT_ID, $this->pilot_id);
 
         return $criteria;
     }
@@ -1626,14 +1722,15 @@ abstract class Aircraft implements ActiveRecordInterface
     public function hashCode()
     {
         $validPk = null !== $this->getId() &&
-            null !== $this->getAircraftTypeId() &&
-            null !== $this->getAirlineId();
+            null !== $this->getAircraftModelId() &&
+            null !== $this->getAirlineId() &&
+            null !== $this->getPilotId();
 
-        $validPrimaryKeyFKs = 2;
+        $validPrimaryKeyFKs = 3;
         $primaryKeyFKs = [];
 
-        //relation aircrafts_fk_f2b1e0 to table aircraft_types
-        if ($this->aAircraftType && $hash = spl_object_hash($this->aAircraftType)) {
+        //relation aircrafts_fk_533ab3 to table aircraft_models
+        if ($this->aAircraftModel && $hash = spl_object_hash($this->aAircraftModel)) {
             $primaryKeyFKs[] = $hash;
         } else {
             $validPrimaryKeyFKs = false;
@@ -1641,6 +1738,13 @@ abstract class Aircraft implements ActiveRecordInterface
 
         //relation aircrafts_fk_3c541c to table airlines
         if ($this->aAirline && $hash = spl_object_hash($this->aAirline)) {
+            $primaryKeyFKs[] = $hash;
+        } else {
+            $validPrimaryKeyFKs = false;
+        }
+
+        //relation aircrafts_fk_17d49f to table pilots
+        if ($this->aPilot && $hash = spl_object_hash($this->aPilot)) {
             $primaryKeyFKs[] = $hash;
         } else {
             $validPrimaryKeyFKs = false;
@@ -1664,8 +1768,9 @@ abstract class Aircraft implements ActiveRecordInterface
     {
         $pks = array();
         $pks[0] = $this->getId();
-        $pks[1] = $this->getAircraftTypeId();
+        $pks[1] = $this->getAircraftModelId();
         $pks[2] = $this->getAirlineId();
+        $pks[3] = $this->getPilotId();
 
         return $pks;
     }
@@ -1679,8 +1784,9 @@ abstract class Aircraft implements ActiveRecordInterface
     public function setPrimaryKey($keys)
     {
         $this->setId($keys[0]);
-        $this->setAircraftTypeId($keys[1]);
+        $this->setAircraftModelId($keys[1]);
         $this->setAirlineId($keys[2]);
+        $this->setPilotId($keys[3]);
     }
 
     /**
@@ -1689,7 +1795,7 @@ abstract class Aircraft implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return (null === $this->getId()) && (null === $this->getAircraftTypeId()) && (null === $this->getAirlineId());
+        return (null === $this->getId()) && (null === $this->getAircraftModelId()) && (null === $this->getAirlineId()) && (null === $this->getPilotId());
     }
 
     /**
@@ -1705,9 +1811,10 @@ abstract class Aircraft implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setAircraftTypeId($this->getAircraftTypeId());
+        $copyObj->setAircraftModelId($this->getAircraftModelId());
         $copyObj->setAirlineId($this->getAirlineId());
         $copyObj->setAirportId($this->getAirportId());
+        $copyObj->setPilotId($this->getPilotId());
         $copyObj->setCallsign($this->getCallsign());
         $copyObj->setFlownDistance($this->getFlownDistance());
         $copyObj->setNumberFlights($this->getNumberFlights());
@@ -1758,24 +1865,24 @@ abstract class Aircraft implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildAircraftType object.
+     * Declares an association between this object and a ChildAircraftModel object.
      *
-     * @param  ChildAircraftType $v
+     * @param  ChildAircraftModel $v
      * @return $this|\Model\Aircraft The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setAircraftType(ChildAircraftType $v = null)
+    public function setAircraftModel(ChildAircraftModel $v = null)
     {
         if ($v === null) {
-            $this->setAircraftTypeId(NULL);
+            $this->setAircraftModelId(NULL);
         } else {
-            $this->setAircraftTypeId($v->getId());
+            $this->setAircraftModelId($v->getId());
         }
 
-        $this->aAircraftType = $v;
+        $this->aAircraftModel = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildAircraftType object, it will not be re-added.
+        // If this object has already been added to the ChildAircraftModel object, it will not be re-added.
         if ($v !== null) {
             $v->addAircraft($this);
         }
@@ -1786,26 +1893,26 @@ abstract class Aircraft implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildAircraftType object
+     * Get the associated ChildAircraftModel object
      *
      * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildAircraftType The associated ChildAircraftType object.
+     * @return ChildAircraftModel The associated ChildAircraftModel object.
      * @throws PropelException
      */
-    public function getAircraftType(ConnectionInterface $con = null)
+    public function getAircraftModel(ConnectionInterface $con = null)
     {
-        if ($this->aAircraftType === null && ($this->aircraft_type_id !== null)) {
-            $this->aAircraftType = ChildAircraftTypeQuery::create()->findPk($this->aircraft_type_id, $con);
+        if ($this->aAircraftModel === null && ($this->aircraft_model_id !== null)) {
+            $this->aAircraftModel = ChildAircraftModelQuery::create()->findPk($this->aircraft_model_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aAircraftType->addAircrafts($this);
+                $this->aAircraftModel->addAircrafts($this);
              */
         }
 
-        return $this->aAircraftType;
+        return $this->aAircraftModel;
     }
 
     /**
@@ -1908,6 +2015,57 @@ abstract class Aircraft implements ActiveRecordInterface
         }
 
         return $this->aAirline;
+    }
+
+    /**
+     * Declares an association between this object and a ChildPilot object.
+     *
+     * @param  ChildPilot $v
+     * @return $this|\Model\Aircraft The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setPilot(ChildPilot $v = null)
+    {
+        if ($v === null) {
+            $this->setPilotId(NULL);
+        } else {
+            $this->setPilotId($v->getId());
+        }
+
+        $this->aPilot = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildPilot object, it will not be re-added.
+        if ($v !== null) {
+            $v->addAircraft($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildPilot object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildPilot The associated ChildPilot object.
+     * @throws PropelException
+     */
+    public function getPilot(ConnectionInterface $con = null)
+    {
+        if ($this->aPilot === null && ($this->pilot_id !== null)) {
+            $this->aPilot = ChildPilotQuery::create()->findPk($this->pilot_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aPilot->addAircrafts($this);
+             */
+        }
+
+        return $this->aPilot;
     }
 
 
@@ -2164,6 +2322,31 @@ abstract class Aircraft implements ActiveRecordInterface
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildFlight[] List of ChildFlight objects
      */
+    public function getFlightsJoinAirline(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildFlightQuery::create(null, $criteria);
+        $query->joinWith('Airline', $joinBehavior);
+
+        return $this->getFlights($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Aircraft is new, it will return
+     * an empty collection; or if this Aircraft has previously
+     * been saved, it will retrieve related Flights from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Aircraft.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildFlight[] List of ChildFlight objects
+     */
     public function getFlightsJoinDestination(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildFlightQuery::create(null, $criteria);
@@ -2229,8 +2412,8 @@ abstract class Aircraft implements ActiveRecordInterface
      */
     public function clear()
     {
-        if (null !== $this->aAircraftType) {
-            $this->aAircraftType->removeAircraft($this);
+        if (null !== $this->aAircraftModel) {
+            $this->aAircraftModel->removeAircraft($this);
         }
         if (null !== $this->aAirport) {
             $this->aAirport->removeAircraft($this);
@@ -2238,10 +2421,14 @@ abstract class Aircraft implements ActiveRecordInterface
         if (null !== $this->aAirline) {
             $this->aAirline->removeAircraft($this);
         }
+        if (null !== $this->aPilot) {
+            $this->aPilot->removeAircraft($this);
+        }
         $this->id = null;
-        $this->aircraft_type_id = null;
+        $this->aircraft_model_id = null;
         $this->airline_id = null;
         $this->airport_id = null;
+        $this->pilot_id = null;
         $this->callsign = null;
         $this->flown_distance = null;
         $this->number_flights = null;
@@ -2276,9 +2463,10 @@ abstract class Aircraft implements ActiveRecordInterface
         } // if ($deep)
 
         $this->collFlights = null;
-        $this->aAircraftType = null;
+        $this->aAircraftModel = null;
         $this->aAirport = null;
         $this->aAirline = null;
+        $this->aPilot = null;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Model;
 
-use Model\Base\AircraftTypeQuery as BaseAircraftTypeQuery;
+use Model\Base\AircraftModelQuery as BaseAircraftTypeQuery;
 
 /**
  * Skeleton subclass for performing query and update operations on the 'aircraft_types' table.
@@ -14,7 +14,7 @@ use Model\Base\AircraftTypeQuery as BaseAircraftTypeQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class AircraftTypeQuery extends BaseAircraftTypeQuery
+class AircraftModelQuery extends BaseAircraftTypeQuery
 {
 
 }

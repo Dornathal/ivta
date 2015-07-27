@@ -1,5 +1,10 @@
 <?php
+use Model\Aircraft;
+use Model\AircraftModel;
 use Model\Airline;
+use Model\Airport;
+use Model\Pilot;
+use Model\Flight;
 
 /**
  * Created by PhpStorm.
@@ -10,6 +15,14 @@ use Model\Airline;
 
 class UserSteps extends \Behat\MinkExtension\Context\RawMinkContext implements \Behat\Behat\Context\Context{
     private $token;
+
+    /**
+     * @Transform :pilot
+     */
+    public function castTokenToPilot($token)
+    {
+        return \Model\PilotQuery::create()->findOneByToken($token);
+    }
 
     /**
      * @Given I am logged in as :token
@@ -24,8 +37,36 @@ class UserSteps extends \Behat\MinkExtension\Context\RawMinkContext implements \
         $user = new \Model\Pilot();
         $user->setToken('PILOT');
         $user->setName('Behat Runner');
+        $user->setAirlineId(214);
         $user->setRank('PILOT');
         $user->save();
+    }
+
+    /**
+     * @Given pilot :pilot owns an :model with callsign :callsign
+     */
+    public function newAircraftOfAirline(Pilot $pilot, AircraftModel $model, $callsign)
+    {
+        $aircraft = new Aircraft();
+        $aircraft->setCallsign($callsign)
+            ->setAirline($pilot->getAirline())
+            ->setPilot($pilot)
+            ->setAircraftModel($model)
+            ->save();
+        return $aircraft;
+    }
+
+    /**
+     * @Given pilot :pilot owns aircraft_model :model with callsign :callsign at airport :airport
+     */
+    public function newAircraftOfAirlineAt(Pilot $pilot, AircraftModel $model, $callsign, Airport $airport)
+    {
+        Flight::transaction(function () use ($pilot, $airport, $model, $callsign){
+            $aircraft = $this->newAircraftOfAirline($pilot, $model, $callsign);
+            $aircraft->setAirport($airport);
+            $aircraft->setCoordinates($airport->getLatitude(), $airport->getLongitude());
+            $aircraft->save();
+        });
     }
 
     /**
@@ -64,11 +105,11 @@ class UserSteps extends \Behat\MinkExtension\Context\RawMinkContext implements \
 
     /**
      * @Given I am subscribed to airline :airline
-     * @param Airline $airline
      */
     public function setAirlineTo(Airline $airline)
     {
         $this->getLoggedInPilot()->setAirline($airline);
+        $this->getLoggedInPilot()->save();
     }
 
     /**
@@ -76,6 +117,14 @@ class UserSteps extends \Behat\MinkExtension\Context\RawMinkContext implements \
      */
     private function getLoggedInPilot()
     {
-        return \Model\PilotQuery::create()->findOneByToken($this->token);
+        return $this->castTokenToPilot($this->token);
+    }
+
+    /**
+     * @Given /^I am on my profile$/
+     */
+    public function iAmOnMyProfile()
+    {
+        $this->visitPath('/profile');
     }
 }

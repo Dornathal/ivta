@@ -4,9 +4,9 @@ namespace Model\Base;
 
 use \Exception;
 use \PDO;
-use Model\AircraftType as ChildAircraftType;
-use Model\AircraftTypeQuery as ChildAircraftTypeQuery;
-use Model\Map\AircraftTypeTableMap;
+use Model\AircraftModel as ChildAircraftModel;
+use Model\AircraftModelQuery as ChildAircraftModelQuery;
+use Model\Map\AircraftModelTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -16,114 +16,114 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'aircraft_types' table.
+ * Base class that represents a query for the 'aircraft_models' table.
  *
  *
  *
- * @method     ChildAircraftTypeQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildAircraftTypeQuery orderByModel($order = Criteria::ASC) Order by the model column
- * @method     ChildAircraftTypeQuery orderByBrand($order = Criteria::ASC) Order by the brand column
- * @method     ChildAircraftTypeQuery orderByPackages($order = Criteria::ASC) Order by the packages column
- * @method     ChildAircraftTypeQuery orderByPost($order = Criteria::ASC) Order by the post column
- * @method     ChildAircraftTypeQuery orderByPassengerLow($order = Criteria::ASC) Order by the passenger_low column
- * @method     ChildAircraftTypeQuery orderByPassengerMid($order = Criteria::ASC) Order by the passenger_mid column
- * @method     ChildAircraftTypeQuery orderByPassengerHigh($order = Criteria::ASC) Order by the passenger_high column
- * @method     ChildAircraftTypeQuery orderByWeight($order = Criteria::ASC) Order by the weight column
- * @method     ChildAircraftTypeQuery orderByValue($order = Criteria::ASC) Order by the value column
+ * @method     ChildAircraftModelQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildAircraftModelQuery orderByModel($order = Criteria::ASC) Order by the model column
+ * @method     ChildAircraftModelQuery orderByBrand($order = Criteria::ASC) Order by the brand column
+ * @method     ChildAircraftModelQuery orderByPackages($order = Criteria::ASC) Order by the packages column
+ * @method     ChildAircraftModelQuery orderByPost($order = Criteria::ASC) Order by the post column
+ * @method     ChildAircraftModelQuery orderByPassengerLow($order = Criteria::ASC) Order by the passenger_low column
+ * @method     ChildAircraftModelQuery orderByPassengerMid($order = Criteria::ASC) Order by the passenger_mid column
+ * @method     ChildAircraftModelQuery orderByPassengerHigh($order = Criteria::ASC) Order by the passenger_high column
+ * @method     ChildAircraftModelQuery orderByWeight($order = Criteria::ASC) Order by the weight column
+ * @method     ChildAircraftModelQuery orderByValue($order = Criteria::ASC) Order by the value column
  *
- * @method     ChildAircraftTypeQuery groupById() Group by the id column
- * @method     ChildAircraftTypeQuery groupByModel() Group by the model column
- * @method     ChildAircraftTypeQuery groupByBrand() Group by the brand column
- * @method     ChildAircraftTypeQuery groupByPackages() Group by the packages column
- * @method     ChildAircraftTypeQuery groupByPost() Group by the post column
- * @method     ChildAircraftTypeQuery groupByPassengerLow() Group by the passenger_low column
- * @method     ChildAircraftTypeQuery groupByPassengerMid() Group by the passenger_mid column
- * @method     ChildAircraftTypeQuery groupByPassengerHigh() Group by the passenger_high column
- * @method     ChildAircraftTypeQuery groupByWeight() Group by the weight column
- * @method     ChildAircraftTypeQuery groupByValue() Group by the value column
+ * @method     ChildAircraftModelQuery groupById() Group by the id column
+ * @method     ChildAircraftModelQuery groupByModel() Group by the model column
+ * @method     ChildAircraftModelQuery groupByBrand() Group by the brand column
+ * @method     ChildAircraftModelQuery groupByPackages() Group by the packages column
+ * @method     ChildAircraftModelQuery groupByPost() Group by the post column
+ * @method     ChildAircraftModelQuery groupByPassengerLow() Group by the passenger_low column
+ * @method     ChildAircraftModelQuery groupByPassengerMid() Group by the passenger_mid column
+ * @method     ChildAircraftModelQuery groupByPassengerHigh() Group by the passenger_high column
+ * @method     ChildAircraftModelQuery groupByWeight() Group by the weight column
+ * @method     ChildAircraftModelQuery groupByValue() Group by the value column
  *
- * @method     ChildAircraftTypeQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildAircraftTypeQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildAircraftTypeQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildAircraftModelQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildAircraftModelQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildAircraftModelQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildAircraftTypeQuery leftJoinAircraft($relationAlias = null) Adds a LEFT JOIN clause to the query using the Aircraft relation
- * @method     ChildAircraftTypeQuery rightJoinAircraft($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Aircraft relation
- * @method     ChildAircraftTypeQuery innerJoinAircraft($relationAlias = null) Adds a INNER JOIN clause to the query using the Aircraft relation
+ * @method     ChildAircraftModelQuery leftJoinAircraft($relationAlias = null) Adds a LEFT JOIN clause to the query using the Aircraft relation
+ * @method     ChildAircraftModelQuery rightJoinAircraft($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Aircraft relation
+ * @method     ChildAircraftModelQuery innerJoinAircraft($relationAlias = null) Adds a INNER JOIN clause to the query using the Aircraft relation
  *
  * @method     \Model\AircraftQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
- * @method     ChildAircraftType findOne(ConnectionInterface $con = null) Return the first ChildAircraftType matching the query
- * @method     ChildAircraftType findOneOrCreate(ConnectionInterface $con = null) Return the first ChildAircraftType matching the query, or a new ChildAircraftType object populated from the query conditions when no match is found
+ * @method     ChildAircraftModel findOne(ConnectionInterface $con = null) Return the first ChildAircraftModel matching the query
+ * @method     ChildAircraftModel findOneOrCreate(ConnectionInterface $con = null) Return the first ChildAircraftModel matching the query, or a new ChildAircraftModel object populated from the query conditions when no match is found
  *
- * @method     ChildAircraftType findOneById(int $id) Return the first ChildAircraftType filtered by the id column
- * @method     ChildAircraftType findOneByModel(string $model) Return the first ChildAircraftType filtered by the model column
- * @method     ChildAircraftType findOneByBrand(string $brand) Return the first ChildAircraftType filtered by the brand column
- * @method     ChildAircraftType findOneByPackages(int $packages) Return the first ChildAircraftType filtered by the packages column
- * @method     ChildAircraftType findOneByPost(int $post) Return the first ChildAircraftType filtered by the post column
- * @method     ChildAircraftType findOneByPassengerLow(int $passenger_low) Return the first ChildAircraftType filtered by the passenger_low column
- * @method     ChildAircraftType findOneByPassengerMid(int $passenger_mid) Return the first ChildAircraftType filtered by the passenger_mid column
- * @method     ChildAircraftType findOneByPassengerHigh(int $passenger_high) Return the first ChildAircraftType filtered by the passenger_high column
- * @method     ChildAircraftType findOneByWeight(int $weight) Return the first ChildAircraftType filtered by the weight column
- * @method     ChildAircraftType findOneByValue(int $value) Return the first ChildAircraftType filtered by the value column *
+ * @method     ChildAircraftModel findOneById(int $id) Return the first ChildAircraftModel filtered by the id column
+ * @method     ChildAircraftModel findOneByModel(string $model) Return the first ChildAircraftModel filtered by the model column
+ * @method     ChildAircraftModel findOneByBrand(string $brand) Return the first ChildAircraftModel filtered by the brand column
+ * @method     ChildAircraftModel findOneByPackages(int $packages) Return the first ChildAircraftModel filtered by the packages column
+ * @method     ChildAircraftModel findOneByPost(int $post) Return the first ChildAircraftModel filtered by the post column
+ * @method     ChildAircraftModel findOneByPassengerLow(int $passenger_low) Return the first ChildAircraftModel filtered by the passenger_low column
+ * @method     ChildAircraftModel findOneByPassengerMid(int $passenger_mid) Return the first ChildAircraftModel filtered by the passenger_mid column
+ * @method     ChildAircraftModel findOneByPassengerHigh(int $passenger_high) Return the first ChildAircraftModel filtered by the passenger_high column
+ * @method     ChildAircraftModel findOneByWeight(int $weight) Return the first ChildAircraftModel filtered by the weight column
+ * @method     ChildAircraftModel findOneByValue(int $value) Return the first ChildAircraftModel filtered by the value column *
 
- * @method     ChildAircraftType requirePk($key, ConnectionInterface $con = null) Return the ChildAircraftType by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAircraftType requireOne(ConnectionInterface $con = null) Return the first ChildAircraftType matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requirePk($key, ConnectionInterface $con = null) Return the ChildAircraftModel by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOne(ConnectionInterface $con = null) Return the first ChildAircraftModel matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildAircraftType requireOneById(int $id) Return the first ChildAircraftType filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAircraftType requireOneByModel(string $model) Return the first ChildAircraftType filtered by the model column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAircraftType requireOneByBrand(string $brand) Return the first ChildAircraftType filtered by the brand column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAircraftType requireOneByPackages(int $packages) Return the first ChildAircraftType filtered by the packages column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAircraftType requireOneByPost(int $post) Return the first ChildAircraftType filtered by the post column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAircraftType requireOneByPassengerLow(int $passenger_low) Return the first ChildAircraftType filtered by the passenger_low column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAircraftType requireOneByPassengerMid(int $passenger_mid) Return the first ChildAircraftType filtered by the passenger_mid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAircraftType requireOneByPassengerHigh(int $passenger_high) Return the first ChildAircraftType filtered by the passenger_high column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAircraftType requireOneByWeight(int $weight) Return the first ChildAircraftType filtered by the weight column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAircraftType requireOneByValue(int $value) Return the first ChildAircraftType filtered by the value column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneById(int $id) Return the first ChildAircraftModel filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByModel(string $model) Return the first ChildAircraftModel filtered by the model column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByBrand(string $brand) Return the first ChildAircraftModel filtered by the brand column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByPackages(int $packages) Return the first ChildAircraftModel filtered by the packages column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByPost(int $post) Return the first ChildAircraftModel filtered by the post column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByPassengerLow(int $passenger_low) Return the first ChildAircraftModel filtered by the passenger_low column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByPassengerMid(int $passenger_mid) Return the first ChildAircraftModel filtered by the passenger_mid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByPassengerHigh(int $passenger_high) Return the first ChildAircraftModel filtered by the passenger_high column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByWeight(int $weight) Return the first ChildAircraftModel filtered by the weight column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByValue(int $value) Return the first ChildAircraftModel filtered by the value column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildAircraftType[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildAircraftType objects based on current ModelCriteria
- * @method     ChildAircraftType[]|ObjectCollection findById(int $id) Return ChildAircraftType objects filtered by the id column
- * @method     ChildAircraftType[]|ObjectCollection findByModel(string $model) Return ChildAircraftType objects filtered by the model column
- * @method     ChildAircraftType[]|ObjectCollection findByBrand(string $brand) Return ChildAircraftType objects filtered by the brand column
- * @method     ChildAircraftType[]|ObjectCollection findByPackages(int $packages) Return ChildAircraftType objects filtered by the packages column
- * @method     ChildAircraftType[]|ObjectCollection findByPost(int $post) Return ChildAircraftType objects filtered by the post column
- * @method     ChildAircraftType[]|ObjectCollection findByPassengerLow(int $passenger_low) Return ChildAircraftType objects filtered by the passenger_low column
- * @method     ChildAircraftType[]|ObjectCollection findByPassengerMid(int $passenger_mid) Return ChildAircraftType objects filtered by the passenger_mid column
- * @method     ChildAircraftType[]|ObjectCollection findByPassengerHigh(int $passenger_high) Return ChildAircraftType objects filtered by the passenger_high column
- * @method     ChildAircraftType[]|ObjectCollection findByWeight(int $weight) Return ChildAircraftType objects filtered by the weight column
- * @method     ChildAircraftType[]|ObjectCollection findByValue(int $value) Return ChildAircraftType objects filtered by the value column
- * @method     ChildAircraftType[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildAircraftModel[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildAircraftModel objects based on current ModelCriteria
+ * @method     ChildAircraftModel[]|ObjectCollection findById(int $id) Return ChildAircraftModel objects filtered by the id column
+ * @method     ChildAircraftModel[]|ObjectCollection findByModel(string $model) Return ChildAircraftModel objects filtered by the model column
+ * @method     ChildAircraftModel[]|ObjectCollection findByBrand(string $brand) Return ChildAircraftModel objects filtered by the brand column
+ * @method     ChildAircraftModel[]|ObjectCollection findByPackages(int $packages) Return ChildAircraftModel objects filtered by the packages column
+ * @method     ChildAircraftModel[]|ObjectCollection findByPost(int $post) Return ChildAircraftModel objects filtered by the post column
+ * @method     ChildAircraftModel[]|ObjectCollection findByPassengerLow(int $passenger_low) Return ChildAircraftModel objects filtered by the passenger_low column
+ * @method     ChildAircraftModel[]|ObjectCollection findByPassengerMid(int $passenger_mid) Return ChildAircraftModel objects filtered by the passenger_mid column
+ * @method     ChildAircraftModel[]|ObjectCollection findByPassengerHigh(int $passenger_high) Return ChildAircraftModel objects filtered by the passenger_high column
+ * @method     ChildAircraftModel[]|ObjectCollection findByWeight(int $weight) Return ChildAircraftModel objects filtered by the weight column
+ * @method     ChildAircraftModel[]|ObjectCollection findByValue(int $value) Return ChildAircraftModel objects filtered by the value column
+ * @method     ChildAircraftModel[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
-abstract class AircraftTypeQuery extends ModelCriteria
+abstract class AircraftModelQuery extends ModelCriteria
 {
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \Model\Base\AircraftTypeQuery object.
+     * Initializes internal state of \Model\Base\AircraftModelQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = '\\Model\\AircraftType', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = '\\Model\\AircraftModel', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildAircraftTypeQuery object.
+     * Returns a new ChildAircraftModelQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildAircraftTypeQuery
+     * @return ChildAircraftModelQuery
      */
     public static function create($modelAlias = null, Criteria $criteria = null)
     {
-        if ($criteria instanceof ChildAircraftTypeQuery) {
+        if ($criteria instanceof ChildAircraftModelQuery) {
             return $criteria;
         }
-        $query = new ChildAircraftTypeQuery();
+        $query = new ChildAircraftModelQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -146,19 +146,19 @@ abstract class AircraftTypeQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildAircraftType|array|mixed the result, formatted by the current formatter
+     * @return ChildAircraftModel|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, ConnectionInterface $con = null)
     {
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = AircraftTypeTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = AircraftModelTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(AircraftTypeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(AircraftModelTableMap::DATABASE_NAME);
         }
         $this->basePreSelect($con);
         if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -179,11 +179,11 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildAircraftType A model object, or null if the key is not found
+     * @return ChildAircraftModel A model object, or null if the key is not found
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, model, brand, packages, post, passenger_low, passenger_mid, passenger_high, weight, value FROM aircraft_types WHERE id = :p0';
+        $sql = 'SELECT id, model, brand, packages, post, passenger_low, passenger_mid, passenger_high, weight, value FROM aircraft_models WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -194,10 +194,10 @@ abstract class AircraftTypeQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            /** @var ChildAircraftType $obj */
-            $obj = new ChildAircraftType();
+            /** @var ChildAircraftModel $obj */
+            $obj = new ChildAircraftModel();
             $obj->hydrate($row);
-            AircraftTypeTableMap::addInstanceToPool($obj, (string) $key);
+            AircraftModelTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -210,7 +210,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildAircraftType|array|mixed the result, formatted by the current formatter
+     * @return ChildAircraftModel|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, ConnectionInterface $con)
     {
@@ -252,12 +252,12 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -265,12 +265,12 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_ID, $keys, Criteria::IN);
     }
 
     /**
@@ -289,18 +289,18 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -311,7 +311,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_ID, $id, $comparison);
     }
 
     /**
@@ -327,7 +327,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByModel($model = null, $comparison = null)
     {
@@ -340,7 +340,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_MODEL, $model, $comparison);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_MODEL, $model, $comparison);
     }
 
     /**
@@ -356,7 +356,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByBrand($brand = null, $comparison = null)
     {
@@ -369,7 +369,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_BRAND, $brand, $comparison);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_BRAND, $brand, $comparison);
     }
 
     /**
@@ -388,18 +388,18 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByPackages($packages = null, $comparison = null)
     {
         if (is_array($packages)) {
             $useMinMax = false;
             if (isset($packages['min'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_PACKAGES, $packages['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_PACKAGES, $packages['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($packages['max'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_PACKAGES, $packages['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_PACKAGES, $packages['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -410,7 +410,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_PACKAGES, $packages, $comparison);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_PACKAGES, $packages, $comparison);
     }
 
     /**
@@ -429,18 +429,18 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByPost($post = null, $comparison = null)
     {
         if (is_array($post)) {
             $useMinMax = false;
             if (isset($post['min'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_POST, $post['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_POST, $post['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($post['max'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_POST, $post['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_POST, $post['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -451,7 +451,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_POST, $post, $comparison);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_POST, $post, $comparison);
     }
 
     /**
@@ -470,18 +470,18 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByPassengerLow($passengerLow = null, $comparison = null)
     {
         if (is_array($passengerLow)) {
             $useMinMax = false;
             if (isset($passengerLow['min'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_PASSENGER_LOW, $passengerLow['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_PASSENGER_LOW, $passengerLow['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($passengerLow['max'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_PASSENGER_LOW, $passengerLow['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_PASSENGER_LOW, $passengerLow['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -492,7 +492,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_PASSENGER_LOW, $passengerLow, $comparison);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_PASSENGER_LOW, $passengerLow, $comparison);
     }
 
     /**
@@ -511,18 +511,18 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByPassengerMid($passengerMid = null, $comparison = null)
     {
         if (is_array($passengerMid)) {
             $useMinMax = false;
             if (isset($passengerMid['min'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_PASSENGER_MID, $passengerMid['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_PASSENGER_MID, $passengerMid['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($passengerMid['max'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_PASSENGER_MID, $passengerMid['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_PASSENGER_MID, $passengerMid['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -533,7 +533,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_PASSENGER_MID, $passengerMid, $comparison);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_PASSENGER_MID, $passengerMid, $comparison);
     }
 
     /**
@@ -552,18 +552,18 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByPassengerHigh($passengerHigh = null, $comparison = null)
     {
         if (is_array($passengerHigh)) {
             $useMinMax = false;
             if (isset($passengerHigh['min'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_PASSENGER_HIGH, $passengerHigh['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_PASSENGER_HIGH, $passengerHigh['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($passengerHigh['max'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_PASSENGER_HIGH, $passengerHigh['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_PASSENGER_HIGH, $passengerHigh['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -574,7 +574,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_PASSENGER_HIGH, $passengerHigh, $comparison);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_PASSENGER_HIGH, $passengerHigh, $comparison);
     }
 
     /**
@@ -593,18 +593,18 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByWeight($weight = null, $comparison = null)
     {
         if (is_array($weight)) {
             $useMinMax = false;
             if (isset($weight['min'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_WEIGHT, $weight['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_WEIGHT, $weight['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($weight['max'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_WEIGHT, $weight['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_WEIGHT, $weight['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -615,7 +615,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_WEIGHT, $weight, $comparison);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_WEIGHT, $weight, $comparison);
     }
 
     /**
@@ -634,18 +634,18 @@ abstract class AircraftTypeQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByValue($value = null, $comparison = null)
     {
         if (is_array($value)) {
             $useMinMax = false;
             if (isset($value['min'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_VALUE, $value['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_VALUE, $value['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($value['max'])) {
-                $this->addUsingAlias(AircraftTypeTableMap::COL_VALUE, $value['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(AircraftModelTableMap::COL_VALUE, $value['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -656,7 +656,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AircraftTypeTableMap::COL_VALUE, $value, $comparison);
+        return $this->addUsingAlias(AircraftModelTableMap::COL_VALUE, $value, $comparison);
     }
 
     /**
@@ -665,13 +665,13 @@ abstract class AircraftTypeQuery extends ModelCriteria
      * @param \Model\Aircraft|ObjectCollection $aircraft the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildAircraftTypeQuery The current query, for fluid interface
+     * @return ChildAircraftModelQuery The current query, for fluid interface
      */
     public function filterByAircraft($aircraft, $comparison = null)
     {
         if ($aircraft instanceof \Model\Aircraft) {
             return $this
-                ->addUsingAlias(AircraftTypeTableMap::COL_ID, $aircraft->getAircraftTypeId(), $comparison);
+                ->addUsingAlias(AircraftModelTableMap::COL_ID, $aircraft->getAircraftModelId(), $comparison);
         } elseif ($aircraft instanceof ObjectCollection) {
             return $this
                 ->useAircraftQuery()
@@ -688,7 +688,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
     public function joinAircraft($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
@@ -735,21 +735,21 @@ abstract class AircraftTypeQuery extends ModelCriteria
     /**
      * Exclude object from result
      *
-     * @param   ChildAircraftType $aircraftType Object to remove from the list of results
+     * @param   ChildAircraftModel $aircraftModel Object to remove from the list of results
      *
-     * @return $this|ChildAircraftTypeQuery The current query, for fluid interface
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
      */
-    public function prune($aircraftType = null)
+    public function prune($aircraftModel = null)
     {
-        if ($aircraftType) {
-            $this->addUsingAlias(AircraftTypeTableMap::COL_ID, $aircraftType->getId(), Criteria::NOT_EQUAL);
+        if ($aircraftModel) {
+            $this->addUsingAlias(AircraftModelTableMap::COL_ID, $aircraftModel->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
     }
 
     /**
-     * Deletes all rows from the aircraft_types table.
+     * Deletes all rows from the aircraft_models table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
@@ -757,7 +757,7 @@ abstract class AircraftTypeQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(AircraftTypeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AircraftModelTableMap::DATABASE_NAME);
         }
 
         // use transaction because $criteria could contain info
@@ -768,8 +768,8 @@ abstract class AircraftTypeQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            AircraftTypeTableMap::clearInstancePool();
-            AircraftTypeTableMap::clearRelatedInstancePool();
+            AircraftModelTableMap::clearInstancePool();
+            AircraftModelTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
@@ -787,26 +787,26 @@ abstract class AircraftTypeQuery extends ModelCriteria
     public function delete(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(AircraftTypeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AircraftModelTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(AircraftTypeTableMap::DATABASE_NAME);
+        $criteria->setDbName(AircraftModelTableMap::DATABASE_NAME);
 
         // use transaction because $criteria could contain info
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
 
-            AircraftTypeTableMap::removeInstanceFromPool($criteria);
+            AircraftModelTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            AircraftTypeTableMap::clearRelatedInstancePool();
+            AircraftModelTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
     }
 
-} // AircraftTypeQuery
+} // AircraftModelQuery

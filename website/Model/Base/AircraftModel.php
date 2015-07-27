@@ -5,10 +5,10 @@ namespace Model\Base;
 use \Exception;
 use \PDO;
 use Model\Aircraft as ChildAircraft;
+use Model\AircraftModel as ChildAircraftModel;
+use Model\AircraftModelQuery as ChildAircraftModelQuery;
 use Model\AircraftQuery as ChildAircraftQuery;
-use Model\AircraftType as ChildAircraftType;
-use Model\AircraftTypeQuery as ChildAircraftTypeQuery;
-use Model\Map\AircraftTypeTableMap;
+use Model\Map\AircraftModelTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -23,18 +23,18 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
 /**
- * Base class that represents a row from the 'aircraft_types' table.
+ * Base class that represents a row from the 'aircraft_models' table.
  *
  *
  *
 * @package    propel.generator.Model.Base
 */
-abstract class AircraftType implements ActiveRecordInterface
+abstract class AircraftModel implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Model\\Map\\AircraftTypeTableMap';
+    const TABLE_MAP = '\\Model\\Map\\AircraftModelTableMap';
 
 
     /**
@@ -164,7 +164,7 @@ abstract class AircraftType implements ActiveRecordInterface
     }
 
     /**
-     * Initializes internal state of Model\Base\AircraftType object.
+     * Initializes internal state of Model\Base\AircraftModel object.
      * @see applyDefaults()
      */
     public function __construct()
@@ -261,9 +261,9 @@ abstract class AircraftType implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>AircraftType</code> instance.  If
-     * <code>obj</code> is an instance of <code>AircraftType</code>, delegates to
-     * <code>equals(AircraftType)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>AircraftModel</code> instance.  If
+     * <code>obj</code> is an instance of <code>AircraftModel</code>, delegates to
+     * <code>equals(AircraftModel)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -329,7 +329,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|AircraftType The current object, for fluid interface
+     * @return $this|AircraftModel The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -486,7 +486,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -496,7 +496,7 @@ abstract class AircraftType implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[AircraftTypeTableMap::COL_ID] = true;
+            $this->modifiedColumns[AircraftModelTableMap::COL_ID] = true;
         }
 
         return $this;
@@ -506,7 +506,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * Set the value of [model] column.
      *
      * @param string $v new value
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function setModel($v)
     {
@@ -516,7 +516,7 @@ abstract class AircraftType implements ActiveRecordInterface
 
         if ($this->model !== $v) {
             $this->model = $v;
-            $this->modifiedColumns[AircraftTypeTableMap::COL_MODEL] = true;
+            $this->modifiedColumns[AircraftModelTableMap::COL_MODEL] = true;
         }
 
         return $this;
@@ -526,7 +526,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * Set the value of [brand] column.
      *
      * @param string $v new value
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function setBrand($v)
     {
@@ -536,7 +536,7 @@ abstract class AircraftType implements ActiveRecordInterface
 
         if ($this->brand !== $v) {
             $this->brand = $v;
-            $this->modifiedColumns[AircraftTypeTableMap::COL_BRAND] = true;
+            $this->modifiedColumns[AircraftModelTableMap::COL_BRAND] = true;
         }
 
         return $this;
@@ -546,7 +546,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * Set the value of [packages] column.
      *
      * @param int $v new value
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function setPackages($v)
     {
@@ -556,7 +556,7 @@ abstract class AircraftType implements ActiveRecordInterface
 
         if ($this->packages !== $v) {
             $this->packages = $v;
-            $this->modifiedColumns[AircraftTypeTableMap::COL_PACKAGES] = true;
+            $this->modifiedColumns[AircraftModelTableMap::COL_PACKAGES] = true;
         }
 
         return $this;
@@ -566,7 +566,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * Set the value of [post] column.
      *
      * @param int $v new value
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function setPost($v)
     {
@@ -576,7 +576,7 @@ abstract class AircraftType implements ActiveRecordInterface
 
         if ($this->post !== $v) {
             $this->post = $v;
-            $this->modifiedColumns[AircraftTypeTableMap::COL_POST] = true;
+            $this->modifiedColumns[AircraftModelTableMap::COL_POST] = true;
         }
 
         return $this;
@@ -586,7 +586,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * Set the value of [passenger_low] column.
      *
      * @param int $v new value
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function setPassengerLow($v)
     {
@@ -596,7 +596,7 @@ abstract class AircraftType implements ActiveRecordInterface
 
         if ($this->passenger_low !== $v) {
             $this->passenger_low = $v;
-            $this->modifiedColumns[AircraftTypeTableMap::COL_PASSENGER_LOW] = true;
+            $this->modifiedColumns[AircraftModelTableMap::COL_PASSENGER_LOW] = true;
         }
 
         return $this;
@@ -606,7 +606,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * Set the value of [passenger_mid] column.
      *
      * @param int $v new value
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function setPassengerMid($v)
     {
@@ -616,7 +616,7 @@ abstract class AircraftType implements ActiveRecordInterface
 
         if ($this->passenger_mid !== $v) {
             $this->passenger_mid = $v;
-            $this->modifiedColumns[AircraftTypeTableMap::COL_PASSENGER_MID] = true;
+            $this->modifiedColumns[AircraftModelTableMap::COL_PASSENGER_MID] = true;
         }
 
         return $this;
@@ -626,7 +626,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * Set the value of [passenger_high] column.
      *
      * @param int $v new value
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function setPassengerHigh($v)
     {
@@ -636,7 +636,7 @@ abstract class AircraftType implements ActiveRecordInterface
 
         if ($this->passenger_high !== $v) {
             $this->passenger_high = $v;
-            $this->modifiedColumns[AircraftTypeTableMap::COL_PASSENGER_HIGH] = true;
+            $this->modifiedColumns[AircraftModelTableMap::COL_PASSENGER_HIGH] = true;
         }
 
         return $this;
@@ -646,7 +646,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * Set the value of [weight] column.
      *
      * @param int $v new value
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function setWeight($v)
     {
@@ -656,7 +656,7 @@ abstract class AircraftType implements ActiveRecordInterface
 
         if ($this->weight !== $v) {
             $this->weight = $v;
-            $this->modifiedColumns[AircraftTypeTableMap::COL_WEIGHT] = true;
+            $this->modifiedColumns[AircraftModelTableMap::COL_WEIGHT] = true;
         }
 
         return $this;
@@ -666,7 +666,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * Set the value of [value] column.
      *
      * @param int $v new value
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function setValue($v)
     {
@@ -676,7 +676,7 @@ abstract class AircraftType implements ActiveRecordInterface
 
         if ($this->value !== $v) {
             $this->value = $v;
-            $this->modifiedColumns[AircraftTypeTableMap::COL_VALUE] = true;
+            $this->modifiedColumns[AircraftModelTableMap::COL_VALUE] = true;
         }
 
         return $this;
@@ -738,34 +738,34 @@ abstract class AircraftType implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : AircraftTypeTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : AircraftModelTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : AircraftTypeTableMap::translateFieldName('Model', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : AircraftModelTableMap::translateFieldName('Model', TableMap::TYPE_PHPNAME, $indexType)];
             $this->model = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : AircraftTypeTableMap::translateFieldName('Brand', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : AircraftModelTableMap::translateFieldName('Brand', TableMap::TYPE_PHPNAME, $indexType)];
             $this->brand = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : AircraftTypeTableMap::translateFieldName('Packages', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : AircraftModelTableMap::translateFieldName('Packages', TableMap::TYPE_PHPNAME, $indexType)];
             $this->packages = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : AircraftTypeTableMap::translateFieldName('Post', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : AircraftModelTableMap::translateFieldName('Post', TableMap::TYPE_PHPNAME, $indexType)];
             $this->post = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : AircraftTypeTableMap::translateFieldName('PassengerLow', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : AircraftModelTableMap::translateFieldName('PassengerLow', TableMap::TYPE_PHPNAME, $indexType)];
             $this->passenger_low = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : AircraftTypeTableMap::translateFieldName('PassengerMid', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : AircraftModelTableMap::translateFieldName('PassengerMid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->passenger_mid = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : AircraftTypeTableMap::translateFieldName('PassengerHigh', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : AircraftModelTableMap::translateFieldName('PassengerHigh', TableMap::TYPE_PHPNAME, $indexType)];
             $this->passenger_high = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : AircraftTypeTableMap::translateFieldName('Weight', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : AircraftModelTableMap::translateFieldName('Weight', TableMap::TYPE_PHPNAME, $indexType)];
             $this->weight = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : AircraftTypeTableMap::translateFieldName('Value', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : AircraftModelTableMap::translateFieldName('Value', TableMap::TYPE_PHPNAME, $indexType)];
             $this->value = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -775,10 +775,10 @@ abstract class AircraftType implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 10; // 10 = AircraftTypeTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 10; // 10 = AircraftModelTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Model\\AircraftType'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Model\\AircraftModel'), 0, $e);
         }
     }
 
@@ -820,13 +820,13 @@ abstract class AircraftType implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(AircraftTypeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(AircraftModelTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildAircraftTypeQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildAircraftModelQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -847,8 +847,8 @@ abstract class AircraftType implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see AircraftType::setDeleted()
-     * @see AircraftType::isDeleted()
+     * @see AircraftModel::setDeleted()
+     * @see AircraftModel::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -857,11 +857,11 @@ abstract class AircraftType implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(AircraftTypeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AircraftModelTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildAircraftTypeQuery::create()
+            $deleteQuery = ChildAircraftModelQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -892,7 +892,7 @@ abstract class AircraftType implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(AircraftTypeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AircraftModelTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -911,7 +911,7 @@ abstract class AircraftType implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                AircraftTypeTableMap::addInstanceToPool($this);
+                AircraftModelTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -985,45 +985,45 @@ abstract class AircraftType implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[AircraftTypeTableMap::COL_ID] = true;
+        $this->modifiedColumns[AircraftModelTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . AircraftTypeTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . AircraftModelTableMap::COL_ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_ID)) {
+        if ($this->isColumnModified(AircraftModelTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_MODEL)) {
+        if ($this->isColumnModified(AircraftModelTableMap::COL_MODEL)) {
             $modifiedColumns[':p' . $index++]  = 'model';
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_BRAND)) {
+        if ($this->isColumnModified(AircraftModelTableMap::COL_BRAND)) {
             $modifiedColumns[':p' . $index++]  = 'brand';
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_PACKAGES)) {
+        if ($this->isColumnModified(AircraftModelTableMap::COL_PACKAGES)) {
             $modifiedColumns[':p' . $index++]  = 'packages';
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_POST)) {
+        if ($this->isColumnModified(AircraftModelTableMap::COL_POST)) {
             $modifiedColumns[':p' . $index++]  = 'post';
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_PASSENGER_LOW)) {
+        if ($this->isColumnModified(AircraftModelTableMap::COL_PASSENGER_LOW)) {
             $modifiedColumns[':p' . $index++]  = 'passenger_low';
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_PASSENGER_MID)) {
+        if ($this->isColumnModified(AircraftModelTableMap::COL_PASSENGER_MID)) {
             $modifiedColumns[':p' . $index++]  = 'passenger_mid';
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_PASSENGER_HIGH)) {
+        if ($this->isColumnModified(AircraftModelTableMap::COL_PASSENGER_HIGH)) {
             $modifiedColumns[':p' . $index++]  = 'passenger_high';
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_WEIGHT)) {
+        if ($this->isColumnModified(AircraftModelTableMap::COL_WEIGHT)) {
             $modifiedColumns[':p' . $index++]  = 'weight';
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_VALUE)) {
+        if ($this->isColumnModified(AircraftModelTableMap::COL_VALUE)) {
             $modifiedColumns[':p' . $index++]  = 'value';
         }
 
         $sql = sprintf(
-            'INSERT INTO aircraft_types (%s) VALUES (%s)',
+            'INSERT INTO aircraft_models (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -1108,7 +1108,7 @@ abstract class AircraftType implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = AircraftTypeTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = AircraftModelTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1178,11 +1178,11 @@ abstract class AircraftType implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['AircraftType'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['AircraftModel'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['AircraftType'][$this->hashCode()] = true;
-        $keys = AircraftTypeTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['AircraftModel'][$this->hashCode()] = true;
+        $keys = AircraftModelTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getModel(),
@@ -1230,11 +1230,11 @@ abstract class AircraftType implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Model\AircraftType
+     * @return $this|\Model\AircraftModel
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = AircraftTypeTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = AircraftModelTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1245,7 +1245,7 @@ abstract class AircraftType implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Model\AircraftType
+     * @return $this|\Model\AircraftModel
      */
     public function setByPosition($pos, $value)
     {
@@ -1304,7 +1304,7 @@ abstract class AircraftType implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = AircraftTypeTableMap::getFieldNames($keyType);
+        $keys = AircraftModelTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
@@ -1355,7 +1355,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Model\AircraftType The current object, for fluid interface
+     * @return $this|\Model\AircraftModel The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1375,37 +1375,37 @@ abstract class AircraftType implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(AircraftTypeTableMap::DATABASE_NAME);
+        $criteria = new Criteria(AircraftModelTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_ID)) {
-            $criteria->add(AircraftTypeTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(AircraftModelTableMap::COL_ID)) {
+            $criteria->add(AircraftModelTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_MODEL)) {
-            $criteria->add(AircraftTypeTableMap::COL_MODEL, $this->model);
+        if ($this->isColumnModified(AircraftModelTableMap::COL_MODEL)) {
+            $criteria->add(AircraftModelTableMap::COL_MODEL, $this->model);
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_BRAND)) {
-            $criteria->add(AircraftTypeTableMap::COL_BRAND, $this->brand);
+        if ($this->isColumnModified(AircraftModelTableMap::COL_BRAND)) {
+            $criteria->add(AircraftModelTableMap::COL_BRAND, $this->brand);
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_PACKAGES)) {
-            $criteria->add(AircraftTypeTableMap::COL_PACKAGES, $this->packages);
+        if ($this->isColumnModified(AircraftModelTableMap::COL_PACKAGES)) {
+            $criteria->add(AircraftModelTableMap::COL_PACKAGES, $this->packages);
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_POST)) {
-            $criteria->add(AircraftTypeTableMap::COL_POST, $this->post);
+        if ($this->isColumnModified(AircraftModelTableMap::COL_POST)) {
+            $criteria->add(AircraftModelTableMap::COL_POST, $this->post);
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_PASSENGER_LOW)) {
-            $criteria->add(AircraftTypeTableMap::COL_PASSENGER_LOW, $this->passenger_low);
+        if ($this->isColumnModified(AircraftModelTableMap::COL_PASSENGER_LOW)) {
+            $criteria->add(AircraftModelTableMap::COL_PASSENGER_LOW, $this->passenger_low);
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_PASSENGER_MID)) {
-            $criteria->add(AircraftTypeTableMap::COL_PASSENGER_MID, $this->passenger_mid);
+        if ($this->isColumnModified(AircraftModelTableMap::COL_PASSENGER_MID)) {
+            $criteria->add(AircraftModelTableMap::COL_PASSENGER_MID, $this->passenger_mid);
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_PASSENGER_HIGH)) {
-            $criteria->add(AircraftTypeTableMap::COL_PASSENGER_HIGH, $this->passenger_high);
+        if ($this->isColumnModified(AircraftModelTableMap::COL_PASSENGER_HIGH)) {
+            $criteria->add(AircraftModelTableMap::COL_PASSENGER_HIGH, $this->passenger_high);
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_WEIGHT)) {
-            $criteria->add(AircraftTypeTableMap::COL_WEIGHT, $this->weight);
+        if ($this->isColumnModified(AircraftModelTableMap::COL_WEIGHT)) {
+            $criteria->add(AircraftModelTableMap::COL_WEIGHT, $this->weight);
         }
-        if ($this->isColumnModified(AircraftTypeTableMap::COL_VALUE)) {
-            $criteria->add(AircraftTypeTableMap::COL_VALUE, $this->value);
+        if ($this->isColumnModified(AircraftModelTableMap::COL_VALUE)) {
+            $criteria->add(AircraftModelTableMap::COL_VALUE, $this->value);
         }
 
         return $criteria;
@@ -1423,8 +1423,8 @@ abstract class AircraftType implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildAircraftTypeQuery::create();
-        $criteria->add(AircraftTypeTableMap::COL_ID, $this->id);
+        $criteria = ChildAircraftModelQuery::create();
+        $criteria->add(AircraftModelTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1486,7 +1486,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Model\AircraftType (or compatible) type.
+     * @param      object $copyObj An object of \Model\AircraftModel (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1531,7 +1531,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Model\AircraftType Clone of current object.
+     * @return \Model\AircraftModel Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1609,7 +1609,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildAircraftType is new, it will return
+     * If this ChildAircraftModel is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
@@ -1626,7 +1626,7 @@ abstract class AircraftType implements ActiveRecordInterface
                 $this->initAircrafts();
             } else {
                 $collAircrafts = ChildAircraftQuery::create(null, $criteria)
-                    ->filterByAircraftType($this)
+                    ->filterByAircraftModel($this)
                     ->find($con);
 
                 if (null !== $criteria) {
@@ -1669,7 +1669,7 @@ abstract class AircraftType implements ActiveRecordInterface
      *
      * @param      Collection $aircrafts A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildAircraftType The current object (for fluent API support)
+     * @return $this|ChildAircraftModel The current object (for fluent API support)
      */
     public function setAircrafts(Collection $aircrafts, ConnectionInterface $con = null)
     {
@@ -1683,7 +1683,7 @@ abstract class AircraftType implements ActiveRecordInterface
         $this->aircraftsScheduledForDeletion = clone $aircraftsToDelete;
 
         foreach ($aircraftsToDelete as $aircraftRemoved) {
-            $aircraftRemoved->setAircraftType(null);
+            $aircraftRemoved->setAircraftModel(null);
         }
 
         $this->collAircrafts = null;
@@ -1724,7 +1724,7 @@ abstract class AircraftType implements ActiveRecordInterface
             }
 
             return $query
-                ->filterByAircraftType($this)
+                ->filterByAircraftModel($this)
                 ->count($con);
         }
 
@@ -1736,7 +1736,7 @@ abstract class AircraftType implements ActiveRecordInterface
      * through the ChildAircraft foreign key attribute.
      *
      * @param  ChildAircraft $l ChildAircraft
-     * @return $this|\Model\AircraftType The current object (for fluent API support)
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
     public function addAircraft(ChildAircraft $l)
     {
@@ -1758,12 +1758,12 @@ abstract class AircraftType implements ActiveRecordInterface
     protected function doAddAircraft(ChildAircraft $aircraft)
     {
         $this->collAircrafts[]= $aircraft;
-        $aircraft->setAircraftType($this);
+        $aircraft->setAircraftModel($this);
     }
 
     /**
      * @param  ChildAircraft $aircraft The ChildAircraft object to remove.
-     * @return $this|ChildAircraftType The current object (for fluent API support)
+     * @return $this|ChildAircraftModel The current object (for fluent API support)
      */
     public function removeAircraft(ChildAircraft $aircraft)
     {
@@ -1775,7 +1775,7 @@ abstract class AircraftType implements ActiveRecordInterface
                 $this->aircraftsScheduledForDeletion->clear();
             }
             $this->aircraftsScheduledForDeletion[]= clone $aircraft;
-            $aircraft->setAircraftType(null);
+            $aircraft->setAircraftModel(null);
         }
 
         return $this;
@@ -1785,13 +1785,13 @@ abstract class AircraftType implements ActiveRecordInterface
     /**
      * If this collection has already been initialized with
      * an identical criteria, it returns the collection.
-     * Otherwise if this AircraftType is new, it will return
-     * an empty collection; or if this AircraftType has previously
+     * Otherwise if this AircraftModel is new, it will return
+     * an empty collection; or if this AircraftModel has previously
      * been saved, it will retrieve related Aircrafts from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
-     * actually need in AircraftType.
+     * actually need in AircraftModel.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
@@ -1810,13 +1810,13 @@ abstract class AircraftType implements ActiveRecordInterface
     /**
      * If this collection has already been initialized with
      * an identical criteria, it returns the collection.
-     * Otherwise if this AircraftType is new, it will return
-     * an empty collection; or if this AircraftType has previously
+     * Otherwise if this AircraftModel is new, it will return
+     * an empty collection; or if this AircraftModel has previously
      * been saved, it will retrieve related Aircrafts from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
-     * actually need in AircraftType.
+     * actually need in AircraftModel.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
@@ -1827,6 +1827,31 @@ abstract class AircraftType implements ActiveRecordInterface
     {
         $query = ChildAircraftQuery::create(null, $criteria);
         $query->joinWith('Airline', $joinBehavior);
+
+        return $this->getAircrafts($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this AircraftModel is new, it will return
+     * an empty collection; or if this AircraftModel has previously
+     * been saved, it will retrieve related Aircrafts from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in AircraftModel.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildAircraft[] List of ChildAircraft objects
+     */
+    public function getAircraftsJoinPilot(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildAircraftQuery::create(null, $criteria);
+        $query->joinWith('Pilot', $joinBehavior);
 
         return $this->getAircrafts($query, $con);
     }
@@ -1884,7 +1909,7 @@ abstract class AircraftType implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(AircraftTypeTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(AircraftModelTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Model;
 
-use Model\Base\AircraftType as BaseAircraftType;
+use Model\Base\AircraftModel as BaseAircraftModel;
 
 /**
  * Skeleton subclass for representing a row from the 'aircraft_types' table.
@@ -14,7 +14,7 @@ use Model\Base\AircraftType as BaseAircraftType;
  * long as it does not already exist in the output directory.
  *
  */
-class AircraftType extends BaseAircraftType
+class AircraftModel extends BaseAircraftModel
 {
 
 }

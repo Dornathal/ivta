@@ -21,6 +21,8 @@ use Propel\Runtime\Collection\ArrayCollection;
  */
 class Airport extends BaseAirport
 {
+    private $freightDiagram;
+
     /**
      * @return array
      * @throws \Propel\Runtime\Exception\PropelException
@@ -70,6 +72,8 @@ class Airport extends BaseAirport
      * @throws \Propel\Runtime\Exception\PropelException
      */
     function queryFreightDiagram(){
+        if($this->freightDiagram != null) return $this->freightDiagram;
+
         Freight::generateFreight($this);
 
         $freights = FreightQuery::create()
@@ -104,18 +108,8 @@ class Airport extends BaseAirport
                 }
             }
         }
-        return array($container['destination']->toArray(), $container['departure']->toArray());
-    }
-
-    /**
-     * @return array
-     * @throws \Propel\Runtime\Exception\PropelException
-     */
-    public static function queryDeliverableAirports(){
-        return AirportQuery::create()
-            ->filterBySize(AirportTableMap::COL_SIZE_INTERKONTINENTAL)
-            ->select('Icao')
-            ->find()->toArray();
+        $this->freightDiagram = array($container['destination']->toArray(), $container['departure']->toArray());
+        return $this->freightDiagram;
     }
 
     /**

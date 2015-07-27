@@ -16,8 +16,6 @@ use Model\Base\Aircraft as BaseAircraft;
  */
 class Aircraft extends BaseAircraft
 {
-
-
     /**
      * Aircraft constructor.
      */

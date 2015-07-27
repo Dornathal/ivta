@@ -1,0 +1,37 @@
+<div class="col-lg-4">
+    {% if aircrafts is not empty %}
+        {% set aircraftStatus = [ Language.status_idle , Language.status_loading, Language.status_en_route, Language.status_unloading]  %}
+        <table class="table table-striped table-hover ">
+            <thead>
+            <tr>
+                <th></th>
+                <th><span class="glyphicon glyphicon-map-marker glyphicon-align-center"></span></th>
+                <th></th>
+                <th></th>
+                <th>#</th>
+                <th><span class="glyphicon glyphicon-time"></span></th>
+                <th><span class="glyphicon glyphicon-share-alt"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for aircraft in aircrafts %}
+                <tr>
+                    <td>{{ aircraftStatus[aircraft.Status] }}</td>
+                    <td>{% if aircraft.Location is empty and airports is not empty%}
+                            {% embed 'snipet/deliver_select_airport.twig' with { 'Callsign': aircraft.Callsign } %}{% endembed %}
+                        {% else %} {{ aircraft.Location }}  {% endif %}</td>
+                    <td><a href="/index.php/aircraft/{{ aircraft.Callsign }}"
+                           class="btn btn-primary btn-xs">{{ aircraft.Callsign }}</a></td>
+                    <td>{{ aircraft.Model }}</td>
+                    <td>{{ aircraft.NumberFlights }}</td>
+                    <td>{{ aircraft.FlownTime|date('H:i') }}</td>
+                    <td>{{ aircraft.FlownDistance }}</td>
+                    {# {% for f in freight %}<td>{{ f }}</td>{%% endfor %} #}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h4> {{ Language.no_aircrafts_available }} </h4>
+    {% endif %}
+</div>

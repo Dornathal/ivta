@@ -1,0 +1,11 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+    <div class="row">
+        <h1>{{ Language.profile }}</h1>
+        <hr>
+        {% embed 'snipet/aircraft_list.twig' with {'aircrafts' : pilot.aircrafts, 'airports' : pilot.airports} %}{% endembed %}
+        {% embed 'snipet/flight_list.twig' with {'flights' : pilot.flights} %}{% endembed %}
+    </div>
+{% endblock %}

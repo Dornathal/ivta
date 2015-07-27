@@ -8,6 +8,8 @@ use Model\Aircraft as ChildAircraft;
 use Model\AircraftQuery as ChildAircraftQuery;
 use Model\Airline as ChildAirline;
 use Model\AirlineQuery as ChildAirlineQuery;
+use Model\Flight as ChildFlight;
+use Model\FlightQuery as ChildFlightQuery;
 use Model\Pilot as ChildPilot;
 use Model\PilotQuery as ChildPilotQuery;
 use Model\Map\AirlineTableMap;
@@ -128,6 +130,12 @@ abstract class Airline implements ActiveRecordInterface
     protected $collAircraftsPartial;
 
     /**
+     * @var        ObjectCollection|ChildFlight[] Collection to store aggregation of ChildFlight objects.
+     */
+    protected $collFlights;
+    protected $collFlightsPartial;
+
+    /**
      * @var        ObjectCollection|ChildPilot[] Collection to store aggregation of ChildPilot objects.
      */
     protected $collPilots;
@@ -146,6 +154,12 @@ abstract class Airline implements ActiveRecordInterface
      * @var ObjectCollection|ChildAircraft[]
      */
     protected $aircraftsScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildFlight[]
+     */
+    protected $flightsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -813,6 +827,8 @@ abstract class Airline implements ActiveRecordInterface
 
             $this->collAircrafts = null;
 
+            $this->collFlights = null;
+
             $this->collPilots = null;
 
         } // if (deep)
@@ -936,6 +952,23 @@ abstract class Airline implements ActiveRecordInterface
 
             if ($this->collAircrafts !== null) {
                 foreach ($this->collAircrafts as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->flightsScheduledForDeletion !== null) {
+                if (!$this->flightsScheduledForDeletion->isEmpty()) {
+                    \Model\FlightQuery::create()
+                        ->filterByPrimaryKeys($this->flightsScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->flightsScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collFlights !== null) {
+                foreach ($this->collFlights as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1189,6 +1222,21 @@ abstract class Airline implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->collAircrafts->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collFlights) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'flights';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'flightss';
+                        break;
+                    default:
+                        $key = 'Flights';
+                }
+
+                $result[$key] = $this->collFlights->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collPilots) {
 
@@ -1494,6 +1542,12 @@ abstract class Airline implements ActiveRecordInterface
                 }
             }
 
+            foreach ($this->getFlights() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addFlight($relObj->copy($deepCopy));
+                }
+            }
+
             foreach ($this->getPilots() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addPilot($relObj->copy($deepCopy));
@@ -1542,6 +1596,9 @@ abstract class Airline implements ActiveRecordInterface
     {
         if ('Aircraft' == $relationName) {
             return $this->initAircrafts();
+        }
+        if ('Flight' == $relationName) {
+            return $this->initFlights();
         }
         if ('Pilot' == $relationName) {
             return $this->initPilots();
@@ -1786,10 +1843,10 @@ abstract class Airline implements ActiveRecordInterface
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return ObjectCollection|ChildAircraft[] List of ChildAircraft objects
      */
-    public function getAircraftsJoinAircraftType(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getAircraftsJoinAircraftModel(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildAircraftQuery::create(null, $criteria);
-        $query->joinWith('AircraftType', $joinBehavior);
+        $query->joinWith('AircraftModel', $joinBehavior);
 
         return $this->getAircrafts($query, $con);
     }
@@ -1817,6 +1874,352 @@ abstract class Airline implements ActiveRecordInterface
         $query->joinWith('Airport', $joinBehavior);
 
         return $this->getAircrafts($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Airline is new, it will return
+     * an empty collection; or if this Airline has previously
+     * been saved, it will retrieve related Aircrafts from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Airline.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildAircraft[] List of ChildAircraft objects
+     */
+    public function getAircraftsJoinPilot(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildAircraftQuery::create(null, $criteria);
+        $query->joinWith('Pilot', $joinBehavior);
+
+        return $this->getAircrafts($query, $con);
+    }
+
+    /**
+     * Clears out the collFlights collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addFlights()
+     */
+    public function clearFlights()
+    {
+        $this->collFlights = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collFlights collection loaded partially.
+     */
+    public function resetPartialFlights($v = true)
+    {
+        $this->collFlightsPartial = $v;
+    }
+
+    /**
+     * Initializes the collFlights collection.
+     *
+     * By default this just sets the collFlights collection to an empty array (like clearcollFlights());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initFlights($overrideExisting = true)
+    {
+        if (null !== $this->collFlights && !$overrideExisting) {
+            return;
+        }
+        $this->collFlights = new ObjectCollection();
+        $this->collFlights->setModel('\Model\Flight');
+    }
+
+    /**
+     * Gets an array of ChildFlight objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildAirline is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildFlight[] List of ChildFlight objects
+     * @throws PropelException
+     */
+    public function getFlights(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collFlightsPartial && !$this->isNew();
+        if (null === $this->collFlights || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collFlights) {
+                // return empty collection
+                $this->initFlights();
+            } else {
+                $collFlights = ChildFlightQuery::create(null, $criteria)
+                    ->filterByAirline($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collFlightsPartial && count($collFlights)) {
+                        $this->initFlights(false);
+
+                        foreach ($collFlights as $obj) {
+                            if (false == $this->collFlights->contains($obj)) {
+                                $this->collFlights->append($obj);
+                            }
+                        }
+
+                        $this->collFlightsPartial = true;
+                    }
+
+                    return $collFlights;
+                }
+
+                if ($partial && $this->collFlights) {
+                    foreach ($this->collFlights as $obj) {
+                        if ($obj->isNew()) {
+                            $collFlights[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collFlights = $collFlights;
+                $this->collFlightsPartial = false;
+            }
+        }
+
+        return $this->collFlights;
+    }
+
+    /**
+     * Sets a collection of ChildFlight objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $flights A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildAirline The current object (for fluent API support)
+     */
+    public function setFlights(Collection $flights, ConnectionInterface $con = null)
+    {
+        /** @var ChildFlight[] $flightsToDelete */
+        $flightsToDelete = $this->getFlights(new Criteria(), $con)->diff($flights);
+
+
+        //since at least one column in the foreign key is at the same time a PK
+        //we can not just set a PK to NULL in the lines below. We have to store
+        //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
+        $this->flightsScheduledForDeletion = clone $flightsToDelete;
+
+        foreach ($flightsToDelete as $flightRemoved) {
+            $flightRemoved->setAirline(null);
+        }
+
+        $this->collFlights = null;
+        foreach ($flights as $flight) {
+            $this->addFlight($flight);
+        }
+
+        $this->collFlights = $flights;
+        $this->collFlightsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Flight objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Flight objects.
+     * @throws PropelException
+     */
+    public function countFlights(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collFlightsPartial && !$this->isNew();
+        if (null === $this->collFlights || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collFlights) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getFlights());
+            }
+
+            $query = ChildFlightQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByAirline($this)
+                ->count($con);
+        }
+
+        return count($this->collFlights);
+    }
+
+    /**
+     * Method called to associate a ChildFlight object to this object
+     * through the ChildFlight foreign key attribute.
+     *
+     * @param  ChildFlight $l ChildFlight
+     * @return $this|\Model\Airline The current object (for fluent API support)
+     */
+    public function addFlight(ChildFlight $l)
+    {
+        if ($this->collFlights === null) {
+            $this->initFlights();
+            $this->collFlightsPartial = true;
+        }
+
+        if (!$this->collFlights->contains($l)) {
+            $this->doAddFlight($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildFlight $flight The ChildFlight object to add.
+     */
+    protected function doAddFlight(ChildFlight $flight)
+    {
+        $this->collFlights[]= $flight;
+        $flight->setAirline($this);
+    }
+
+    /**
+     * @param  ChildFlight $flight The ChildFlight object to remove.
+     * @return $this|ChildAirline The current object (for fluent API support)
+     */
+    public function removeFlight(ChildFlight $flight)
+    {
+        if ($this->getFlights()->contains($flight)) {
+            $pos = $this->collFlights->search($flight);
+            $this->collFlights->remove($pos);
+            if (null === $this->flightsScheduledForDeletion) {
+                $this->flightsScheduledForDeletion = clone $this->collFlights;
+                $this->flightsScheduledForDeletion->clear();
+            }
+            $this->flightsScheduledForDeletion[]= clone $flight;
+            $flight->setAirline(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Airline is new, it will return
+     * an empty collection; or if this Airline has previously
+     * been saved, it will retrieve related Flights from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Airline.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildFlight[] List of ChildFlight objects
+     */
+    public function getFlightsJoinAircraft(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildFlightQuery::create(null, $criteria);
+        $query->joinWith('Aircraft', $joinBehavior);
+
+        return $this->getFlights($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Airline is new, it will return
+     * an empty collection; or if this Airline has previously
+     * been saved, it will retrieve related Flights from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Airline.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildFlight[] List of ChildFlight objects
+     */
+    public function getFlightsJoinDestination(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildFlightQuery::create(null, $criteria);
+        $query->joinWith('Destination', $joinBehavior);
+
+        return $this->getFlights($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Airline is new, it will return
+     * an empty collection; or if this Airline has previously
+     * been saved, it will retrieve related Flights from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Airline.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildFlight[] List of ChildFlight objects
+     */
+    public function getFlightsJoinDeparture(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildFlightQuery::create(null, $criteria);
+        $query->joinWith('Departure', $joinBehavior);
+
+        return $this->getFlights($query, $con);
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Airline is new, it will return
+     * an empty collection; or if this Airline has previously
+     * been saved, it will retrieve related Flights from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Airline.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return ObjectCollection|ChildFlight[] List of ChildFlight objects
+     */
+    public function getFlightsJoinPilot(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildFlightQuery::create(null, $criteria);
+        $query->joinWith('Pilot', $joinBehavior);
+
+        return $this->getFlights($query, $con);
     }
 
     /**
@@ -2077,6 +2480,11 @@ abstract class Airline implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->collFlights) {
+                foreach ($this->collFlights as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collPilots) {
                 foreach ($this->collPilots as $o) {
                     $o->clearAllReferences($deep);
@@ -2085,6 +2493,7 @@ abstract class Airline implements ActiveRecordInterface
         } // if ($deep)
 
         $this->collAircrafts = null;
+        $this->collFlights = null;
         $this->collPilots = null;
     }
 

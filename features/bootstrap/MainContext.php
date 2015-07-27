@@ -10,7 +10,7 @@ use Behat\Behat\Context\Context;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Testwork\Hook\Scope\BeforeSuiteScope;
 use Model\AircraftQuery;
-use Model\AircraftTypeQuery;
+use Model\AircraftModelQuery;
 use Model\AirwayQuery;
 use Model\FlightQuery;
 use Model\FreightGenerationQuery;
@@ -45,12 +45,12 @@ class MainContext extends RawMinkContext implements Context
 
         Propel::disableInstancePooling();
         $con = Propel::getConnection(FlightTableMap::DATABASE_NAME);
-        //$sql = file_get_contents(self::SQL_FILE);
-        //$con->exec($sql);
-        //$import = new Import();
-        //$import->airports();
-        //$import->airlines();
-        //UserSteps::addUser();
+        $sql = file_get_contents(self::SQL_FILE);
+        $con->exec($sql);
+        $import = new Import();
+        $import->airports();
+        $import->airlines();
+        UserSteps::addUser();
     }
 
     /** @BeforeScenario*/
@@ -64,7 +64,7 @@ class MainContext extends RawMinkContext implements Context
             FreightQuery::create(),
             FlightQuery::create(),
             AircraftQuery::create(),
-            AircraftTypeQuery::create(),
+            AircraftModelQuery::create(),
             AirwayQuery::create(),
             FreightGenerationQuery::create()
         );
