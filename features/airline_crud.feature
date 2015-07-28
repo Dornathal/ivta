@@ -1,9 +1,7 @@
 Feature: See airlines on Website which have an aircraft attached
 
   Scenario: See an airline with an aircraft on the website
-
-    Given I have an aircraft_model "B737-800" from "Boing"
-    And pilot PILOT owns an "B737-800" with callsign "BER1234"
+    Given pilot PILOT owns an "B737-800" with callsign "BER1234"
     And I am on the airlines site
 
     Then I should see "Air Berlin"

@@ -70,7 +70,8 @@ class Flight extends BaseFlight
         }
 
         return array('Departure' => $this->getDeparture()->toArray(), 'Destination' => $this->getDestination()->toArray(),
-            'Flight' => $this->toArray(), 'AircraftModel' => $this->getAircraft()->getAircraftModel()->toArray(),
+            'Flight' => $this->toArray(), 'Aircraft' => $this->getAircraft()->toArray(),
+            'AircraftModel' => $this->getAircraftModel()->toArray(),
             'NextStepPossibleIn' => $this->getNextStepPossibleAt()->getTimestamp() - $now->getTimestamp(),
             'Freights' => $freight_array
         );
@@ -85,17 +86,16 @@ class Flight extends BaseFlight
     public static function generateFlightNumber(Aircraft $aircraft, Airport $departure, Airport $destination){
         return $aircraft->getAirline()->getICAO() . self::FlightNumberHash($departure->getICAO()) . self::FlightNumberHash($destination->getICAO());
     }
+
     private static function FlightNumberHash($string){
         $code=0;
         for($i=0; $i<4; $i++)
             $code += ord($string[$i]);
         return $code % 100;
-
     }
 
     public static function transaction($func){
         $con = Propel::getConnection(FlightTableMap::DATABASE_NAME);
-
         $con->beginTransaction();
         try{
             $func();
@@ -120,8 +120,6 @@ class Flight extends BaseFlight
         $departure = $aircraft->getAirport();
         $available_freight = $departure->queryFreightDiagram()[0][$destination->getICAO()];
 
-        $aircraftModel = $aircraft->getAircraftModel();
-
         $flight->setAircraft($aircraft);
         $flight->setAircraftModel($aircraft->getAircraftModel());
         $flight->setDeparture($departure);
@@ -130,7 +128,7 @@ class Flight extends BaseFlight
         $flight->setAirline($pilot->getAirline());
         $flight->setFlightNumber(self::generateFlightNumber($aircraft,$departure,$destination));
         $flight->setStatus(FlightTableMap::COL_STATUS_PLANNING);
-        $loaded_freight = $flight->loadFreight($available_freight, $aircraftModel);
+        $loaded_freight = $flight->loadFreight($available_freight, $aircraft);
         Freight::loadToFlight($flight, $loaded_freight);
         $flight->save();
         });
@@ -144,12 +142,12 @@ class Flight extends BaseFlight
      * @throws \Propel\Runtime\Exception\PropelException
      * @internal param Flight $flight
      */
-    private function loadFreight($available_freight, AircraftModel $aircraftModel)
+    private function loadFreight($available_freight, Aircraft $aircraft)
     {
         $loaded_freight = array();
         foreach($this->freight_columns as $name) {
             $name = FlightTableMap::translateFieldName($name, TableMap::TYPE_COLNAME, TableMap::TYPE_PHPNAME);
-            $capacity = $aircraftModel->getByName($name);
+            $capacity = $aircraft->getByName($name);
             $loaded_freight[$name] = min($available_freight[$name], $capacity);
             $this->setByName($name, $loaded_freight[$name]);
         }

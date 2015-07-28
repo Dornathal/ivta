@@ -27,8 +27,6 @@ class Freight extends BaseFreight
             ->orderByAmount()
             ->findByNextSteps(array($flight->getDestination()->getICAO()));
 
-        print_r($freights->toArray());
-
         foreach($freights as $freight){
             $to_be_loaded = $loaded_freight[$freight->getFreightType()];
             if($to_be_loaded > 0) {

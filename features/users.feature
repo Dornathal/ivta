@@ -1,8 +1,7 @@
 Feature:
 
   Background:
-    Given I have an aircraft_model "B737-800" from "Boing"
-    And aircraft_model has a value of 10000
+    Given aircraft_model "B737-800" has a value of 10000
 
     @javascript
   Scenario: I want to be able to buy an aircraft slot

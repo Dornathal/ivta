@@ -7,17 +7,16 @@ Feature: Flight status is updated accordingly
   Background:
       Given I am logged in as PILOT
       And I am subscribed to airline BER
-      And I have an aircraft_model "B737-800" from "Boing"
       And pilot PILOT owns aircraft_model "B737-800" with callsign "BER451" at airport "EDDF"
-      And aircraft_model can transport
-        | Freight_Type | Amount    |
-        | Packages     | 1000      |
-        | Economy      | 200       |
 
   Scenario: User can plan a Flight from an Airport
       Given there are 1750 Packages at "EDDF" from "EDDF" to "EDDL"
       And there are 150 Economy at "EDDF" from "EDDK" to "EDDL"
       And there is 70 Post at "EDDF" from "EDDF" to "EDDK"
+      And aircraft "BER451" can transport
+        | Freight_Type | Amount    |
+        | Packages     | 1000      |
+        | Economy      | 200       |
 
       And I am on the "BER451" aircraft site
 

@@ -50,6 +50,7 @@ class MainContext extends RawMinkContext implements Context
         $import = new Import();
         $import->airports();
         $import->airlines();
+        $import->aircraft_models();
         UserSteps::addUser();
     }
 
@@ -64,7 +65,6 @@ class MainContext extends RawMinkContext implements Context
             FreightQuery::create(),
             FlightQuery::create(),
             AircraftQuery::create(),
-            AircraftModelQuery::create(),
             AirwayQuery::create(),
             FreightGenerationQuery::create()
         );

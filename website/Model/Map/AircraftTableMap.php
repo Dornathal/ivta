@@ -59,7 +59,7 @@ class AircraftTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 12;
+    const NUM_COLUMNS = 17;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class AircraftTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 12;
+    const NUM_HYDRATE_COLUMNS = 17;
 
     /**
      * the column name for the id field
@@ -95,6 +95,31 @@ class AircraftTableMap extends TableMap
      * the column name for the pilot_id field
      */
     const COL_PILOT_ID = 'aircrafts.pilot_id';
+
+    /**
+     * the column name for the packages field
+     */
+    const COL_PACKAGES = 'aircrafts.packages';
+
+    /**
+     * the column name for the post field
+     */
+    const COL_POST = 'aircrafts.post';
+
+    /**
+     * the column name for the passenger_low field
+     */
+    const COL_PASSENGER_LOW = 'aircrafts.passenger_low';
+
+    /**
+     * the column name for the passenger_mid field
+     */
+    const COL_PASSENGER_MID = 'aircrafts.passenger_mid';
+
+    /**
+     * the column name for the passenger_high field
+     */
+    const COL_PASSENGER_HIGH = 'aircrafts.passenger_high';
 
     /**
      * the column name for the callsign field
@@ -166,11 +191,11 @@ class AircraftTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'AircraftModelId', 'AirlineId', 'AirportId', 'PilotId', 'Callsign', 'FlownDistance', 'NumberFlights', 'FlownTime', 'Status', 'Latitude', 'Longitude', ),
-        self::TYPE_CAMELNAME     => array('id', 'aircraftModelId', 'airlineId', 'airportId', 'pilotId', 'callsign', 'flownDistance', 'numberFlights', 'flownTime', 'status', 'latitude', 'longitude', ),
-        self::TYPE_COLNAME       => array(AircraftTableMap::COL_ID, AircraftTableMap::COL_AIRCRAFT_MODEL_ID, AircraftTableMap::COL_AIRLINE_ID, AircraftTableMap::COL_AIRPORT_ID, AircraftTableMap::COL_PILOT_ID, AircraftTableMap::COL_CALLSIGN, AircraftTableMap::COL_FLOWN_DISTANCE, AircraftTableMap::COL_NUMBER_FLIGHTS, AircraftTableMap::COL_FLOWN_TIME, AircraftTableMap::COL_STATUS, AircraftTableMap::COL_LATITUDE, AircraftTableMap::COL_LONGITUDE, ),
-        self::TYPE_FIELDNAME     => array('id', 'aircraft_model_id', 'airline_id', 'airport_id', 'pilot_id', 'callsign', 'flown_distance', 'number_flights', 'flown_time', 'status', 'latitude', 'longitude', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+        self::TYPE_PHPNAME       => array('Id', 'AircraftModelId', 'AirlineId', 'AirportId', 'PilotId', 'Packages', 'Post', 'PassengerLow', 'PassengerMid', 'PassengerHigh', 'Callsign', 'FlownDistance', 'NumberFlights', 'FlownTime', 'Status', 'Latitude', 'Longitude', ),
+        self::TYPE_CAMELNAME     => array('id', 'aircraftModelId', 'airlineId', 'airportId', 'pilotId', 'packages', 'post', 'passengerLow', 'passengerMid', 'passengerHigh', 'callsign', 'flownDistance', 'numberFlights', 'flownTime', 'status', 'latitude', 'longitude', ),
+        self::TYPE_COLNAME       => array(AircraftTableMap::COL_ID, AircraftTableMap::COL_AIRCRAFT_MODEL_ID, AircraftTableMap::COL_AIRLINE_ID, AircraftTableMap::COL_AIRPORT_ID, AircraftTableMap::COL_PILOT_ID, AircraftTableMap::COL_PACKAGES, AircraftTableMap::COL_POST, AircraftTableMap::COL_PASSENGER_LOW, AircraftTableMap::COL_PASSENGER_MID, AircraftTableMap::COL_PASSENGER_HIGH, AircraftTableMap::COL_CALLSIGN, AircraftTableMap::COL_FLOWN_DISTANCE, AircraftTableMap::COL_NUMBER_FLIGHTS, AircraftTableMap::COL_FLOWN_TIME, AircraftTableMap::COL_STATUS, AircraftTableMap::COL_LATITUDE, AircraftTableMap::COL_LONGITUDE, ),
+        self::TYPE_FIELDNAME     => array('id', 'aircraft_model_id', 'airline_id', 'airport_id', 'pilot_id', 'packages', 'post', 'passenger_low', 'passenger_mid', 'passenger_high', 'callsign', 'flown_distance', 'number_flights', 'flown_time', 'status', 'latitude', 'longitude', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
     );
 
     /**
@@ -180,11 +205,11 @@ class AircraftTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'AircraftModelId' => 1, 'AirlineId' => 2, 'AirportId' => 3, 'PilotId' => 4, 'Callsign' => 5, 'FlownDistance' => 6, 'NumberFlights' => 7, 'FlownTime' => 8, 'Status' => 9, 'Latitude' => 10, 'Longitude' => 11, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'aircraftModelId' => 1, 'airlineId' => 2, 'airportId' => 3, 'pilotId' => 4, 'callsign' => 5, 'flownDistance' => 6, 'numberFlights' => 7, 'flownTime' => 8, 'status' => 9, 'latitude' => 10, 'longitude' => 11, ),
-        self::TYPE_COLNAME       => array(AircraftTableMap::COL_ID => 0, AircraftTableMap::COL_AIRCRAFT_MODEL_ID => 1, AircraftTableMap::COL_AIRLINE_ID => 2, AircraftTableMap::COL_AIRPORT_ID => 3, AircraftTableMap::COL_PILOT_ID => 4, AircraftTableMap::COL_CALLSIGN => 5, AircraftTableMap::COL_FLOWN_DISTANCE => 6, AircraftTableMap::COL_NUMBER_FLIGHTS => 7, AircraftTableMap::COL_FLOWN_TIME => 8, AircraftTableMap::COL_STATUS => 9, AircraftTableMap::COL_LATITUDE => 10, AircraftTableMap::COL_LONGITUDE => 11, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'aircraft_model_id' => 1, 'airline_id' => 2, 'airport_id' => 3, 'pilot_id' => 4, 'callsign' => 5, 'flown_distance' => 6, 'number_flights' => 7, 'flown_time' => 8, 'status' => 9, 'latitude' => 10, 'longitude' => 11, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'AircraftModelId' => 1, 'AirlineId' => 2, 'AirportId' => 3, 'PilotId' => 4, 'Packages' => 5, 'Post' => 6, 'PassengerLow' => 7, 'PassengerMid' => 8, 'PassengerHigh' => 9, 'Callsign' => 10, 'FlownDistance' => 11, 'NumberFlights' => 12, 'FlownTime' => 13, 'Status' => 14, 'Latitude' => 15, 'Longitude' => 16, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'aircraftModelId' => 1, 'airlineId' => 2, 'airportId' => 3, 'pilotId' => 4, 'packages' => 5, 'post' => 6, 'passengerLow' => 7, 'passengerMid' => 8, 'passengerHigh' => 9, 'callsign' => 10, 'flownDistance' => 11, 'numberFlights' => 12, 'flownTime' => 13, 'status' => 14, 'latitude' => 15, 'longitude' => 16, ),
+        self::TYPE_COLNAME       => array(AircraftTableMap::COL_ID => 0, AircraftTableMap::COL_AIRCRAFT_MODEL_ID => 1, AircraftTableMap::COL_AIRLINE_ID => 2, AircraftTableMap::COL_AIRPORT_ID => 3, AircraftTableMap::COL_PILOT_ID => 4, AircraftTableMap::COL_PACKAGES => 5, AircraftTableMap::COL_POST => 6, AircraftTableMap::COL_PASSENGER_LOW => 7, AircraftTableMap::COL_PASSENGER_MID => 8, AircraftTableMap::COL_PASSENGER_HIGH => 9, AircraftTableMap::COL_CALLSIGN => 10, AircraftTableMap::COL_FLOWN_DISTANCE => 11, AircraftTableMap::COL_NUMBER_FLIGHTS => 12, AircraftTableMap::COL_FLOWN_TIME => 13, AircraftTableMap::COL_STATUS => 14, AircraftTableMap::COL_LATITUDE => 15, AircraftTableMap::COL_LONGITUDE => 16, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'aircraft_model_id' => 1, 'airline_id' => 2, 'airport_id' => 3, 'pilot_id' => 4, 'packages' => 5, 'post' => 6, 'passenger_low' => 7, 'passenger_mid' => 8, 'passenger_high' => 9, 'callsign' => 10, 'flown_distance' => 11, 'number_flights' => 12, 'flown_time' => 13, 'status' => 14, 'latitude' => 15, 'longitude' => 16, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
     );
 
     /** The enumerated values for this table */
@@ -240,6 +265,11 @@ class AircraftTableMap extends TableMap
         $this->addForeignPrimaryKey('airline_id', 'AirlineId', 'INTEGER' , 'airlines', 'id', true, null, null);
         $this->addForeignKey('airport_id', 'AirportId', 'INTEGER', 'airports', 'id', false, null, null);
         $this->addForeignPrimaryKey('pilot_id', 'PilotId', 'INTEGER' , 'pilots', 'id', true, null, null);
+        $this->addColumn('packages', 'Packages', 'SMALLINT', true, null, 0);
+        $this->addColumn('post', 'Post', 'SMALLINT', true, null, 0);
+        $this->addColumn('passenger_low', 'PassengerLow', 'SMALLINT', true, null, 0);
+        $this->addColumn('passenger_mid', 'PassengerMid', 'SMALLINT', true, null, 0);
+        $this->addColumn('passenger_high', 'PassengerHigh', 'SMALLINT', true, null, 0);
         $this->addColumn('callsign', 'Callsign', 'VARCHAR', true, 7, null);
         $this->addColumn('flown_distance', 'FlownDistance', 'INTEGER', true, null, 0);
         $this->addColumn('number_flights', 'NumberFlights', 'SMALLINT', true, null, 0);
@@ -528,6 +558,11 @@ class AircraftTableMap extends TableMap
             $criteria->addSelectColumn(AircraftTableMap::COL_AIRLINE_ID);
             $criteria->addSelectColumn(AircraftTableMap::COL_AIRPORT_ID);
             $criteria->addSelectColumn(AircraftTableMap::COL_PILOT_ID);
+            $criteria->addSelectColumn(AircraftTableMap::COL_PACKAGES);
+            $criteria->addSelectColumn(AircraftTableMap::COL_POST);
+            $criteria->addSelectColumn(AircraftTableMap::COL_PASSENGER_LOW);
+            $criteria->addSelectColumn(AircraftTableMap::COL_PASSENGER_MID);
+            $criteria->addSelectColumn(AircraftTableMap::COL_PASSENGER_HIGH);
             $criteria->addSelectColumn(AircraftTableMap::COL_CALLSIGN);
             $criteria->addSelectColumn(AircraftTableMap::COL_FLOWN_DISTANCE);
             $criteria->addSelectColumn(AircraftTableMap::COL_NUMBER_FLIGHTS);
@@ -541,6 +576,11 @@ class AircraftTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.airline_id');
             $criteria->addSelectColumn($alias . '.airport_id');
             $criteria->addSelectColumn($alias . '.pilot_id');
+            $criteria->addSelectColumn($alias . '.packages');
+            $criteria->addSelectColumn($alias . '.post');
+            $criteria->addSelectColumn($alias . '.passenger_low');
+            $criteria->addSelectColumn($alias . '.passenger_mid');
+            $criteria->addSelectColumn($alias . '.passenger_high');
             $criteria->addSelectColumn($alias . '.callsign');
             $criteria->addSelectColumn($alias . '.flown_distance');
             $criteria->addSelectColumn($alias . '.number_flights');
