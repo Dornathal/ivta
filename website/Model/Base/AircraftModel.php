@@ -119,6 +119,61 @@ abstract class AircraftModel implements ActiveRecordInterface
     protected $passenger_high;
 
     /**
+     * The value for the seats field.
+     * Note: this column has a database default value of: 3
+     * @var        int
+     */
+    protected $seats;
+
+    /**
+     * The value for the classes field.
+     * Note: this column has a database default value of: 1
+     * @var        int
+     */
+    protected $classes;
+
+    /**
+     * The value for the icao field.
+     * @var        string
+     */
+    protected $icao;
+
+    /**
+     * The value for the wtc field.
+     * Note: this column has a database default value of: 1
+     * @var        int
+     */
+    protected $wtc;
+
+    /**
+     * The value for the engine_type field.
+     * Note: this column has a database default value of: 0
+     * @var        int
+     */
+    protected $engine_type;
+
+    /**
+     * The value for the engine_count field.
+     * Note: this column has a database default value of: 1
+     * @var        int
+     */
+    protected $engine_count;
+
+    /**
+     * The value for the flight_range field.
+     * Note: this column has a database default value of: 3000
+     * @var        int
+     */
+    protected $flight_range;
+
+    /**
+     * The value for the cruising_speed field.
+     * Note: this column has a database default value of: 120
+     * @var        int
+     */
+    protected $cruising_speed;
+
+    /**
      * The value for the weight field.
      * @var        int
      */
@@ -175,6 +230,13 @@ abstract class AircraftModel implements ActiveRecordInterface
         $this->passenger_low = 0;
         $this->passenger_mid = 0;
         $this->passenger_high = 0;
+        $this->seats = 3;
+        $this->classes = 1;
+        $this->wtc = 1;
+        $this->engine_type = 0;
+        $this->engine_count = 1;
+        $this->flight_range = 3000;
+        $this->cruising_speed = 120;
     }
 
     /**
@@ -477,6 +539,104 @@ abstract class AircraftModel implements ActiveRecordInterface
     }
 
     /**
+     * Get the [seats] column value.
+     *
+     * @return int
+     */
+    public function getSeats()
+    {
+        return $this->seats;
+    }
+
+    /**
+     * Get the [classes] column value.
+     *
+     * @return int
+     */
+    public function getClasses()
+    {
+        return $this->classes;
+    }
+
+    /**
+     * Get the [icao] column value.
+     *
+     * @return string
+     */
+    public function getICAO()
+    {
+        return $this->icao;
+    }
+
+    /**
+     * Get the [wtc] column value.
+     *
+     * @return string
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function getWTC()
+    {
+        if (null === $this->wtc) {
+            return null;
+        }
+        $valueSet = AircraftModelTableMap::getValueSet(AircraftModelTableMap::COL_WTC);
+        if (!isset($valueSet[$this->wtc])) {
+            throw new PropelException('Unknown stored enum key: ' . $this->wtc);
+        }
+
+        return $valueSet[$this->wtc];
+    }
+
+    /**
+     * Get the [engine_type] column value.
+     *
+     * @return string
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function getEngineType()
+    {
+        if (null === $this->engine_type) {
+            return null;
+        }
+        $valueSet = AircraftModelTableMap::getValueSet(AircraftModelTableMap::COL_ENGINE_TYPE);
+        if (!isset($valueSet[$this->engine_type])) {
+            throw new PropelException('Unknown stored enum key: ' . $this->engine_type);
+        }
+
+        return $valueSet[$this->engine_type];
+    }
+
+    /**
+     * Get the [engine_count] column value.
+     *
+     * @return int
+     */
+    public function getEngineCount()
+    {
+        return $this->engine_count;
+    }
+
+    /**
+     * Get the [flight_range] column value.
+     *
+     * @return int
+     */
+    public function getFlightRange()
+    {
+        return $this->flight_range;
+    }
+
+    /**
+     * Get the [cruising_speed] column value.
+     *
+     * @return int
+     */
+    public function getCruisingSpeed()
+    {
+        return $this->cruising_speed;
+    }
+
+    /**
      * Get the [weight] column value.
      *
      * @return int
@@ -657,19 +817,189 @@ abstract class AircraftModel implements ActiveRecordInterface
     } // setPassengerHigh()
 
     /**
-     * Set the value of [weight] column.
+     * Set the value of [seats] column.
+     *
+     * @param int $seats new value
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
+     */
+    public function setSeats($seats)
+    {
+        if ($seats !== null) {
+            $seats = (int) $seats;
+        }
+
+        if ($this->seats !== $seats) {
+            $this->seats = $seats;
+            $this->modifiedColumns[AircraftModelTableMap::COL_SEATS] = true;
+        }
+
+        return $this;
+    } // setSeats()
+
+    /**
+     * Set the value of [classes] column.
      *
      * @param int $v new value
      * @return $this|\Model\AircraftModel The current object (for fluent API support)
      */
-    public function setWeight($v)
+    public function setClasses($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->weight !== $v) {
-            $this->weight = $v;
+        if ($this->classes !== $v) {
+            $this->classes = $v;
+            $this->modifiedColumns[AircraftModelTableMap::COL_CLASSES] = true;
+        }
+
+        return $this;
+    } // setClasses()
+
+    /**
+     * Set the value of [icao] column.
+     *
+     * @param string $v new value
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
+     */
+    public function setICAO($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->icao !== $v) {
+            $this->icao = $v;
+            $this->modifiedColumns[AircraftModelTableMap::COL_ICAO] = true;
+        }
+
+        return $this;
+    } // setICAO()
+
+    /**
+     * Set the value of [wtc] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function setWTC($v)
+    {
+        if ($v !== null) {
+            $valueSet = AircraftModelTableMap::getValueSet(AircraftModelTableMap::COL_WTC);
+            if (!in_array($v, $valueSet)) {
+                throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $v));
+            }
+            $v = array_search($v, $valueSet);
+        }
+
+        if ($this->wtc !== $v) {
+            $this->wtc = $v;
+            $this->modifiedColumns[AircraftModelTableMap::COL_WTC] = true;
+        }
+
+        return $this;
+    } // setWTC()
+
+    /**
+     * Set the value of [engine_type] column.
+     *
+     * @param  string $v new value
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function setEngineType($v)
+    {
+        if ($v !== null) {
+            $valueSet = AircraftModelTableMap::getValueSet(AircraftModelTableMap::COL_ENGINE_TYPE);
+            if (!in_array($v, $valueSet)) {
+                throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $v));
+            }
+            $v = array_search($v, $valueSet);
+        }
+
+        if ($this->engine_type !== $v) {
+            $this->engine_type = $v;
+            $this->modifiedColumns[AircraftModelTableMap::COL_ENGINE_TYPE] = true;
+        }
+
+        return $this;
+    } // setEngineType()
+
+    /**
+     * Set the value of [engine_count] column.
+     *
+     * @param int $v new value
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
+     */
+    public function setEngineCount($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->engine_count !== $v) {
+            $this->engine_count = $v;
+            $this->modifiedColumns[AircraftModelTableMap::COL_ENGINE_COUNT] = true;
+        }
+
+        return $this;
+    } // setEngineCount()
+
+    /**
+     * Set the value of [flight_range] column.
+     *
+     * @param int $v new value
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
+     */
+    public function setFlightRange($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->flight_range !== $v) {
+            $this->flight_range = $v;
+            $this->modifiedColumns[AircraftModelTableMap::COL_FLIGHT_RANGE] = true;
+        }
+
+        return $this;
+    } // setFlightRange()
+
+    /**
+     * Set the value of [cruising_speed] column.
+     *
+     * @param int $v new value
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
+     */
+    public function setCruisingSpeed($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->cruising_speed !== $v) {
+            $this->cruising_speed = $v;
+            $this->modifiedColumns[AircraftModelTableMap::COL_CRUISING_SPEED] = true;
+        }
+
+        return $this;
+    } // setCruisingSpeed()
+
+    /**
+     * Set the value of [weight] column.
+     *
+     * @param int $weight new value
+     * @return $this|\Model\AircraftModel The current object (for fluent API support)
+     */
+    public function setWeight($weight)
+    {
+        if ($weight !== null) {
+            $weight = (int) $weight;
+        }
+
+        if ($this->weight !== $weight) {
+            $this->weight = $weight;
             $this->modifiedColumns[AircraftModelTableMap::COL_WEIGHT] = true;
         }
 
@@ -726,6 +1056,34 @@ abstract class AircraftModel implements ActiveRecordInterface
                 return false;
             }
 
+            if ($this->seats !== 3) {
+                return false;
+            }
+
+            if ($this->classes !== 1) {
+                return false;
+            }
+
+            if ($this->wtc !== 1) {
+                return false;
+            }
+
+            if ($this->engine_type !== 0) {
+                return false;
+            }
+
+            if ($this->engine_count !== 1) {
+                return false;
+            }
+
+            if ($this->flight_range !== 3000) {
+                return false;
+            }
+
+            if ($this->cruising_speed !== 120) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -776,10 +1134,34 @@ abstract class AircraftModel implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : AircraftModelTableMap::translateFieldName('PassengerHigh', TableMap::TYPE_PHPNAME, $indexType)];
             $this->passenger_high = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : AircraftModelTableMap::translateFieldName('Weight', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : AircraftModelTableMap::translateFieldName('Seats', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->seats = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : AircraftModelTableMap::translateFieldName('Classes', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->classes = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : AircraftModelTableMap::translateFieldName('ICAO', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->icao = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : AircraftModelTableMap::translateFieldName('WTC', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->wtc = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : AircraftModelTableMap::translateFieldName('EngineType', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->engine_type = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : AircraftModelTableMap::translateFieldName('EngineCount', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->engine_count = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : AircraftModelTableMap::translateFieldName('FlightRange', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->flight_range = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : AircraftModelTableMap::translateFieldName('CruisingSpeed', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->cruising_speed = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : AircraftModelTableMap::translateFieldName('Weight', TableMap::TYPE_PHPNAME, $indexType)];
             $this->weight = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : AircraftModelTableMap::translateFieldName('Value', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : AircraftModelTableMap::translateFieldName('Value', TableMap::TYPE_PHPNAME, $indexType)];
             $this->value = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -789,7 +1171,7 @@ abstract class AircraftModel implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 10; // 10 = AircraftModelTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 18; // 18 = AircraftModelTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Model\\AircraftModel'), 0, $e);
@@ -1018,10 +1400,6 @@ abstract class AircraftModel implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[AircraftModelTableMap::COL_ID] = true;
-        if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . AircraftModelTableMap::COL_ID . ')');
-        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(AircraftModelTableMap::COL_ID)) {
@@ -1047,6 +1425,30 @@ abstract class AircraftModel implements ActiveRecordInterface
         }
         if ($this->isColumnModified(AircraftModelTableMap::COL_PASSENGER_HIGH)) {
             $modifiedColumns[':p' . $index++]  = 'passenger_high';
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_SEATS)) {
+            $modifiedColumns[':p' . $index++]  = 'seats';
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_CLASSES)) {
+            $modifiedColumns[':p' . $index++]  = 'classes';
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_ICAO)) {
+            $modifiedColumns[':p' . $index++]  = 'icao';
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_WTC)) {
+            $modifiedColumns[':p' . $index++]  = 'wtc';
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_ENGINE_TYPE)) {
+            $modifiedColumns[':p' . $index++]  = 'engine_type';
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_ENGINE_COUNT)) {
+            $modifiedColumns[':p' . $index++]  = 'engine_count';
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_FLIGHT_RANGE)) {
+            $modifiedColumns[':p' . $index++]  = 'flight_range';
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_CRUISING_SPEED)) {
+            $modifiedColumns[':p' . $index++]  = 'cruising_speed';
         }
         if ($this->isColumnModified(AircraftModelTableMap::COL_WEIGHT)) {
             $modifiedColumns[':p' . $index++]  = 'weight';
@@ -1089,6 +1491,30 @@ abstract class AircraftModel implements ActiveRecordInterface
                     case 'passenger_high':
                         $stmt->bindValue($identifier, $this->passenger_high, PDO::PARAM_INT);
                         break;
+                    case 'seats':
+                        $stmt->bindValue($identifier, $this->seats, PDO::PARAM_INT);
+                        break;
+                    case 'classes':
+                        $stmt->bindValue($identifier, $this->classes, PDO::PARAM_INT);
+                        break;
+                    case 'icao':
+                        $stmt->bindValue($identifier, $this->icao, PDO::PARAM_STR);
+                        break;
+                    case 'wtc':
+                        $stmt->bindValue($identifier, $this->wtc, PDO::PARAM_INT);
+                        break;
+                    case 'engine_type':
+                        $stmt->bindValue($identifier, $this->engine_type, PDO::PARAM_INT);
+                        break;
+                    case 'engine_count':
+                        $stmt->bindValue($identifier, $this->engine_count, PDO::PARAM_INT);
+                        break;
+                    case 'flight_range':
+                        $stmt->bindValue($identifier, $this->flight_range, PDO::PARAM_INT);
+                        break;
+                    case 'cruising_speed':
+                        $stmt->bindValue($identifier, $this->cruising_speed, PDO::PARAM_INT);
+                        break;
                     case 'weight':
                         $stmt->bindValue($identifier, $this->weight, PDO::PARAM_INT);
                         break;
@@ -1102,13 +1528,6 @@ abstract class AircraftModel implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
-
-        try {
-            $pk = $con->lastInsertId();
-        } catch (Exception $e) {
-            throw new PropelException('Unable to get autoincrement id.', 0, $e);
-        }
-        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -1182,9 +1601,33 @@ abstract class AircraftModel implements ActiveRecordInterface
                 return $this->getPassengerHigh();
                 break;
             case 8:
-                return $this->getWeight();
+                return $this->getSeats();
                 break;
             case 9:
+                return $this->getClasses();
+                break;
+            case 10:
+                return $this->getICAO();
+                break;
+            case 11:
+                return $this->getWTC();
+                break;
+            case 12:
+                return $this->getEngineType();
+                break;
+            case 13:
+                return $this->getEngineCount();
+                break;
+            case 14:
+                return $this->getFlightRange();
+                break;
+            case 15:
+                return $this->getCruisingSpeed();
+                break;
+            case 16:
+                return $this->getWeight();
+                break;
+            case 17:
                 return $this->getValue();
                 break;
             default:
@@ -1225,8 +1668,16 @@ abstract class AircraftModel implements ActiveRecordInterface
             $keys[5] => $this->getPassengerLow(),
             $keys[6] => $this->getPassengerMid(),
             $keys[7] => $this->getPassengerHigh(),
-            $keys[8] => $this->getWeight(),
-            $keys[9] => $this->getValue(),
+            $keys[8] => $this->getSeats(),
+            $keys[9] => $this->getClasses(),
+            $keys[10] => $this->getICAO(),
+            $keys[11] => $this->getWTC(),
+            $keys[12] => $this->getEngineType(),
+            $keys[13] => $this->getEngineCount(),
+            $keys[14] => $this->getFlightRange(),
+            $keys[15] => $this->getCruisingSpeed(),
+            $keys[16] => $this->getWeight(),
+            $keys[17] => $this->getValue(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1323,9 +1774,41 @@ abstract class AircraftModel implements ActiveRecordInterface
                 $this->setPassengerHigh($value);
                 break;
             case 8:
-                $this->setWeight($value);
+                $this->setSeats($value);
                 break;
             case 9:
+                $this->setClasses($value);
+                break;
+            case 10:
+                $this->setICAO($value);
+                break;
+            case 11:
+                $valueSet = AircraftModelTableMap::getValueSet(AircraftModelTableMap::COL_WTC);
+                if (isset($valueSet[$value])) {
+                    $value = $valueSet[$value];
+                }
+                $this->setWTC($value);
+                break;
+            case 12:
+                $valueSet = AircraftModelTableMap::getValueSet(AircraftModelTableMap::COL_ENGINE_TYPE);
+                if (isset($valueSet[$value])) {
+                    $value = $valueSet[$value];
+                }
+                $this->setEngineType($value);
+                break;
+            case 13:
+                $this->setEngineCount($value);
+                break;
+            case 14:
+                $this->setFlightRange($value);
+                break;
+            case 15:
+                $this->setCruisingSpeed($value);
+                break;
+            case 16:
+                $this->setWeight($value);
+                break;
+            case 17:
                 $this->setValue($value);
                 break;
         } // switch()
@@ -1379,10 +1862,34 @@ abstract class AircraftModel implements ActiveRecordInterface
             $this->setPassengerHigh($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setWeight($arr[$keys[8]]);
+            $this->setSeats($arr[$keys[8]]);
         }
         if (array_key_exists($keys[9], $arr)) {
-            $this->setValue($arr[$keys[9]]);
+            $this->setClasses($arr[$keys[9]]);
+        }
+        if (array_key_exists($keys[10], $arr)) {
+            $this->setICAO($arr[$keys[10]]);
+        }
+        if (array_key_exists($keys[11], $arr)) {
+            $this->setWTC($arr[$keys[11]]);
+        }
+        if (array_key_exists($keys[12], $arr)) {
+            $this->setEngineType($arr[$keys[12]]);
+        }
+        if (array_key_exists($keys[13], $arr)) {
+            $this->setEngineCount($arr[$keys[13]]);
+        }
+        if (array_key_exists($keys[14], $arr)) {
+            $this->setFlightRange($arr[$keys[14]]);
+        }
+        if (array_key_exists($keys[15], $arr)) {
+            $this->setCruisingSpeed($arr[$keys[15]]);
+        }
+        if (array_key_exists($keys[16], $arr)) {
+            $this->setWeight($arr[$keys[16]]);
+        }
+        if (array_key_exists($keys[17], $arr)) {
+            $this->setValue($arr[$keys[17]]);
         }
     }
 
@@ -1448,6 +1955,30 @@ abstract class AircraftModel implements ActiveRecordInterface
         }
         if ($this->isColumnModified(AircraftModelTableMap::COL_PASSENGER_HIGH)) {
             $criteria->add(AircraftModelTableMap::COL_PASSENGER_HIGH, $this->passenger_high);
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_SEATS)) {
+            $criteria->add(AircraftModelTableMap::COL_SEATS, $this->seats);
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_CLASSES)) {
+            $criteria->add(AircraftModelTableMap::COL_CLASSES, $this->classes);
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_ICAO)) {
+            $criteria->add(AircraftModelTableMap::COL_ICAO, $this->icao);
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_WTC)) {
+            $criteria->add(AircraftModelTableMap::COL_WTC, $this->wtc);
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_ENGINE_TYPE)) {
+            $criteria->add(AircraftModelTableMap::COL_ENGINE_TYPE, $this->engine_type);
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_ENGINE_COUNT)) {
+            $criteria->add(AircraftModelTableMap::COL_ENGINE_COUNT, $this->engine_count);
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_FLIGHT_RANGE)) {
+            $criteria->add(AircraftModelTableMap::COL_FLIGHT_RANGE, $this->flight_range);
+        }
+        if ($this->isColumnModified(AircraftModelTableMap::COL_CRUISING_SPEED)) {
+            $criteria->add(AircraftModelTableMap::COL_CRUISING_SPEED, $this->cruising_speed);
         }
         if ($this->isColumnModified(AircraftModelTableMap::COL_WEIGHT)) {
             $criteria->add(AircraftModelTableMap::COL_WEIGHT, $this->weight);
@@ -1541,6 +2072,7 @@ abstract class AircraftModel implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setId($this->getId());
         $copyObj->setModel($this->getModel());
         $copyObj->setBrand($this->getBrand());
         $copyObj->setPackages($this->getPackages());
@@ -1548,6 +2080,14 @@ abstract class AircraftModel implements ActiveRecordInterface
         $copyObj->setPassengerLow($this->getPassengerLow());
         $copyObj->setPassengerMid($this->getPassengerMid());
         $copyObj->setPassengerHigh($this->getPassengerHigh());
+        $copyObj->setSeats($this->getSeats());
+        $copyObj->setClasses($this->getClasses());
+        $copyObj->setICAO($this->getICAO());
+        $copyObj->setWTC($this->getWTC());
+        $copyObj->setEngineType($this->getEngineType());
+        $copyObj->setEngineCount($this->getEngineCount());
+        $copyObj->setFlightRange($this->getFlightRange());
+        $copyObj->setCruisingSpeed($this->getCruisingSpeed());
         $copyObj->setWeight($this->getWeight());
         $copyObj->setValue($this->getValue());
 
@@ -1572,7 +2112,6 @@ abstract class AircraftModel implements ActiveRecordInterface
 
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -2274,6 +2813,14 @@ abstract class AircraftModel implements ActiveRecordInterface
         $this->passenger_low = null;
         $this->passenger_mid = null;
         $this->passenger_high = null;
+        $this->seats = null;
+        $this->classes = null;
+        $this->icao = null;
+        $this->wtc = null;
+        $this->engine_type = null;
+        $this->engine_count = null;
+        $this->flight_range = null;
+        $this->cruising_speed = null;
         $this->weight = null;
         $this->value = null;
         $this->alreadyInSave = false;

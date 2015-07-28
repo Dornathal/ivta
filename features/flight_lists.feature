@@ -5,8 +5,7 @@ Feature: Showing Flight lists on various pages
   I want to see flight lists at various pages on the website
 
   Background:
-    Given I have an aircraft_model "B737-800" from "Boing"
-    And I am logged in as PILOT
+    Given I am logged in as PILOT
     And I am subscribed to airline BER
     And pilot PILOT owns aircraft_model "B737-800" with callsign "BER123" at airport "EGLL"
     And PILOT has a flight "BER2345" from "EDDF" to "EGLL" with aircraft "BER123" and status "FINISHED"

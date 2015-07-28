@@ -28,6 +28,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAircraftModelQuery orderByPassengerLow($order = Criteria::ASC) Order by the passenger_low column
  * @method     ChildAircraftModelQuery orderByPassengerMid($order = Criteria::ASC) Order by the passenger_mid column
  * @method     ChildAircraftModelQuery orderByPassengerHigh($order = Criteria::ASC) Order by the passenger_high column
+ * @method     ChildAircraftModelQuery orderBySeats($order = Criteria::ASC) Order by the seats column
+ * @method     ChildAircraftModelQuery orderByClasses($order = Criteria::ASC) Order by the classes column
+ * @method     ChildAircraftModelQuery orderByICAO($order = Criteria::ASC) Order by the icao column
+ * @method     ChildAircraftModelQuery orderByWTC($order = Criteria::ASC) Order by the wtc column
+ * @method     ChildAircraftModelQuery orderByEngineType($order = Criteria::ASC) Order by the engine_type column
+ * @method     ChildAircraftModelQuery orderByEngineCount($order = Criteria::ASC) Order by the engine_count column
+ * @method     ChildAircraftModelQuery orderByFlightRange($order = Criteria::ASC) Order by the flight_range column
+ * @method     ChildAircraftModelQuery orderByCruisingSpeed($order = Criteria::ASC) Order by the cruising_speed column
  * @method     ChildAircraftModelQuery orderByWeight($order = Criteria::ASC) Order by the weight column
  * @method     ChildAircraftModelQuery orderByValue($order = Criteria::ASC) Order by the value column
  *
@@ -39,6 +47,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAircraftModelQuery groupByPassengerLow() Group by the passenger_low column
  * @method     ChildAircraftModelQuery groupByPassengerMid() Group by the passenger_mid column
  * @method     ChildAircraftModelQuery groupByPassengerHigh() Group by the passenger_high column
+ * @method     ChildAircraftModelQuery groupBySeats() Group by the seats column
+ * @method     ChildAircraftModelQuery groupByClasses() Group by the classes column
+ * @method     ChildAircraftModelQuery groupByICAO() Group by the icao column
+ * @method     ChildAircraftModelQuery groupByWTC() Group by the wtc column
+ * @method     ChildAircraftModelQuery groupByEngineType() Group by the engine_type column
+ * @method     ChildAircraftModelQuery groupByEngineCount() Group by the engine_count column
+ * @method     ChildAircraftModelQuery groupByFlightRange() Group by the flight_range column
+ * @method     ChildAircraftModelQuery groupByCruisingSpeed() Group by the cruising_speed column
  * @method     ChildAircraftModelQuery groupByWeight() Group by the weight column
  * @method     ChildAircraftModelQuery groupByValue() Group by the value column
  *
@@ -67,6 +83,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAircraftModel findOneByPassengerLow(int $passenger_low) Return the first ChildAircraftModel filtered by the passenger_low column
  * @method     ChildAircraftModel findOneByPassengerMid(int $passenger_mid) Return the first ChildAircraftModel filtered by the passenger_mid column
  * @method     ChildAircraftModel findOneByPassengerHigh(int $passenger_high) Return the first ChildAircraftModel filtered by the passenger_high column
+ * @method     ChildAircraftModel findOneBySeats(int $seats) Return the first ChildAircraftModel filtered by the seats column
+ * @method     ChildAircraftModel findOneByClasses(int $classes) Return the first ChildAircraftModel filtered by the classes column
+ * @method     ChildAircraftModel findOneByICAO(string $icao) Return the first ChildAircraftModel filtered by the icao column
+ * @method     ChildAircraftModel findOneByWTC(int $wtc) Return the first ChildAircraftModel filtered by the wtc column
+ * @method     ChildAircraftModel findOneByEngineType(int $engine_type) Return the first ChildAircraftModel filtered by the engine_type column
+ * @method     ChildAircraftModel findOneByEngineCount(int $engine_count) Return the first ChildAircraftModel filtered by the engine_count column
+ * @method     ChildAircraftModel findOneByFlightRange(int $flight_range) Return the first ChildAircraftModel filtered by the flight_range column
+ * @method     ChildAircraftModel findOneByCruisingSpeed(int $cruising_speed) Return the first ChildAircraftModel filtered by the cruising_speed column
  * @method     ChildAircraftModel findOneByWeight(int $weight) Return the first ChildAircraftModel filtered by the weight column
  * @method     ChildAircraftModel findOneByValue(int $value) Return the first ChildAircraftModel filtered by the value column *
 
@@ -81,6 +105,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAircraftModel requireOneByPassengerLow(int $passenger_low) Return the first ChildAircraftModel filtered by the passenger_low column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildAircraftModel requireOneByPassengerMid(int $passenger_mid) Return the first ChildAircraftModel filtered by the passenger_mid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildAircraftModel requireOneByPassengerHigh(int $passenger_high) Return the first ChildAircraftModel filtered by the passenger_high column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneBySeats(int $seats) Return the first ChildAircraftModel filtered by the seats column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByClasses(int $classes) Return the first ChildAircraftModel filtered by the classes column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByICAO(string $icao) Return the first ChildAircraftModel filtered by the icao column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByWTC(int $wtc) Return the first ChildAircraftModel filtered by the wtc column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByEngineType(int $engine_type) Return the first ChildAircraftModel filtered by the engine_type column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByEngineCount(int $engine_count) Return the first ChildAircraftModel filtered by the engine_count column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByFlightRange(int $flight_range) Return the first ChildAircraftModel filtered by the flight_range column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildAircraftModel requireOneByCruisingSpeed(int $cruising_speed) Return the first ChildAircraftModel filtered by the cruising_speed column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildAircraftModel requireOneByWeight(int $weight) Return the first ChildAircraftModel filtered by the weight column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildAircraftModel requireOneByValue(int $value) Return the first ChildAircraftModel filtered by the value column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
@@ -93,6 +125,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAircraftModel[]|ObjectCollection findByPassengerLow(int $passenger_low) Return ChildAircraftModel objects filtered by the passenger_low column
  * @method     ChildAircraftModel[]|ObjectCollection findByPassengerMid(int $passenger_mid) Return ChildAircraftModel objects filtered by the passenger_mid column
  * @method     ChildAircraftModel[]|ObjectCollection findByPassengerHigh(int $passenger_high) Return ChildAircraftModel objects filtered by the passenger_high column
+ * @method     ChildAircraftModel[]|ObjectCollection findBySeats(int $seats) Return ChildAircraftModel objects filtered by the seats column
+ * @method     ChildAircraftModel[]|ObjectCollection findByClasses(int $classes) Return ChildAircraftModel objects filtered by the classes column
+ * @method     ChildAircraftModel[]|ObjectCollection findByICAO(string $icao) Return ChildAircraftModel objects filtered by the icao column
+ * @method     ChildAircraftModel[]|ObjectCollection findByWTC(int $wtc) Return ChildAircraftModel objects filtered by the wtc column
+ * @method     ChildAircraftModel[]|ObjectCollection findByEngineType(int $engine_type) Return ChildAircraftModel objects filtered by the engine_type column
+ * @method     ChildAircraftModel[]|ObjectCollection findByEngineCount(int $engine_count) Return ChildAircraftModel objects filtered by the engine_count column
+ * @method     ChildAircraftModel[]|ObjectCollection findByFlightRange(int $flight_range) Return ChildAircraftModel objects filtered by the flight_range column
+ * @method     ChildAircraftModel[]|ObjectCollection findByCruisingSpeed(int $cruising_speed) Return ChildAircraftModel objects filtered by the cruising_speed column
  * @method     ChildAircraftModel[]|ObjectCollection findByWeight(int $weight) Return ChildAircraftModel objects filtered by the weight column
  * @method     ChildAircraftModel[]|ObjectCollection findByValue(int $value) Return ChildAircraftModel objects filtered by the value column
  * @method     ChildAircraftModel[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
@@ -187,7 +227,7 @@ abstract class AircraftModelQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, model, brand, packages, post, passenger_low, passenger_mid, passenger_high, weight, value FROM aircraft_models WHERE id = :p0';
+        $sql = 'SELECT id, model, brand, packages, post, passenger_low, passenger_mid, passenger_high, seats, classes, icao, wtc, engine_type, engine_count, flight_range, cruising_speed, weight, value FROM aircraft_models WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -579,6 +619,306 @@ abstract class AircraftModelQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(AircraftModelTableMap::COL_PASSENGER_HIGH, $passengerHigh, $comparison);
+    }
+
+    /**
+     * Filter the query on the seats column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterBySeats(1234); // WHERE seats = 1234
+     * $query->filterBySeats(array(12, 34)); // WHERE seats IN (12, 34)
+     * $query->filterBySeats(array('min' => 12)); // WHERE seats > 12
+     * </code>
+     *
+     * @param     mixed $seats The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
+     */
+    public function filterBySeats($seats = null, $comparison = null)
+    {
+        if (is_array($seats)) {
+            $useMinMax = false;
+            if (isset($seats['min'])) {
+                $this->addUsingAlias(AircraftModelTableMap::COL_SEATS, $seats['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($seats['max'])) {
+                $this->addUsingAlias(AircraftModelTableMap::COL_SEATS, $seats['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AircraftModelTableMap::COL_SEATS, $seats, $comparison);
+    }
+
+    /**
+     * Filter the query on the classes column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByClasses(1234); // WHERE classes = 1234
+     * $query->filterByClasses(array(12, 34)); // WHERE classes IN (12, 34)
+     * $query->filterByClasses(array('min' => 12)); // WHERE classes > 12
+     * </code>
+     *
+     * @param     mixed $classes The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
+     */
+    public function filterByClasses($classes = null, $comparison = null)
+    {
+        if (is_array($classes)) {
+            $useMinMax = false;
+            if (isset($classes['min'])) {
+                $this->addUsingAlias(AircraftModelTableMap::COL_CLASSES, $classes['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($classes['max'])) {
+                $this->addUsingAlias(AircraftModelTableMap::COL_CLASSES, $classes['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AircraftModelTableMap::COL_CLASSES, $classes, $comparison);
+    }
+
+    /**
+     * Filter the query on the icao column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByICAO('fooValue');   // WHERE icao = 'fooValue'
+     * $query->filterByICAO('%fooValue%'); // WHERE icao LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $iCAO The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
+     */
+    public function filterByICAO($iCAO = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($iCAO)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $iCAO)) {
+                $iCAO = str_replace('*', '%', $iCAO);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(AircraftModelTableMap::COL_ICAO, $iCAO, $comparison);
+    }
+
+    /**
+     * Filter the query on the wtc column
+     *
+     * @param     mixed $wTC The value to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
+     */
+    public function filterByWTC($wTC = null, $comparison = null)
+    {
+        $valueSet = AircraftModelTableMap::getValueSet(AircraftModelTableMap::COL_WTC);
+        if (is_scalar($wTC)) {
+            if (!in_array($wTC, $valueSet)) {
+                throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $wTC));
+            }
+            $wTC = array_search($wTC, $valueSet);
+        } elseif (is_array($wTC)) {
+            $convertedValues = array();
+            foreach ($wTC as $value) {
+                if (!in_array($value, $valueSet)) {
+                    throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $value));
+                }
+                $convertedValues []= array_search($value, $valueSet);
+            }
+            $wTC = $convertedValues;
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AircraftModelTableMap::COL_WTC, $wTC, $comparison);
+    }
+
+    /**
+     * Filter the query on the engine_type column
+     *
+     * @param     mixed $engineType The value to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
+     */
+    public function filterByEngineType($engineType = null, $comparison = null)
+    {
+        $valueSet = AircraftModelTableMap::getValueSet(AircraftModelTableMap::COL_ENGINE_TYPE);
+        if (is_scalar($engineType)) {
+            if (!in_array($engineType, $valueSet)) {
+                throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $engineType));
+            }
+            $engineType = array_search($engineType, $valueSet);
+        } elseif (is_array($engineType)) {
+            $convertedValues = array();
+            foreach ($engineType as $value) {
+                if (!in_array($value, $valueSet)) {
+                    throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $value));
+                }
+                $convertedValues []= array_search($value, $valueSet);
+            }
+            $engineType = $convertedValues;
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AircraftModelTableMap::COL_ENGINE_TYPE, $engineType, $comparison);
+    }
+
+    /**
+     * Filter the query on the engine_count column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEngineCount(1234); // WHERE engine_count = 1234
+     * $query->filterByEngineCount(array(12, 34)); // WHERE engine_count IN (12, 34)
+     * $query->filterByEngineCount(array('min' => 12)); // WHERE engine_count > 12
+     * </code>
+     *
+     * @param     mixed $engineCount The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
+     */
+    public function filterByEngineCount($engineCount = null, $comparison = null)
+    {
+        if (is_array($engineCount)) {
+            $useMinMax = false;
+            if (isset($engineCount['min'])) {
+                $this->addUsingAlias(AircraftModelTableMap::COL_ENGINE_COUNT, $engineCount['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($engineCount['max'])) {
+                $this->addUsingAlias(AircraftModelTableMap::COL_ENGINE_COUNT, $engineCount['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AircraftModelTableMap::COL_ENGINE_COUNT, $engineCount, $comparison);
+    }
+
+    /**
+     * Filter the query on the flight_range column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByFlightRange(1234); // WHERE flight_range = 1234
+     * $query->filterByFlightRange(array(12, 34)); // WHERE flight_range IN (12, 34)
+     * $query->filterByFlightRange(array('min' => 12)); // WHERE flight_range > 12
+     * </code>
+     *
+     * @param     mixed $flightRange The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
+     */
+    public function filterByFlightRange($flightRange = null, $comparison = null)
+    {
+        if (is_array($flightRange)) {
+            $useMinMax = false;
+            if (isset($flightRange['min'])) {
+                $this->addUsingAlias(AircraftModelTableMap::COL_FLIGHT_RANGE, $flightRange['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($flightRange['max'])) {
+                $this->addUsingAlias(AircraftModelTableMap::COL_FLIGHT_RANGE, $flightRange['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AircraftModelTableMap::COL_FLIGHT_RANGE, $flightRange, $comparison);
+    }
+
+    /**
+     * Filter the query on the cruising_speed column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCruisingSpeed(1234); // WHERE cruising_speed = 1234
+     * $query->filterByCruisingSpeed(array(12, 34)); // WHERE cruising_speed IN (12, 34)
+     * $query->filterByCruisingSpeed(array('min' => 12)); // WHERE cruising_speed > 12
+     * </code>
+     *
+     * @param     mixed $cruisingSpeed The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildAircraftModelQuery The current query, for fluid interface
+     */
+    public function filterByCruisingSpeed($cruisingSpeed = null, $comparison = null)
+    {
+        if (is_array($cruisingSpeed)) {
+            $useMinMax = false;
+            if (isset($cruisingSpeed['min'])) {
+                $this->addUsingAlias(AircraftModelTableMap::COL_CRUISING_SPEED, $cruisingSpeed['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($cruisingSpeed['max'])) {
+                $this->addUsingAlias(AircraftModelTableMap::COL_CRUISING_SPEED, $cruisingSpeed['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AircraftModelTableMap::COL_CRUISING_SPEED, $cruisingSpeed, $comparison);
     }
 
     /**

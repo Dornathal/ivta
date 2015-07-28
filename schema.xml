@@ -25,14 +25,27 @@
     </table>
 
     <table name="aircraft_models" phpName="AircraftModel">
-        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="id" type="INTEGER" required="true" primaryKey="true"/>
         <column name="model" type="VARCHAR" size="12" required="true"/>
         <column name="brand" type="VARCHAR" size="12" required="true"/>
+
         <column name="packages" type="SMALLINT" required="true" defaultValue="0"/>
         <column name="post" type="SMALLINT" required="true" defaultValue="0"/>
         <column name="passenger_low" type="SMALLINT" required="true" defaultValue="0"/>
         <column name="passenger_mid" type="SMALLINT" required="true" defaultValue="0"/>
         <column name="passenger_high" type="SMALLINT" required="true" defaultValue="0"/>
+
+        <column name="seats" type="SMALLINT" required="true" defaultValue="3"/>
+        <column name="classes" type="TINYINT" required="true" defaultValue="1"/>
+
+        <column name="icao" type="VARCHAR" size="4" required="true" phpName="ICAO"/>
+        <column name="wtc" type="ENUM" valueSet="L,M,H,S" required="true" phpName="WTC" defaultValue="M"/>
+
+        <column name="engine_type" type="ENUM" valueSet="JET, TURBOPROP" required="true" defaultValue="JET"/>
+        <column name="engine_count" type="TINYINT" required="true" defaultValue="1"/>
+        <column name="flight_range" type="SMALLINT" required="true" defaultValue="3000"/>
+        <column name="cruising_speed" type="SMALLINT" required="true" defaultValue="120"/>
+
         <column name="weight" type="INTEGER" required="true"/>
         <column name="value" type="INTEGER" required="true"/>
 
@@ -61,6 +74,12 @@
         <column name="airline_id" type="INTEGER" primaryKey="true" required="false" />
         <column name="airport_id" type="INTEGER" required="false"/>
         <column name="pilot_id" type="INTEGER" primaryKey="true"/>
+
+        <column name="packages" type="SMALLINT" required="true" defaultValue="0"/>
+        <column name="post" type="SMALLINT" required="true" defaultValue="0"/>
+        <column name="passenger_low" type="SMALLINT" required="true" defaultValue="0"/>
+        <column name="passenger_mid" type="SMALLINT" required="true" defaultValue="0"/>
+        <column name="passenger_high" type="SMALLINT" required="true" defaultValue="0"/>
 
         <column name="callsign" type="VARCHAR" size="7" required="true"/>
 

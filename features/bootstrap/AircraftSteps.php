@@ -1,4 +1,5 @@
 <?php
+use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Model\Aircraft;
 use Model\AircraftQuery;
@@ -12,6 +13,16 @@ use Model\AircraftQuery;
 
 class AircraftSteps extends RawMinkContext implements \Behat\Behat\Context\Context
 {
+
+    private $constantContainer;
+
+    /**
+     * @internal param ConstantContainer $constantContainer
+     */
+    public function __construct()
+    {
+        $this->constantContainer = new ConstantContainer();
+    }
 
     /**
      * @Transform :aircraft
@@ -28,6 +39,20 @@ class AircraftSteps extends RawMinkContext implements \Behat\Behat\Context\Conte
     public function iAmOnTheAircraftSite($callsign)
     {
         $this->visitPath('/aircraft/' . $callsign);
+    }
+
+    /**
+     * @Given aircraft :aircraft can transport
+     * @param TableNode $table
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function pushAircraftCapacities(Aircraft $aircraft, TableNode $table)
+    {
+        foreach ($table->getHash() as $row) {
+            $freight_type = $this->constantContainer->FREIGHT_TYPES[$row['Freight_Type']];
+            $aircraft->setByName($freight_type, $row['Amount']);
+        }
+        $aircraft->save();
     }
 
     /**

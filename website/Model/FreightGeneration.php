@@ -82,9 +82,9 @@ class FreightGeneration extends BaseFreightGeneration
         }else{
             $amount = 0;
             foreach ($flights as $flight) {
-                $aircraftType = $flight->getAircraft()->getAircraftModel();
+                $aircraft = $flight->getAircraft();
                 for($i=0; $i < sizeof(Freight::$amount_modifier); $i++){
-                    $amount += $aircraftType->getByName(array_keys(Freight::$amount_modifier)[$i])
+                    $amount += $aircraft->getByName(array_keys(Freight::$amount_modifier)[$i])
                         / Freight::$amount_modifier[array_keys(Freight::$amount_modifier)[$i]];
                 }
             }

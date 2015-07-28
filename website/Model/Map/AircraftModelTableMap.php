@@ -59,7 +59,7 @@ class AircraftModelTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 10;
+    const NUM_COLUMNS = 18;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class AircraftModelTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 10;
+    const NUM_HYDRATE_COLUMNS = 18;
 
     /**
      * the column name for the id field
@@ -112,6 +112,46 @@ class AircraftModelTableMap extends TableMap
     const COL_PASSENGER_HIGH = 'aircraft_models.passenger_high';
 
     /**
+     * the column name for the seats field
+     */
+    const COL_SEATS = 'aircraft_models.seats';
+
+    /**
+     * the column name for the classes field
+     */
+    const COL_CLASSES = 'aircraft_models.classes';
+
+    /**
+     * the column name for the icao field
+     */
+    const COL_ICAO = 'aircraft_models.icao';
+
+    /**
+     * the column name for the wtc field
+     */
+    const COL_WTC = 'aircraft_models.wtc';
+
+    /**
+     * the column name for the engine_type field
+     */
+    const COL_ENGINE_TYPE = 'aircraft_models.engine_type';
+
+    /**
+     * the column name for the engine_count field
+     */
+    const COL_ENGINE_COUNT = 'aircraft_models.engine_count';
+
+    /**
+     * the column name for the flight_range field
+     */
+    const COL_FLIGHT_RANGE = 'aircraft_models.flight_range';
+
+    /**
+     * the column name for the cruising_speed field
+     */
+    const COL_CRUISING_SPEED = 'aircraft_models.cruising_speed';
+
+    /**
      * the column name for the weight field
      */
     const COL_WEIGHT = 'aircraft_models.weight';
@@ -126,6 +166,16 @@ class AircraftModelTableMap extends TableMap
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
 
+    /** The enumerated values for the wtc field */
+    const COL_WTC_L = 'L';
+    const COL_WTC_M = 'M';
+    const COL_WTC_H = 'H';
+    const COL_WTC_S = 'S';
+
+    /** The enumerated values for the engine_type field */
+    const COL_ENGINE_TYPE_JET = 'JET';
+    const COL_ENGINE_TYPE_TURBOPROP = 'TURBOPROP';
+
     /**
      * holds an array of fieldnames
      *
@@ -133,11 +183,11 @@ class AircraftModelTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Model', 'Brand', 'Packages', 'Post', 'PassengerLow', 'PassengerMid', 'PassengerHigh', 'Weight', 'Value', ),
-        self::TYPE_CAMELNAME     => array('id', 'model', 'brand', 'packages', 'post', 'passengerLow', 'passengerMid', 'passengerHigh', 'weight', 'value', ),
-        self::TYPE_COLNAME       => array(AircraftModelTableMap::COL_ID, AircraftModelTableMap::COL_MODEL, AircraftModelTableMap::COL_BRAND, AircraftModelTableMap::COL_PACKAGES, AircraftModelTableMap::COL_POST, AircraftModelTableMap::COL_PASSENGER_LOW, AircraftModelTableMap::COL_PASSENGER_MID, AircraftModelTableMap::COL_PASSENGER_HIGH, AircraftModelTableMap::COL_WEIGHT, AircraftModelTableMap::COL_VALUE, ),
-        self::TYPE_FIELDNAME     => array('id', 'model', 'brand', 'packages', 'post', 'passenger_low', 'passenger_mid', 'passenger_high', 'weight', 'value', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        self::TYPE_PHPNAME       => array('Id', 'Model', 'Brand', 'Packages', 'Post', 'PassengerLow', 'PassengerMid', 'PassengerHigh', 'Seats', 'Classes', 'ICAO', 'WTC', 'EngineType', 'EngineCount', 'FlightRange', 'CruisingSpeed', 'Weight', 'Value', ),
+        self::TYPE_CAMELNAME     => array('id', 'model', 'brand', 'packages', 'post', 'passengerLow', 'passengerMid', 'passengerHigh', 'seats', 'classes', 'iCAO', 'wTC', 'engineType', 'engineCount', 'flightRange', 'cruisingSpeed', 'weight', 'value', ),
+        self::TYPE_COLNAME       => array(AircraftModelTableMap::COL_ID, AircraftModelTableMap::COL_MODEL, AircraftModelTableMap::COL_BRAND, AircraftModelTableMap::COL_PACKAGES, AircraftModelTableMap::COL_POST, AircraftModelTableMap::COL_PASSENGER_LOW, AircraftModelTableMap::COL_PASSENGER_MID, AircraftModelTableMap::COL_PASSENGER_HIGH, AircraftModelTableMap::COL_SEATS, AircraftModelTableMap::COL_CLASSES, AircraftModelTableMap::COL_ICAO, AircraftModelTableMap::COL_WTC, AircraftModelTableMap::COL_ENGINE_TYPE, AircraftModelTableMap::COL_ENGINE_COUNT, AircraftModelTableMap::COL_FLIGHT_RANGE, AircraftModelTableMap::COL_CRUISING_SPEED, AircraftModelTableMap::COL_WEIGHT, AircraftModelTableMap::COL_VALUE, ),
+        self::TYPE_FIELDNAME     => array('id', 'model', 'brand', 'packages', 'post', 'passenger_low', 'passenger_mid', 'passenger_high', 'seats', 'classes', 'icao', 'wtc', 'engine_type', 'engine_count', 'flight_range', 'cruising_speed', 'weight', 'value', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
     );
 
     /**
@@ -147,12 +197,47 @@ class AircraftModelTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Model' => 1, 'Brand' => 2, 'Packages' => 3, 'Post' => 4, 'PassengerLow' => 5, 'PassengerMid' => 6, 'PassengerHigh' => 7, 'Weight' => 8, 'Value' => 9, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'model' => 1, 'brand' => 2, 'packages' => 3, 'post' => 4, 'passengerLow' => 5, 'passengerMid' => 6, 'passengerHigh' => 7, 'weight' => 8, 'value' => 9, ),
-        self::TYPE_COLNAME       => array(AircraftModelTableMap::COL_ID => 0, AircraftModelTableMap::COL_MODEL => 1, AircraftModelTableMap::COL_BRAND => 2, AircraftModelTableMap::COL_PACKAGES => 3, AircraftModelTableMap::COL_POST => 4, AircraftModelTableMap::COL_PASSENGER_LOW => 5, AircraftModelTableMap::COL_PASSENGER_MID => 6, AircraftModelTableMap::COL_PASSENGER_HIGH => 7, AircraftModelTableMap::COL_WEIGHT => 8, AircraftModelTableMap::COL_VALUE => 9, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'model' => 1, 'brand' => 2, 'packages' => 3, 'post' => 4, 'passenger_low' => 5, 'passenger_mid' => 6, 'passenger_high' => 7, 'weight' => 8, 'value' => 9, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Model' => 1, 'Brand' => 2, 'Packages' => 3, 'Post' => 4, 'PassengerLow' => 5, 'PassengerMid' => 6, 'PassengerHigh' => 7, 'Seats' => 8, 'Classes' => 9, 'ICAO' => 10, 'WTC' => 11, 'EngineType' => 12, 'EngineCount' => 13, 'FlightRange' => 14, 'CruisingSpeed' => 15, 'Weight' => 16, 'Value' => 17, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'model' => 1, 'brand' => 2, 'packages' => 3, 'post' => 4, 'passengerLow' => 5, 'passengerMid' => 6, 'passengerHigh' => 7, 'seats' => 8, 'classes' => 9, 'iCAO' => 10, 'wTC' => 11, 'engineType' => 12, 'engineCount' => 13, 'flightRange' => 14, 'cruisingSpeed' => 15, 'weight' => 16, 'value' => 17, ),
+        self::TYPE_COLNAME       => array(AircraftModelTableMap::COL_ID => 0, AircraftModelTableMap::COL_MODEL => 1, AircraftModelTableMap::COL_BRAND => 2, AircraftModelTableMap::COL_PACKAGES => 3, AircraftModelTableMap::COL_POST => 4, AircraftModelTableMap::COL_PASSENGER_LOW => 5, AircraftModelTableMap::COL_PASSENGER_MID => 6, AircraftModelTableMap::COL_PASSENGER_HIGH => 7, AircraftModelTableMap::COL_SEATS => 8, AircraftModelTableMap::COL_CLASSES => 9, AircraftModelTableMap::COL_ICAO => 10, AircraftModelTableMap::COL_WTC => 11, AircraftModelTableMap::COL_ENGINE_TYPE => 12, AircraftModelTableMap::COL_ENGINE_COUNT => 13, AircraftModelTableMap::COL_FLIGHT_RANGE => 14, AircraftModelTableMap::COL_CRUISING_SPEED => 15, AircraftModelTableMap::COL_WEIGHT => 16, AircraftModelTableMap::COL_VALUE => 17, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'model' => 1, 'brand' => 2, 'packages' => 3, 'post' => 4, 'passenger_low' => 5, 'passenger_mid' => 6, 'passenger_high' => 7, 'seats' => 8, 'classes' => 9, 'icao' => 10, 'wtc' => 11, 'engine_type' => 12, 'engine_count' => 13, 'flight_range' => 14, 'cruising_speed' => 15, 'weight' => 16, 'value' => 17, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
     );
+
+    /** The enumerated values for this table */
+    protected static $enumValueSets = array(
+                AircraftModelTableMap::COL_WTC => array(
+                            self::COL_WTC_L,
+            self::COL_WTC_M,
+            self::COL_WTC_H,
+            self::COL_WTC_S,
+        ),
+                AircraftModelTableMap::COL_ENGINE_TYPE => array(
+                            self::COL_ENGINE_TYPE_JET,
+            self::COL_ENGINE_TYPE_TURBOPROP,
+        ),
+    );
+
+    /**
+     * Gets the list of values for all ENUM columns
+     * @return array
+     */
+    public static function getValueSets()
+    {
+      return static::$enumValueSets;
+    }
+
+    /**
+     * Gets the list of values for an ENUM column
+     * @param string $colname
+     * @return array list of possible values for the column
+     */
+    public static function getValueSet($colname)
+    {
+        $valueSets = self::getValueSets();
+
+        return $valueSets[$colname];
+    }
 
     /**
      * Initialize the table attributes and columns
@@ -169,7 +254,7 @@ class AircraftModelTableMap extends TableMap
         $this->setIdentifierQuoting(false);
         $this->setClassName('\\Model\\AircraftModel');
         $this->setPackage('Model');
-        $this->setUseIdGenerator(true);
+        $this->setUseIdGenerator(false);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('model', 'Model', 'VARCHAR', true, 12, null);
@@ -179,6 +264,24 @@ class AircraftModelTableMap extends TableMap
         $this->addColumn('passenger_low', 'PassengerLow', 'SMALLINT', true, null, 0);
         $this->addColumn('passenger_mid', 'PassengerMid', 'SMALLINT', true, null, 0);
         $this->addColumn('passenger_high', 'PassengerHigh', 'SMALLINT', true, null, 0);
+        $this->addColumn('seats', 'Seats', 'SMALLINT', true, null, 3);
+        $this->addColumn('classes', 'Classes', 'TINYINT', true, null, 1);
+        $this->addColumn('icao', 'ICAO', 'VARCHAR', true, 4, null);
+        $this->addColumn('wtc', 'WTC', 'ENUM', true, null, 'M');
+        $this->getColumn('wtc')->setValueSet(array (
+  0 => 'L',
+  1 => 'M',
+  2 => 'H',
+  3 => 'S',
+));
+        $this->addColumn('engine_type', 'EngineType', 'ENUM', true, null, 'JET');
+        $this->getColumn('engine_type')->setValueSet(array (
+  0 => 'JET',
+  1 => 'TURBOPROP',
+));
+        $this->addColumn('engine_count', 'EngineCount', 'TINYINT', true, null, 1);
+        $this->addColumn('flight_range', 'FlightRange', 'SMALLINT', true, null, 3000);
+        $this->addColumn('cruising_speed', 'CruisingSpeed', 'SMALLINT', true, null, 120);
         $this->addColumn('weight', 'Weight', 'INTEGER', true, null, null);
         $this->addColumn('value', 'Value', 'INTEGER', true, null, null);
     } // initialize()
@@ -353,6 +456,14 @@ class AircraftModelTableMap extends TableMap
             $criteria->addSelectColumn(AircraftModelTableMap::COL_PASSENGER_LOW);
             $criteria->addSelectColumn(AircraftModelTableMap::COL_PASSENGER_MID);
             $criteria->addSelectColumn(AircraftModelTableMap::COL_PASSENGER_HIGH);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_SEATS);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_CLASSES);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_ICAO);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_WTC);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_ENGINE_TYPE);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_ENGINE_COUNT);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_FLIGHT_RANGE);
+            $criteria->addSelectColumn(AircraftModelTableMap::COL_CRUISING_SPEED);
             $criteria->addSelectColumn(AircraftModelTableMap::COL_WEIGHT);
             $criteria->addSelectColumn(AircraftModelTableMap::COL_VALUE);
         } else {
@@ -364,6 +475,14 @@ class AircraftModelTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.passenger_low');
             $criteria->addSelectColumn($alias . '.passenger_mid');
             $criteria->addSelectColumn($alias . '.passenger_high');
+            $criteria->addSelectColumn($alias . '.seats');
+            $criteria->addSelectColumn($alias . '.classes');
+            $criteria->addSelectColumn($alias . '.icao');
+            $criteria->addSelectColumn($alias . '.wtc');
+            $criteria->addSelectColumn($alias . '.engine_type');
+            $criteria->addSelectColumn($alias . '.engine_count');
+            $criteria->addSelectColumn($alias . '.flight_range');
+            $criteria->addSelectColumn($alias . '.cruising_speed');
             $criteria->addSelectColumn($alias . '.weight');
             $criteria->addSelectColumn($alias . '.value');
         }
@@ -463,10 +582,6 @@ class AircraftModelTableMap extends TableMap
             $criteria = clone $criteria; // rename for clarity
         } else {
             $criteria = $criteria->buildCriteria(); // build Criteria from AircraftModel object
-        }
-
-        if ($criteria->containsKey(AircraftModelTableMap::COL_ID) && $criteria->keyContainsValue(AircraftModelTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.AircraftModelTableMap::COL_ID.')');
         }
 
 

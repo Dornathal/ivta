@@ -71,16 +71,45 @@ class Import
         });
     }
 
+    public function aircraft_models(){
+        $file = $this->RESORCE_PATH . '/aircraft_models.csv';
+        $csv = $this->readCSV($file, 1);
+
+        Flight::transaction(function () use ($csv){
+            foreach($csv as $array){
+                $airline = new \Model\AircraftModel();
+                $airline->setId($array[0]);
+                $airline->setBrand($array[1]);
+                $airline->setModel($array[2]);
+                $airline->setICAO($array[3]);
+
+                $airline->setClasses($array[5]);
+                $airline->setSeats($array[4]);
+                $airline->setEngineType($array[6]);
+                $airline->setEngineCount($array[7]);
+
+                $airline->setFlightRange($array[8]);
+                $airline->setCruisingSpeed($array[9]);
+
+                $airline->setWeight($array[11]);
+                $airline->setWTC($array[12]);
+
+                $airline->save();
+            }
+        });
+    }
+
     /**
      * @param $file
      * @return array
      */
-    private function readCSV($file)
+    private function readCSV($file, $skip=0)
     {
         $csv = null;
         if (($handle = fopen($file, "r")) !== FALSE) {
             $csv = array();
             while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                if($skip-- > 0) continue;
                 array_push($csv, $data);
             }
             fclose($handle);

@@ -40,7 +40,7 @@
                     {% set glyphicons = ['th-large', 'envelope', 'user', 'tag', 'tags'] %}
                     {% set freight_types = ['Packages', 'Post', 'PassengerLow', 'PassengerMid', 'PassengerHigh'] %}
                     {% for freight_type in freight_types %}
-                        {% set capacity = AircraftModel[freight_type] %}
+                        {% set capacity = Aircraft[freight_type] %}
                         {% set freight = Flight[freight_type] %}
                         {% if capacity %}
                             <tr>

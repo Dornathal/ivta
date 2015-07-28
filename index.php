@@ -236,6 +236,9 @@ $app->get('/import/:type', function ($type) use ($app) {
         case 'airlines':
             $importer->airlines();
             break;
+        case 'aircraft_models':
+            $importer->aircraft_models();
+            break;
     }
 });
 

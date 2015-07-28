@@ -29,19 +29,6 @@ class AircraftModelSteps extends RawMinkContext implements Context
     }
 
     /**
-     * @Given I have an aircraft_model :model from :brand
-     */
-    public function newAircraftModel($model, $brand)
-    {
-        $aircraft_model = new AircraftModel();
-        $aircraft_model->setBrand($brand);
-        $aircraft_model->setModel($model);
-        $aircraft_model->setWeight(0);
-        $aircraft_model->setValue(0);
-        $aircraft_model->save();
-    }
-
-    /**
      * @When I search for aircraft_model :aircraft_model
      */
     public function visitAircraftModel($model)
@@ -58,29 +45,12 @@ class AircraftModelSteps extends RawMinkContext implements Context
     }
 
     /**
-     * @Given aircraft_model can transport
-     * @param TableNode $table
-     * @throws \Propel\Runtime\Exception\PropelException
+     * @Given aircraft_model :model has a value of :value
      */
-    public function pushAircraftModelCapacities(TableNode $table)
+    public function setAircraftModelValue(AircraftModel $model, $value)
     {
-        $aircraft_model = $this->lastCreatedAircraftModel();
-        foreach ($table->getHash() as $row) {
-            $freight_type = $this->constantContainer->FREIGHT_TYPES[$row['Freight_Type']];
-            $aircraft_model->setByName($freight_type, $row['Amount']);
-        }
-        $aircraft_model->save();
-
-    }
-
-    /**
-     * @Given aircraft_model has a value of :value
-     */
-    public function setAircraftModelValue($value)
-    {
-        $aircraft_model = $this->lastCreatedAircraftModel();
-        $aircraft_model->setValue($value);
-        $aircraft_model->save();
+        $model->setValue($value);
+        $model->save();
     }
 
     /**
@@ -91,6 +61,18 @@ class AircraftModelSteps extends RawMinkContext implements Context
         return AircraftModelQuery::create()
             ->orderById(Criteria::DESC)
             ->findOne();
+    }
+
+    /**
+     * @Given aircraft_model has settings
+     */
+    public function aircraft_modelHasSettings(TableNode $table)
+    {
+        $aircraft_model = $this->lastCreatedAircraftModel();
+        foreach ($table->getHash() as $row) {
+            $aircraft_model->setByName($row['Column'], $row['Value']);
+        }
+        $aircraft_model->save();
     }
 
 }
