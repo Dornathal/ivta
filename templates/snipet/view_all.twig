@@ -1,4 +1,5 @@
 {% extends 'layout.twig' %}
+{% import "macro/paginator.twig" as pagination %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb">
@@ -21,6 +22,7 @@
                     {% block table_body %}{% endblock %}
                 </tbody>
             </table>
+            {{ pagination.paginationControl(paginator, app.request.uri ) }}
         </div>
         <div class="col-lg-4">
             <div class="panel panel-primary">

@@ -52,9 +52,9 @@ $app->get('/', function () use ($app) {
  * @param $app
  * @param $aircraft
  */
-function showAllAircrafts(Slim\Slim $app, Propel\Runtime\Collection\ObjectCollection $aircraft)
+function showAllAircrafts(Slim\Slim $app, $aircraft)
 {
-    $app->view()->appendData(array('aircrafts' => $aircraft->toArray()));
+    $app->view()->appendData(array('aircrafts' => $aircraft));
     $app->render('view_all_aircraft_models.twig');
 }
 
@@ -70,7 +70,7 @@ $app->group('/aircraft', function () use ($app, $user) {
             $model = $app->request()->get('Model');
             if ($model) $app->redirectTo('aircraftmodelview', array("Model" => $model));
 
-            $aircrafts = AircraftModelQuery::create()->orderByModel()->find();
+            $aircrafts = AircraftModelQuery::getAircraftModels($app->request->get('page'));
             showAllAircrafts($app, $aircrafts);
         })->name('aircraftallmodelsview');
 
@@ -88,14 +88,14 @@ $app->group('/aircraft', function () use ($app, $user) {
                 $model = $app->request()->get('Model');
                 if ($model) $app->redirectTo('aircraftmodelview', array("Model" => $model));
 
-                $aircraft = AircraftModelQuery::create()->filterByModel($Model . '%', Criteria::LIKE)->find();
-                if ($aircraft->count() == 1) {
+                $aircraft_models = AircraftModelQuery::create()->filterByModel($Model . '%', Criteria::LIKE)->find();
+                if ($aircraft_models->count() == 1) {
                     if ($user != null && $user->getAirline() != null)
                         $app->view()->appendData(array('airline' => $user->getAirline()->toArray(), 'user' => $user->toArray()));
-                    $app->view()->appendData(array('aircraft' => $aircraft->getFirst()->toArray()));
+                    $app->view()->appendData($aircraft_models->getFirst()->queryAircraftModelView($app->request()->get('page')));
                     $app->render('view_aircraft_model.twig');
-                } else if ($aircraft->count() > 0) {
-                    showAllAircrafts($app, $aircraft);
+                } else if ($aircraft_models->count() > 0) {
+                    showAllAircrafts($app, $aircraft_models);
                 } else {
                     $app->redirectTo('aircraftallmodelsview');
                 }
@@ -149,11 +149,7 @@ $app->group('/airports', function () use ($app) {
         $icao = $app->request()->get('ICAO');
         if ($icao) $app->redirectTo('airportview', array("icao" => $icao));
 
-        $airports = AirportQuery::create()
-            ->joinFreightGeneration()
-            ->orderBy('FreightGeneration.Capacity',Criteria::ASC)
-            ->limit(10)
-            ->find()->toArray();
+        $airports = AirportQuery::getAirports($app->request->get('page'));
         $app->view()->appendData(array('airports' => $airports));
         $app->render('view_all_airports.twig');
     });
@@ -211,13 +207,7 @@ $app->group('/airlines', function () use ($app) {
         $callsign = $app->request()->get('ICAO');
         if ($callsign) $app->redirectTo('airlineview', array("ICAO" => strtoupper($callsign)));
 
-        $airlines = AirlineQuery::create()
-            ->orderByICAO()
-            ->joinAircraft()
-            ->setDistinct()
-            ->limit(10)
-            ->find()
-            ->toArray();
+        $airlines = AirlineQuery::getAirlines($app->request()->get('page'));
         $app->view()->appendData(array('airlines' => $airlines));
         $app->render('view_all_airlines.twig');
     });
@@ -227,7 +217,7 @@ $app->group('/airlines', function () use ($app) {
         $app->get('', function ($icao) use ($app) {
             $airline = AirlineQuery::create()->findOneByICAO($icao);
             if ($airline != null) {
-                $app->view()->appendData($airline->queryAirlineView());
+                $app->view()->appendData($airline->queryAirlineView($app->request()->get('page')));
                 $app->render('view_airline.twig');
             } else if (strlen($icao) <= 4 && strlen($icao) >= 2) {
                 $app->view()->appendData(array('airlineData' => array('ICAO' => strtoupper($icao))));
@@ -269,7 +259,7 @@ $app->get('/logout', function () use ($app) {
 });
 
 $app->get('/profile', function () use ($app, $user) {
-    $app->view()->appendData(array('pilot' => $user->queryProfileData()));
+    $app->view()->appendData(array('pilot' => $user->queryProfileData($app->request()->get('page'))));
     $app->render('profile.twig');
 })->setName('profile');
 

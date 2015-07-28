@@ -123,6 +123,7 @@ class Flight extends BaseFlight
         $aircraftModel = $aircraft->getAircraftModel();
 
         $flight->setAircraft($aircraft);
+        $flight->setAircraftModel($aircraft->getAircraftModel());
         $flight->setDeparture($departure);
         $flight->setDestination($destination);
         $flight->setPilot($pilot);

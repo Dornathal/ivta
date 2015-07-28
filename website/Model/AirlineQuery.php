@@ -16,5 +16,11 @@ use Model\Base\AirlineQuery as BaseAirlineQuery;
  */
 class AirlineQuery extends BaseAirlineQuery
 {
-
+    public static function getAirlines($page){
+        return AirlineQuery::create()
+            ->orderByICAO()
+            ->joinAircraft()
+            ->setDistinct()
+            ->paginate($page, 10);
+    }
 }

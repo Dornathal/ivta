@@ -21,14 +21,14 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildFreightGenerationQuery orderByAirportId($order = Criteria::ASC) Order by the airport_id column
- * @method     ChildFreightGenerationQuery orderByNextGeneration($order = Criteria::ASC) Order by the next_generation column
- * @method     ChildFreightGenerationQuery orderByLastUpdatedAt($order = Criteria::ASC) Order by the last_updated_at column
+ * @method     ChildFreightGenerationQuery orderByNextGenerationAt($order = Criteria::ASC) Order by the next_generation_at column
+ * @method     ChildFreightGenerationQuery orderByNextUpdateAt($order = Criteria::ASC) Order by the next_update_at column
  * @method     ChildFreightGenerationQuery orderByCapacity($order = Criteria::ASC) Order by the capacity column
  * @method     ChildFreightGenerationQuery orderByEvery($order = Criteria::ASC) Order by the every column
  *
  * @method     ChildFreightGenerationQuery groupByAirportId() Group by the airport_id column
- * @method     ChildFreightGenerationQuery groupByNextGeneration() Group by the next_generation column
- * @method     ChildFreightGenerationQuery groupByLastUpdatedAt() Group by the last_updated_at column
+ * @method     ChildFreightGenerationQuery groupByNextGenerationAt() Group by the next_generation_at column
+ * @method     ChildFreightGenerationQuery groupByNextUpdateAt() Group by the next_update_at column
  * @method     ChildFreightGenerationQuery groupByCapacity() Group by the capacity column
  * @method     ChildFreightGenerationQuery groupByEvery() Group by the every column
  *
@@ -46,8 +46,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildFreightGeneration findOneOrCreate(ConnectionInterface $con = null) Return the first ChildFreightGeneration matching the query, or a new ChildFreightGeneration object populated from the query conditions when no match is found
  *
  * @method     ChildFreightGeneration findOneByAirportId(int $airport_id) Return the first ChildFreightGeneration filtered by the airport_id column
- * @method     ChildFreightGeneration findOneByNextGeneration(string $next_generation) Return the first ChildFreightGeneration filtered by the next_generation column
- * @method     ChildFreightGeneration findOneByLastUpdatedAt(string $last_updated_at) Return the first ChildFreightGeneration filtered by the last_updated_at column
+ * @method     ChildFreightGeneration findOneByNextGenerationAt(string $next_generation_at) Return the first ChildFreightGeneration filtered by the next_generation_at column
+ * @method     ChildFreightGeneration findOneByNextUpdateAt(string $next_update_at) Return the first ChildFreightGeneration filtered by the next_update_at column
  * @method     ChildFreightGeneration findOneByCapacity(int $capacity) Return the first ChildFreightGeneration filtered by the capacity column
  * @method     ChildFreightGeneration findOneByEvery(int $every) Return the first ChildFreightGeneration filtered by the every column *
 
@@ -55,15 +55,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildFreightGeneration requireOne(ConnectionInterface $con = null) Return the first ChildFreightGeneration matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildFreightGeneration requireOneByAirportId(int $airport_id) Return the first ChildFreightGeneration filtered by the airport_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildFreightGeneration requireOneByNextGeneration(string $next_generation) Return the first ChildFreightGeneration filtered by the next_generation column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildFreightGeneration requireOneByLastUpdatedAt(string $last_updated_at) Return the first ChildFreightGeneration filtered by the last_updated_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildFreightGeneration requireOneByNextGenerationAt(string $next_generation_at) Return the first ChildFreightGeneration filtered by the next_generation_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildFreightGeneration requireOneByNextUpdateAt(string $next_update_at) Return the first ChildFreightGeneration filtered by the next_update_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildFreightGeneration requireOneByCapacity(int $capacity) Return the first ChildFreightGeneration filtered by the capacity column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildFreightGeneration requireOneByEvery(int $every) Return the first ChildFreightGeneration filtered by the every column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildFreightGeneration[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildFreightGeneration objects based on current ModelCriteria
  * @method     ChildFreightGeneration[]|ObjectCollection findByAirportId(int $airport_id) Return ChildFreightGeneration objects filtered by the airport_id column
- * @method     ChildFreightGeneration[]|ObjectCollection findByNextGeneration(string $next_generation) Return ChildFreightGeneration objects filtered by the next_generation column
- * @method     ChildFreightGeneration[]|ObjectCollection findByLastUpdatedAt(string $last_updated_at) Return ChildFreightGeneration objects filtered by the last_updated_at column
+ * @method     ChildFreightGeneration[]|ObjectCollection findByNextGenerationAt(string $next_generation_at) Return ChildFreightGeneration objects filtered by the next_generation_at column
+ * @method     ChildFreightGeneration[]|ObjectCollection findByNextUpdateAt(string $next_update_at) Return ChildFreightGeneration objects filtered by the next_update_at column
  * @method     ChildFreightGeneration[]|ObjectCollection findByCapacity(int $capacity) Return ChildFreightGeneration objects filtered by the capacity column
  * @method     ChildFreightGeneration[]|ObjectCollection findByEvery(int $every) Return ChildFreightGeneration objects filtered by the every column
  * @method     ChildFreightGeneration[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
@@ -158,7 +158,7 @@ abstract class FreightGenerationQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT airport_id, next_generation, last_updated_at, capacity, every FROM freight_generations WHERE airport_id = :p0';
+        $sql = 'SELECT airport_id, next_generation_at, next_update_at, capacity, every FROM freight_generations WHERE airport_id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -292,16 +292,16 @@ abstract class FreightGenerationQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the next_generation column
+     * Filter the query on the next_generation_at column
      *
      * Example usage:
      * <code>
-     * $query->filterByNextGeneration('2011-03-14'); // WHERE next_generation = '2011-03-14'
-     * $query->filterByNextGeneration('now'); // WHERE next_generation = '2011-03-14'
-     * $query->filterByNextGeneration(array('max' => 'yesterday')); // WHERE next_generation > '2011-03-13'
+     * $query->filterByNextGenerationAt('2011-03-14'); // WHERE next_generation_at = '2011-03-14'
+     * $query->filterByNextGenerationAt('now'); // WHERE next_generation_at = '2011-03-14'
+     * $query->filterByNextGenerationAt(array('max' => 'yesterday')); // WHERE next_generation_at > '2011-03-13'
      * </code>
      *
-     * @param     mixed $nextGeneration The value to use as filter.
+     * @param     mixed $nextGenerationAt The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
@@ -311,16 +311,16 @@ abstract class FreightGenerationQuery extends ModelCriteria
      *
      * @return $this|ChildFreightGenerationQuery The current query, for fluid interface
      */
-    public function filterByNextGeneration($nextGeneration = null, $comparison = null)
+    public function filterByNextGenerationAt($nextGenerationAt = null, $comparison = null)
     {
-        if (is_array($nextGeneration)) {
+        if (is_array($nextGenerationAt)) {
             $useMinMax = false;
-            if (isset($nextGeneration['min'])) {
-                $this->addUsingAlias(FreightGenerationTableMap::COL_NEXT_GENERATION, $nextGeneration['min'], Criteria::GREATER_EQUAL);
+            if (isset($nextGenerationAt['min'])) {
+                $this->addUsingAlias(FreightGenerationTableMap::COL_NEXT_GENERATION_AT, $nextGenerationAt['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($nextGeneration['max'])) {
-                $this->addUsingAlias(FreightGenerationTableMap::COL_NEXT_GENERATION, $nextGeneration['max'], Criteria::LESS_EQUAL);
+            if (isset($nextGenerationAt['max'])) {
+                $this->addUsingAlias(FreightGenerationTableMap::COL_NEXT_GENERATION_AT, $nextGenerationAt['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -331,20 +331,20 @@ abstract class FreightGenerationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(FreightGenerationTableMap::COL_NEXT_GENERATION, $nextGeneration, $comparison);
+        return $this->addUsingAlias(FreightGenerationTableMap::COL_NEXT_GENERATION_AT, $nextGenerationAt, $comparison);
     }
 
     /**
-     * Filter the query on the last_updated_at column
+     * Filter the query on the next_update_at column
      *
      * Example usage:
      * <code>
-     * $query->filterByLastUpdatedAt('2011-03-14'); // WHERE last_updated_at = '2011-03-14'
-     * $query->filterByLastUpdatedAt('now'); // WHERE last_updated_at = '2011-03-14'
-     * $query->filterByLastUpdatedAt(array('max' => 'yesterday')); // WHERE last_updated_at > '2011-03-13'
+     * $query->filterByNextUpdateAt('2011-03-14'); // WHERE next_update_at = '2011-03-14'
+     * $query->filterByNextUpdateAt('now'); // WHERE next_update_at = '2011-03-14'
+     * $query->filterByNextUpdateAt(array('max' => 'yesterday')); // WHERE next_update_at > '2011-03-13'
      * </code>
      *
-     * @param     mixed $lastUpdatedAt The value to use as filter.
+     * @param     mixed $nextUpdateAt The value to use as filter.
      *              Values can be integers (unix timestamps), DateTime objects, or strings.
      *              Empty strings are treated as NULL.
      *              Use scalar values for equality.
@@ -354,16 +354,16 @@ abstract class FreightGenerationQuery extends ModelCriteria
      *
      * @return $this|ChildFreightGenerationQuery The current query, for fluid interface
      */
-    public function filterByLastUpdatedAt($lastUpdatedAt = null, $comparison = null)
+    public function filterByNextUpdateAt($nextUpdateAt = null, $comparison = null)
     {
-        if (is_array($lastUpdatedAt)) {
+        if (is_array($nextUpdateAt)) {
             $useMinMax = false;
-            if (isset($lastUpdatedAt['min'])) {
-                $this->addUsingAlias(FreightGenerationTableMap::COL_LAST_UPDATED_AT, $lastUpdatedAt['min'], Criteria::GREATER_EQUAL);
+            if (isset($nextUpdateAt['min'])) {
+                $this->addUsingAlias(FreightGenerationTableMap::COL_NEXT_UPDATE_AT, $nextUpdateAt['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($lastUpdatedAt['max'])) {
-                $this->addUsingAlias(FreightGenerationTableMap::COL_LAST_UPDATED_AT, $lastUpdatedAt['max'], Criteria::LESS_EQUAL);
+            if (isset($nextUpdateAt['max'])) {
+                $this->addUsingAlias(FreightGenerationTableMap::COL_NEXT_UPDATE_AT, $nextUpdateAt['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -374,7 +374,7 @@ abstract class FreightGenerationQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(FreightGenerationTableMap::COL_LAST_UPDATED_AT, $lastUpdatedAt, $comparison);
+        return $this->addUsingAlias(FreightGenerationTableMap::COL_NEXT_UPDATE_AT, $nextUpdateAt, $comparison);
     }
 
     /**

@@ -69,10 +69,10 @@ class Pilot extends BasePilot
         return $aircraft;
     }
 
-    public function queryProfileData()
+    public function queryProfileData($page)
     {
         return array('aircrafts' => AircraftQuery::populateAircraftTable(AircraftQuery::create()->filterByPilot($this)),
-            'flights' => FlightQuery::queryFlights(FlightQuery::create()->filterByPilot($this)),
+            'flights' => FlightQuery::queryFlights($page, FlightQuery::create()->filterByPilot($this)),
             'airports' => AirportQuery::queryDeliverableAirports());
     }
 

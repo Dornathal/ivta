@@ -85,8 +85,8 @@ class Freight extends BaseFreight
 
             if($generationTimes <= 0) return;
             $destination = FreightGenerationQuery::create()
-                ->orderByNextGeneration()
-                ->filterByNextGeneration(time(), Criteria::LESS_THAN)
+                ->orderByNextGenerationAt()
+                ->filterByNextGenerationAt(time(), Criteria::LESS_THAN)
                 ->limit($generationTimes)
                 ->filterByAirport($airport, Criteria::NOT_EQUAL)
                 ->find();

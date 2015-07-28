@@ -1,0 +1,15 @@
+{% macro paginationControl(paginator, url) %}
+    {% if paginator.haveToPaginate %}
+        <ul class="pagination">
+            {% if paginator.getPage > 1 %}
+            <li><a href="{{ url }}?page={{ paginator.getFirstPage}}">«</a></li>
+            {% endif %}
+            {% for page in paginator.getLinks(7) %}
+                <li {%if page == paginator.page  %}class="active"{% endif %}><a href="{{ url }}?page={{ page }}">{{ page }}</a></li>
+            {% endfor %}
+            {% if paginator.getPage < paginator.getLastPage %}
+                <li><a href="{{ url }}?page={{ paginator.getLastPage}}">»</a></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endmacro %}

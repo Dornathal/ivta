@@ -23,3 +23,9 @@ Feature: Showing Flight lists on various pages
 
     Then I should see "EDDF - EGLL"
     And I should see "EGLL - EDDM"
+
+  Scenario: Show latest flights on aircraft_model profile
+    Given I search for aircraft_model "B737-800"
+
+    Then I should see "EDDF - EGLL"
+    And I should see "EGLL - EDDM"

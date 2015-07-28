@@ -28,4 +28,11 @@ class AirportQuery extends BaseAirportQuery
             ->select('Icao')
             ->find()->toArray();
     }
+
+    public static function getAirports($page){
+        return AirportQuery::create()
+            ->joinFreightGeneration()
+            ->orderBy('FreightGeneration.Capacity',Criteria::ASC)
+            ->paginate($page, 10);
+    }
 }

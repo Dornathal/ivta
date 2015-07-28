@@ -1,6 +1,7 @@
 {% extends 'snipet/view_all.twig' %}
 {% set title = Language.aircrafts %}
 {% set search = {'name': 'Model', 'label': Language.aircraft_model} %}
+{% set paginator = aircrafts %}
 
 {% block table_header %}
     <th>{{ Language.aircraft_model }}</th>

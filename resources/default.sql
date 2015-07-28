@@ -118,6 +118,7 @@ CREATE TABLE `flights`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `aircraft_id` INTEGER NOT NULL,
+    `aircraft_model_id` INTEGER NOT NULL,
     `airline_id` INTEGER NOT NULL,
     `destination_id` INTEGER NOT NULL,
     `departure_id` INTEGER NOT NULL,
@@ -134,8 +135,9 @@ CREATE TABLE `flights`
     `next_step_possible_at` DATETIME,
     `created_at` DATETIME,
     `updated_at` DATETIME,
-    PRIMARY KEY (`id`,`aircraft_id`,`airline_id`,`destination_id`,`departure_id`,`pilot_id`),
+    PRIMARY KEY (`id`,`aircraft_id`,`aircraft_model_id`,`airline_id`,`destination_id`,`departure_id`,`pilot_id`),
     INDEX `flights_fi_c3deee` (`aircraft_id`),
+    INDEX `flights_fi_533ab3` (`aircraft_model_id`),
     INDEX `flights_fi_3c541c` (`airline_id`),
     INDEX `flights_fi_a39f89` (`destination_id`),
     INDEX `flights_fi_cbe538` (`departure_id`),
@@ -143,6 +145,9 @@ CREATE TABLE `flights`
     CONSTRAINT `flights_fk_c3deee`
         FOREIGN KEY (`aircraft_id`)
         REFERENCES `aircrafts` (`id`),
+    CONSTRAINT `flights_fk_533ab3`
+        FOREIGN KEY (`aircraft_model_id`)
+        REFERENCES `aircraft_models` (`id`),
     CONSTRAINT `flights_fk_3c541c`
         FOREIGN KEY (`airline_id`)
         REFERENCES `airlines` (`id`),
@@ -247,8 +252,8 @@ DROP TABLE IF EXISTS `freight_generations`;
 CREATE TABLE `freight_generations`
 (
     `airport_id` INTEGER NOT NULL,
-    `next_generation` DATETIME NOT NULL,
-    `last_updated_at` DATE NOT NULL,
+    `next_generation_at` DATETIME NOT NULL,
+    `next_update_at` DATETIME NOT NULL,
     `capacity` INTEGER DEFAULT 1 NOT NULL,
     `every` INTEGER DEFAULT 1 NOT NULL,
     PRIMARY KEY (`airport_id`),

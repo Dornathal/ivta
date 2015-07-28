@@ -1,6 +1,7 @@
 {% extends 'snipet/view_all.twig' %}
 {% set title = Language.airlines %}
 {% set search = {'name': 'ICAO', 'label': Language.icao} %}
+{% set paginator = airlines %}
 
 {% block table_header %}
     <th class="col-lg-2"></th>

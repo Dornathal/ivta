@@ -1,16 +1,18 @@
-<div class="col-lg-4">
+{% import "macro/paginator.twig" as pagination %}
+
+<div class="col-md-6">
     {% if flights is not empty %}
         {% set flightstatus = [ Language.status_planned , Language.status_loading, Language.status_en_route, Language.status_unloading, Language.status_finished, Language.status_aborted]  %}
         <table class="table table-striped table-hover ">
             <thead>
             <tr>
                 <th></th>
-                <th><span class="glyphicon glyphicon-map-marker glyphicon-align-center"></span></th>
+                <th><span class="glyphicon glyphicon-align-center glyphicon-map-marker"></span></th>
                 <th></th>
-                <th></th>
-                <th>#</th>
+                <th><span class="glyphicon glyphicon-align-center glyphicon-plane"></span></th>
+                <th><span class="glyphicon glyphicon-date"></span></th>
                 <th><span class="glyphicon glyphicon-time"></span></th>
-                <th><span class="glyphicon glyphicon-share-alt"></span></th>
+                <th><span class="glyphicon glyphicon-align-center glyphicon-share-alt"></span></th>
             </tr>
             </thead>
             <tbody>
@@ -18,17 +20,17 @@
                 <tr>
                     <td>{{ flightstatus[flight.Status] }}</td>
                     <td>{{ flight.Departure }} - {{ flight.Destination }}</td>
-                    <td><a href="/index.php/flight/{{ flight.Callsign }}"
+                    <td><a href="/index.php/aircraft/{{ flight.Callsign }}/{{ flight.FlightNumber }}/{{ flight.Id }}"
                            class="btn btn-primary btn-xs">{{ flight.Callsign }}</a></td>
                     <td>{{ flight.Model }}</td>
-                    <td>{{ flight.NumberFlights }}</td>
-                    <td>{{ flight.FlownTime|date('H:i') }}</td>
+                    <td>{{ flight.FlightStartedAt|date('d.m') }}</td>
+                    <td>{{ flight.FlightStartedAt|date('H:i') }} - {{ flight.FlightFinishedAt|date('H:i') }}</td>
                     <td>{{ flight.FlownDistance }}</td>
-                    {# {% for f in freight %}<td>{{ f }}</td>{%% endfor %} #}
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        {{ pagination.paginationControl(flights, app.request.uri ) }}
     {% else %}
         <h4> {{ Language.no_flights_available }} </h4>
     {% endif %}

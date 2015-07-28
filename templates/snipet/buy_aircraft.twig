@@ -1,0 +1,65 @@
+<div class="btn-group btn-group-justified">
+    <a href="#" class="btn btn-default" data-toggle="modal" data-target="#myModal">Buy Aircraft</a>
+</div>
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">{{ Language.buy_one }} {{ aircraftModel.Model }}</h4>
+            </div>
+            <form class="form-horizontal" method="post">
+                <div class="modal-body">
+                    {% if user.Saldo >= aircraftModel.Value %}
+                        <div class="row">
+                            <div class="col-lg-2"></div>
+                            <div class="text-right col-lg-8">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label  for="aircraft_number" class="col-lg-2 control-label">{{ Language.callsign }}</label>
+                                        <div class="input-group bg-primary">
+                                            <span class="input-group-addon bg-success">{{ airline.ICAO }}</span>
+                                            <input class="form-control" type="text" size="4" name="aircraft_number">
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <span class="badge text-success">{{  user.Saldo }} {{ Language.price_tag }}</span>
+                                    {{ Language.saldo_current }}
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="badge text-danger">- {{ aircraftModel.Value }} {{ Language.price_tag }}</span>
+                                    1 x {{ aircraftModel.Model }}
+                                </li>
+                                <li class="list-group-item">
+                                    <hr>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="badge text-{% if user.Saldo < aircraftModel.Value %}danger{% else %}success{% endif %}">{{  user.Saldo - aircraftModel.Value }} {{ Language.price_tag }}</span>
+                                    {{ Language.saldo_new }}
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    {% if user.Saldo < aircraftModel.Value %}
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ Language.buy_not_possible }}</button>
+                    {% else %}
+                        <button type="reset" class="btn btn-default">{{ Language.cancel }}</button>
+                        <button type="submit" class="btn btn-primary">{{ Language.buy }}</button>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

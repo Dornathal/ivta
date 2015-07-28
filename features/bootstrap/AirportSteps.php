@@ -47,7 +47,7 @@ class AirportSteps extends RawMinkContext implements \Behat\Behat\Context\Contex
         $this->iAmOnTheAirportsSite1($airport->getICAO());
         $freightGen = \Model\FreightGenerationQuery::create()
             ->findOneByAirportId($airport->getId());
-        $freightGen->setNextGeneration(time() + 100000000);
+        $freightGen->setNextGenerationAt(time() + 100000000);
         $freightGen->save();
 
     }

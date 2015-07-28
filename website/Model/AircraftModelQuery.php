@@ -16,5 +16,9 @@ use Model\Base\AircraftModelQuery as BaseAircraftTypeQuery;
  */
 class AircraftModelQuery extends BaseAircraftTypeQuery
 {
-
+    public static function getAircraftModels($page){
+        return AircraftModelQuery::create()
+            ->orderByModel()
+            ->paginate($page, 10);
+    }
 }

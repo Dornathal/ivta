@@ -26,11 +26,11 @@ class Airline extends BaseAirline
         return AircraftQuery::populateAircraftTable($aircraftQuery);
     }
 
-    public function queryAirlineView()
+    public function queryAirlineView($page)
     {
         return array('airline' => $this->toArray(),
             'aircrafts' => $this->queryAirplanes(),
-            'flights' => FlightQuery::queryFlights(FlightQuery::create()->filterByAirline($this))
+            'flights' => FlightQuery::queryFlights($page, FlightQuery::create()->filterByAirline($this))
         );
     }
 

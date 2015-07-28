@@ -195,6 +195,13 @@ class AircraftModelTableMap extends TableMap
     1 => ':id',
   ),
 ), null, null, 'Aircrafts', false);
+        $this->addRelation('Flight', '\\Model\\Flight', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':aircraft_model_id',
+    1 => ':id',
+  ),
+), null, null, 'Flights', false);
     } // buildRelations()
 
     /**

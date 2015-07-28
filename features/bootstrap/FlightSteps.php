@@ -58,6 +58,7 @@ class FlightSteps extends \Behat\MinkExtension\Context\RawMinkContext implements
         $flight->setFlightNumber($flight_number);
         $flight->setAircraft($aircraft);
         $flight->setAirline($pilot->getAirline());
+        $flight->setAircraftModel($aircraft->getAircraftModel());
         $flight->setDeparture($from);
         $flight->setDestination($to);
         $flight->setPilot($pilot);

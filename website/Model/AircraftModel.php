@@ -16,5 +16,9 @@ use Model\Base\AircraftModel as BaseAircraftModel;
  */
 class AircraftModel extends BaseAircraftModel
 {
-
+    public function queryAircraftModelView($page){
+        return array('aircraft' => $this->toArray(),
+            'flights' => FlightQuery::queryFlights($page, FlightQuery::create()->filterByAircraftModel($this))
+        );
+    }
 }

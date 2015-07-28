@@ -77,14 +77,14 @@ class FreightGenerationTableMap extends TableMap
     const COL_AIRPORT_ID = 'freight_generations.airport_id';
 
     /**
-     * the column name for the next_generation field
+     * the column name for the next_generation_at field
      */
-    const COL_NEXT_GENERATION = 'freight_generations.next_generation';
+    const COL_NEXT_GENERATION_AT = 'freight_generations.next_generation_at';
 
     /**
-     * the column name for the last_updated_at field
+     * the column name for the next_update_at field
      */
-    const COL_LAST_UPDATED_AT = 'freight_generations.last_updated_at';
+    const COL_NEXT_UPDATE_AT = 'freight_generations.next_update_at';
 
     /**
      * the column name for the capacity field
@@ -108,10 +108,10 @@ class FreightGenerationTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('AirportId', 'NextGeneration', 'LastUpdatedAt', 'Capacity', 'Every', ),
-        self::TYPE_CAMELNAME     => array('airportId', 'nextGeneration', 'lastUpdatedAt', 'capacity', 'every', ),
-        self::TYPE_COLNAME       => array(FreightGenerationTableMap::COL_AIRPORT_ID, FreightGenerationTableMap::COL_NEXT_GENERATION, FreightGenerationTableMap::COL_LAST_UPDATED_AT, FreightGenerationTableMap::COL_CAPACITY, FreightGenerationTableMap::COL_EVERY, ),
-        self::TYPE_FIELDNAME     => array('airport_id', 'next_generation', 'last_updated_at', 'capacity', 'every', ),
+        self::TYPE_PHPNAME       => array('AirportId', 'NextGenerationAt', 'NextUpdateAt', 'Capacity', 'Every', ),
+        self::TYPE_CAMELNAME     => array('airportId', 'nextGenerationAt', 'nextUpdateAt', 'capacity', 'every', ),
+        self::TYPE_COLNAME       => array(FreightGenerationTableMap::COL_AIRPORT_ID, FreightGenerationTableMap::COL_NEXT_GENERATION_AT, FreightGenerationTableMap::COL_NEXT_UPDATE_AT, FreightGenerationTableMap::COL_CAPACITY, FreightGenerationTableMap::COL_EVERY, ),
+        self::TYPE_FIELDNAME     => array('airport_id', 'next_generation_at', 'next_update_at', 'capacity', 'every', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
@@ -122,10 +122,10 @@ class FreightGenerationTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('AirportId' => 0, 'NextGeneration' => 1, 'LastUpdatedAt' => 2, 'Capacity' => 3, 'Every' => 4, ),
-        self::TYPE_CAMELNAME     => array('airportId' => 0, 'nextGeneration' => 1, 'lastUpdatedAt' => 2, 'capacity' => 3, 'every' => 4, ),
-        self::TYPE_COLNAME       => array(FreightGenerationTableMap::COL_AIRPORT_ID => 0, FreightGenerationTableMap::COL_NEXT_GENERATION => 1, FreightGenerationTableMap::COL_LAST_UPDATED_AT => 2, FreightGenerationTableMap::COL_CAPACITY => 3, FreightGenerationTableMap::COL_EVERY => 4, ),
-        self::TYPE_FIELDNAME     => array('airport_id' => 0, 'next_generation' => 1, 'last_updated_at' => 2, 'capacity' => 3, 'every' => 4, ),
+        self::TYPE_PHPNAME       => array('AirportId' => 0, 'NextGenerationAt' => 1, 'NextUpdateAt' => 2, 'Capacity' => 3, 'Every' => 4, ),
+        self::TYPE_CAMELNAME     => array('airportId' => 0, 'nextGenerationAt' => 1, 'nextUpdateAt' => 2, 'capacity' => 3, 'every' => 4, ),
+        self::TYPE_COLNAME       => array(FreightGenerationTableMap::COL_AIRPORT_ID => 0, FreightGenerationTableMap::COL_NEXT_GENERATION_AT => 1, FreightGenerationTableMap::COL_NEXT_UPDATE_AT => 2, FreightGenerationTableMap::COL_CAPACITY => 3, FreightGenerationTableMap::COL_EVERY => 4, ),
+        self::TYPE_FIELDNAME     => array('airport_id' => 0, 'next_generation_at' => 1, 'next_update_at' => 2, 'capacity' => 3, 'every' => 4, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
@@ -147,8 +147,8 @@ class FreightGenerationTableMap extends TableMap
         $this->setUseIdGenerator(false);
         // columns
         $this->addForeignPrimaryKey('airport_id', 'AirportId', 'INTEGER' , 'airports', 'id', true, null, null);
-        $this->addColumn('next_generation', 'NextGeneration', 'TIMESTAMP', true, null, null);
-        $this->addColumn('last_updated_at', 'LastUpdatedAt', 'DATE', true, null, null);
+        $this->addColumn('next_generation_at', 'NextGenerationAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('next_update_at', 'NextUpdateAt', 'TIMESTAMP', true, null, null);
         $this->addColumn('capacity', 'Capacity', 'INTEGER', true, null, 1);
         $this->addColumn('every', 'Every', 'INTEGER', true, null, 1);
     } // initialize()
@@ -309,14 +309,14 @@ class FreightGenerationTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(FreightGenerationTableMap::COL_AIRPORT_ID);
-            $criteria->addSelectColumn(FreightGenerationTableMap::COL_NEXT_GENERATION);
-            $criteria->addSelectColumn(FreightGenerationTableMap::COL_LAST_UPDATED_AT);
+            $criteria->addSelectColumn(FreightGenerationTableMap::COL_NEXT_GENERATION_AT);
+            $criteria->addSelectColumn(FreightGenerationTableMap::COL_NEXT_UPDATE_AT);
             $criteria->addSelectColumn(FreightGenerationTableMap::COL_CAPACITY);
             $criteria->addSelectColumn(FreightGenerationTableMap::COL_EVERY);
         } else {
             $criteria->addSelectColumn($alias . '.airport_id');
-            $criteria->addSelectColumn($alias . '.next_generation');
-            $criteria->addSelectColumn($alias . '.last_updated_at');
+            $criteria->addSelectColumn($alias . '.next_generation_at');
+            $criteria->addSelectColumn($alias . '.next_update_at');
             $criteria->addSelectColumn($alias . '.capacity');
             $criteria->addSelectColumn($alias . '.every');
         }

@@ -66,6 +66,11 @@ class Language extends Middleware
             "show" => "Show",
             "status" => "Status",
             "status_idle" => "Idle",
+            "status_loading" => "Loading",
+            "status_unloading" => "Unloading",
+            "status_en_route" => "Flying",
+            "status_finished" => "Finished",
+            "status_aborted" => "Canceled",
         );
 
         $app->view->appendData(array("Language" => $insert));

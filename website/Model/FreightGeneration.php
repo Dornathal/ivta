@@ -18,18 +18,18 @@ use Model\Map\FlightTableMap;
 class FreightGeneration extends BaseFreightGeneration
 {
     const DAY = 86400;
+    const CalculateOverPastDays = 7;
 
     /**
      * Initializes internal state of Model\Base\FreightGeneration object.
      * @see applyDefaults()
      */
-    public function __construct()
+    public function applyDefaultValues()
     {
-        parent::__construct();
-        $this->setNextGeneration(time());
-        $this->setLastUpdatedAt(time() - self::DAY * 2);
+        parent::applyDefaultValues();
+        $this->setNextGenerationAt(time() - self::CalculateOverPastDays * self::DAY);
+        $this->setNextUpdateAt(time());
     }
-
     /**
      * Get the [capacity] column value.
      *
@@ -54,30 +54,31 @@ class FreightGeneration extends BaseFreightGeneration
 
     public function getGenerationTimes()
     {
-        $this->update();
-        return min(10, max(0, round((time() - $this->getNextGeneration()->getTimestamp())/ $this->getEvery() + 1)));
+        return min(10, max(0, round((time() - $this->getNextGenerationAt()->getTimestamp()) / $this->getEvery() + 1)));
     }
 
     public function GeneratedNewFreight($generatedAmount)
     {
-        $v = $this->getNextGeneration()->getTimestamp() + $this->getEvery() * $generatedAmount / $this->getCapacity();
-        $this->setNextGeneration($v);
+        if($generatedAmount == 0) return;
+        $v = $this->getNextGenerationAt()->getTimestamp() + $this->getEvery() * $generatedAmount / $this->getCapacity();
+        $this->setNextGenerationAt($v);
     }
 
     private function update()
     {
-        if($this->getLastUpdatedAt()->getTimestamp() - time() > self::DAY)
+        if($this->getNextUpdateAt()->getTimestamp() > time())
             return;
+        $this->setNextUpdateAt(time() + self::DAY);
         $flights = FlightQuery::create()
             ->filterByDeparture($this->getAirport())
             ->_or()
             ->filterByDestination($this->getAirport())
             ->filterByStatus(FlightTableMap::COL_STATUS_FINISHED)
-            ->recentlyCreated('7')
+            ->recentlyCreated(self::CalculateOverPastDays)
             ->find();
         if($flights->count() == 0){
             $this->setCapacity(1);
-            $this->setEvery(0.01 * self::DAY);
+            $this->setEvery(self::CalculateOverPastDays * self::DAY);
         }else{
             $amount = 0;
             foreach ($flights as $flight) {
@@ -88,9 +89,8 @@ class FreightGeneration extends BaseFreightGeneration
                 }
             }
             $this->setCapacity($amount / $flights->count());
-            $this->setEvery(7 * self::DAY / $flights->count());
+            $this->setEvery(self::CalculateOverPastDays * self::DAY / $flights->count());
         }
-        $this->setLastUpdatedAt(time());
         $this->save();
     }
 }

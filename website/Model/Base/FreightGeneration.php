@@ -70,16 +70,16 @@ abstract class FreightGeneration implements ActiveRecordInterface
     protected $airport_id;
 
     /**
-     * The value for the next_generation field.
+     * The value for the next_generation_at field.
      * @var        \DateTime
      */
-    protected $next_generation;
+    protected $next_generation_at;
 
     /**
-     * The value for the last_updated_at field.
+     * The value for the next_update_at field.
      * @var        \DateTime
      */
-    protected $last_updated_at;
+    protected $next_update_at;
 
     /**
      * The value for the capacity field.
@@ -350,7 +350,7 @@ abstract class FreightGeneration implements ActiveRecordInterface
     }
 
     /**
-     * Get the [optionally formatted] temporal [next_generation] column value.
+     * Get the [optionally formatted] temporal [next_generation_at] column value.
      *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
@@ -360,32 +360,32 @@ abstract class FreightGeneration implements ActiveRecordInterface
      *
      * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getNextGeneration($format = NULL)
+    public function getNextGenerationAt($format = NULL)
     {
         if ($format === null) {
-            return $this->next_generation;
+            return $this->next_generation_at;
         } else {
-            return $this->next_generation instanceof \DateTime ? $this->next_generation->format($format) : null;
+            return $this->next_generation_at instanceof \DateTime ? $this->next_generation_at->format($format) : null;
         }
     }
 
     /**
-     * Get the [optionally formatted] temporal [last_updated_at] column value.
+     * Get the [optionally formatted] temporal [next_update_at] column value.
      *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
      *
      * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getLastUpdatedAt($format = NULL)
+    public function getNextUpdateAt($format = NULL)
     {
         if ($format === null) {
-            return $this->last_updated_at;
+            return $this->next_update_at;
         } else {
-            return $this->last_updated_at instanceof \DateTime ? $this->last_updated_at->format($format) : null;
+            return $this->next_update_at instanceof \DateTime ? $this->next_update_at->format($format) : null;
         }
     }
 
@@ -434,44 +434,44 @@ abstract class FreightGeneration implements ActiveRecordInterface
     } // setAirportId()
 
     /**
-     * Sets the value of [next_generation] column to a normalized version of the date/time value specified.
+     * Sets the value of [next_generation_at] column to a normalized version of the date/time value specified.
      *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\Model\FreightGeneration The current object (for fluent API support)
      */
-    public function setNextGeneration($v)
+    public function setNextGenerationAt($v)
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->next_generation !== null || $dt !== null) {
-            if ($this->next_generation === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->next_generation->format("Y-m-d H:i:s")) {
-                $this->next_generation = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[FreightGenerationTableMap::COL_NEXT_GENERATION] = true;
+        if ($this->next_generation_at !== null || $dt !== null) {
+            if ($this->next_generation_at === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->next_generation_at->format("Y-m-d H:i:s")) {
+                $this->next_generation_at = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[FreightGenerationTableMap::COL_NEXT_GENERATION_AT] = true;
             }
         } // if either are not null
 
         return $this;
-    } // setNextGeneration()
+    } // setNextGenerationAt()
 
     /**
-     * Sets the value of [last_updated_at] column to a normalized version of the date/time value specified.
+     * Sets the value of [next_update_at] column to a normalized version of the date/time value specified.
      *
      * @param  mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return $this|\Model\FreightGeneration The current object (for fluent API support)
      */
-    public function setLastUpdatedAt($v)
+    public function setNextUpdateAt($v)
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->last_updated_at !== null || $dt !== null) {
-            if ($this->last_updated_at === null || $dt === null || $dt->format("Y-m-d") !== $this->last_updated_at->format("Y-m-d")) {
-                $this->last_updated_at = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[FreightGenerationTableMap::COL_LAST_UPDATED_AT] = true;
+        if ($this->next_update_at !== null || $dt !== null) {
+            if ($this->next_update_at === null || $dt === null || $dt->format("Y-m-d H:i:s") !== $this->next_update_at->format("Y-m-d H:i:s")) {
+                $this->next_update_at = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[FreightGenerationTableMap::COL_NEXT_UPDATE_AT] = true;
             }
         } // if either are not null
 
         return $this;
-    } // setLastUpdatedAt()
+    } // setNextUpdateAt()
 
     /**
      * Set the value of [capacity] column.
@@ -560,17 +560,17 @@ abstract class FreightGeneration implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : FreightGenerationTableMap::translateFieldName('AirportId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->airport_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : FreightGenerationTableMap::translateFieldName('NextGeneration', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : FreightGenerationTableMap::translateFieldName('NextGenerationAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
-            $this->next_generation = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $this->next_generation_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : FreightGenerationTableMap::translateFieldName('LastUpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            if ($col === '0000-00-00') {
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : FreightGenerationTableMap::translateFieldName('NextUpdateAt', TableMap::TYPE_PHPNAME, $indexType)];
+            if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
-            $this->last_updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+            $this->next_update_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : FreightGenerationTableMap::translateFieldName('Capacity', TableMap::TYPE_PHPNAME, $indexType)];
             $this->capacity = (null !== $col) ? (int) $col : null;
@@ -797,11 +797,11 @@ abstract class FreightGeneration implements ActiveRecordInterface
         if ($this->isColumnModified(FreightGenerationTableMap::COL_AIRPORT_ID)) {
             $modifiedColumns[':p' . $index++]  = 'airport_id';
         }
-        if ($this->isColumnModified(FreightGenerationTableMap::COL_NEXT_GENERATION)) {
-            $modifiedColumns[':p' . $index++]  = 'next_generation';
+        if ($this->isColumnModified(FreightGenerationTableMap::COL_NEXT_GENERATION_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'next_generation_at';
         }
-        if ($this->isColumnModified(FreightGenerationTableMap::COL_LAST_UPDATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = 'last_updated_at';
+        if ($this->isColumnModified(FreightGenerationTableMap::COL_NEXT_UPDATE_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'next_update_at';
         }
         if ($this->isColumnModified(FreightGenerationTableMap::COL_CAPACITY)) {
             $modifiedColumns[':p' . $index++]  = 'capacity';
@@ -823,11 +823,11 @@ abstract class FreightGeneration implements ActiveRecordInterface
                     case 'airport_id':
                         $stmt->bindValue($identifier, $this->airport_id, PDO::PARAM_INT);
                         break;
-                    case 'next_generation':
-                        $stmt->bindValue($identifier, $this->next_generation ? $this->next_generation->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'next_generation_at':
+                        $stmt->bindValue($identifier, $this->next_generation_at ? $this->next_generation_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'last_updated_at':
-                        $stmt->bindValue($identifier, $this->last_updated_at ? $this->last_updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                    case 'next_update_at':
+                        $stmt->bindValue($identifier, $this->next_update_at ? $this->next_update_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                     case 'capacity':
                         $stmt->bindValue($identifier, $this->capacity, PDO::PARAM_INT);
@@ -894,10 +894,10 @@ abstract class FreightGeneration implements ActiveRecordInterface
                 return $this->getAirportId();
                 break;
             case 1:
-                return $this->getNextGeneration();
+                return $this->getNextGenerationAt();
                 break;
             case 2:
-                return $this->getLastUpdatedAt();
+                return $this->getNextUpdateAt();
                 break;
             case 3:
                 return $this->getCapacity();
@@ -936,8 +936,8 @@ abstract class FreightGeneration implements ActiveRecordInterface
         $keys = FreightGenerationTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getAirportId(),
-            $keys[1] => $this->getNextGeneration(),
-            $keys[2] => $this->getLastUpdatedAt(),
+            $keys[1] => $this->getNextGenerationAt(),
+            $keys[2] => $this->getNextUpdateAt(),
             $keys[3] => $this->getCapacity(),
             $keys[4] => $this->getEvery(),
         );
@@ -1014,10 +1014,10 @@ abstract class FreightGeneration implements ActiveRecordInterface
                 $this->setAirportId($value);
                 break;
             case 1:
-                $this->setNextGeneration($value);
+                $this->setNextGenerationAt($value);
                 break;
             case 2:
-                $this->setLastUpdatedAt($value);
+                $this->setNextUpdateAt($value);
                 break;
             case 3:
                 $this->setCapacity($value);
@@ -1055,10 +1055,10 @@ abstract class FreightGeneration implements ActiveRecordInterface
             $this->setAirportId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setNextGeneration($arr[$keys[1]]);
+            $this->setNextGenerationAt($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setLastUpdatedAt($arr[$keys[2]]);
+            $this->setNextUpdateAt($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
             $this->setCapacity($arr[$keys[3]]);
@@ -1110,11 +1110,11 @@ abstract class FreightGeneration implements ActiveRecordInterface
         if ($this->isColumnModified(FreightGenerationTableMap::COL_AIRPORT_ID)) {
             $criteria->add(FreightGenerationTableMap::COL_AIRPORT_ID, $this->airport_id);
         }
-        if ($this->isColumnModified(FreightGenerationTableMap::COL_NEXT_GENERATION)) {
-            $criteria->add(FreightGenerationTableMap::COL_NEXT_GENERATION, $this->next_generation);
+        if ($this->isColumnModified(FreightGenerationTableMap::COL_NEXT_GENERATION_AT)) {
+            $criteria->add(FreightGenerationTableMap::COL_NEXT_GENERATION_AT, $this->next_generation_at);
         }
-        if ($this->isColumnModified(FreightGenerationTableMap::COL_LAST_UPDATED_AT)) {
-            $criteria->add(FreightGenerationTableMap::COL_LAST_UPDATED_AT, $this->last_updated_at);
+        if ($this->isColumnModified(FreightGenerationTableMap::COL_NEXT_UPDATE_AT)) {
+            $criteria->add(FreightGenerationTableMap::COL_NEXT_UPDATE_AT, $this->next_update_at);
         }
         if ($this->isColumnModified(FreightGenerationTableMap::COL_CAPACITY)) {
             $criteria->add(FreightGenerationTableMap::COL_CAPACITY, $this->capacity);
@@ -1216,8 +1216,8 @@ abstract class FreightGeneration implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setAirportId($this->getAirportId());
-        $copyObj->setNextGeneration($this->getNextGeneration());
-        $copyObj->setLastUpdatedAt($this->getLastUpdatedAt());
+        $copyObj->setNextGenerationAt($this->getNextGenerationAt());
+        $copyObj->setNextUpdateAt($this->getNextUpdateAt());
         $copyObj->setCapacity($this->getCapacity());
         $copyObj->setEvery($this->getEvery());
         if ($makeNew) {
@@ -1303,8 +1303,8 @@ abstract class FreightGeneration implements ActiveRecordInterface
             $this->aAirport->removeFreightGeneration($this);
         }
         $this->airport_id = null;
-        $this->next_generation = null;
-        $this->last_updated_at = null;
+        $this->next_generation_at = null;
+        $this->next_update_at = null;
         $this->capacity = null;
         $this->every = null;
         $this->alreadyInSave = false;
